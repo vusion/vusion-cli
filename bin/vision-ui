@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+'use strict';
+
+require('../lib/check-versions')();
+const fs = require('fs');
+const pkg = require('../package.json');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .usage('<task> [options]')
+    .version(pkg.version)
+    //  .command('init [options] <repo>', 'init a repo')
+    .command('build [options]', 'build library')
+    // .command('dev')
+    .parse(process.argv);
+
+// const command = program.args[0];
+
+global.visionConfig = {
+    
+};

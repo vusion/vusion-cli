@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+'use strict';
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .usage('[options]')
+    .parse(process.argv);
+
+env.NODE_ENV = 'development';
+
+const webpack = require('webpack');
+const webpackConfig = require('../src/webpack.dev.conf');
+
+console.log(`
+  Tip:
+  Built files are meant to be served over an HTTP server.
+  Opening index.html over file:// won't work.
+`);
+
+const spinner = ora('building for production...');
+spinner.start();
+
+
+
+console.log('build');
