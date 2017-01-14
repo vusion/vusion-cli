@@ -1,35 +1,42 @@
+const path = require('path');
 const babelConfig = require('../.babelrc.js');
 
 module.exports = {
     entry: './index.js',
     output: {
         path: './dist',
-        publicPath: './public/',
+        publicPath: '/assets/',
         filename: 'bundle.js',
         library: 'VisionUI',
         libraryTarget: 'umd',
     },
     // externals: ['vue']
+    resolve: {
+        alias: { 'vue$': 'vue/dist/vue.common.js' },
+    },
+    resolveLoader: {
+        modules: [path.join(__dirname, '../node_modules'), "web_loaders", "web_modules", "node_loaders", "node_modules"],
+
+    },
     module: {
         rules: [
-            { test: /\.js$/, loader: require.resolve('babel-loader'),
+            { test: /\.js$/, loader: 'babel-loader',
                 // exclude: /node_modules/,
                 // include: /node_modules\/vision-/,
                 options: babelConfig,
             },
-            { test: /\.vue\/index\.js$/, loader: require.resolve('../lib/loader') },
+            { test: /\.vue\/index\.js$/, loader: require.resolve('../lib/vision-loader'), options: {
+                docsPath: visionConfig.docsPath,
+            }},
             // { test: /\.vue\/index.md/, use: [
-            //     { loader: require.resolve('file-loader') },
-            //     { loader: require.resolve('markdown-it-loader') },
+            //     { loader: 'file-loader' },
+            //     { loader: 'markdown-it-loader' },
             // ]},
-            // { test: /\.vue$/, loader: require.resolve('vue-loader') },
-            { test: /\.(png|jpg|gif|svg)$/, loader: require.resolve('file-loader'), options: {
+            // { test: /\.vue$/, loader: 'vue-loader' },
+            { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: {
                 name: '[name].[ext]?[hash]',
             }},
         ],
-    },
-    resolve: {
-        alias: { 'vue$': 'vue/dist/vue.common.js' },
     },
     devtool: '#eval-source-map',
     devServer: {

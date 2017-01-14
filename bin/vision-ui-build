@@ -11,6 +11,9 @@ program
     .parse(process.argv);
 
 process.env.NODE_ENV = 'production';
+global.visionConfig = {
+    docsPath: './docs',
+};
 
 /**
  * Start Run Webpack
@@ -21,6 +24,7 @@ const webpack = require('webpack');
 const webpackConfig = require('../vision-ui/webpack.prod.conf');
 
 rm('-rf', webpackConfig.output.path);
+rm('-rf', visionConfig.docsPath);
 
 const spinner = ora('building for production...');
 spinner.start();
