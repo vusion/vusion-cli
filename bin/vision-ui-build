@@ -23,8 +23,8 @@ const ora = require('ora');
 const webpack = require('webpack');
 const webpackConfig = require('../vision-ui/webpack.prod.conf');
 
-rm('-rf', webpackConfig.output.path);
-rm('-rf', visionConfig.docsPath);
+// rm('-rf', webpackConfig.output.path);
+// rm('-rf', visionConfig.docsPath);
 
 const spinner = ora('building for production...');
 spinner.start();

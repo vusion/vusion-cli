@@ -10,20 +10,49 @@ program
     .usage('[options]')
     .parse(process.argv);
 
-env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'development';
+global.visionConfig = {
+    docsPath: './docs',
+};
 
+const port = process.env.PORT || 5000; // config.dev.port;
+const uri = 'http://localhost:' + port;
+
+/**
+ * Start Run Webpack
+ */
+const path = require('path');
+const opn = require('opn');
 const webpack = require('webpack');
-const webpackConfig = require('../src/webpack.dev.conf');
+const webpackConfig = require('../vision-ui/webpack.dev.conf');
+const WebpackDevServer = require('webpack-dev-server');
 
-console.log(`
-  Tip:
-  Built files are meant to be served over an HTTP server.
-  Opening index.html over file:// won't work.
-`);
+// add hot-reload related code to entry chunks
+Object.keys(webpackConfig.entry).forEach((name) => {
+    webpackConfig.entry[name] = [
+        require.resolve('webpack-dev-server/client') + '?' + uri,
+        require.resolve('webpack/hot/dev-server'),
+        webpackConfig.entry[name],
+    ];
+});
 
-const spinner = ora('building for production...');
-spinner.start();
+const compiler = webpack(webpackConfig);
+const server = new WebpackDevServer(compiler, {
+    contentBase: webpackConfig.output.path,
+    // noInfo: true,
+    hot: true,
+    inline: true,
+    historyApiFallback: true,
+    stats: { colors: true },
+});
 
+/**
+ * Start Server
+ */
+server.listen(port, (err) => {
+    if (err)
+        return console.log(err);
 
-
-console.log('build');
+    console.log('> Listening at ' + uri + '\n');
+    opn(uri);
+});

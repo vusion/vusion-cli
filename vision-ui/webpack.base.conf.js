@@ -1,47 +1,85 @@
 const path = require('path');
+const webpack = require('webpack');
 const babelConfig = require('../.babelrc.js');
 
+const vueOptions = {
+    babel: babelConfig,
+    postcss: [
+        require('postcss-import'),
+        require('precss')({
+            path: ['node_modules'],
+        }),
+        require('autoprefixer')({
+            browsers: ['last 4 versions', 'ie >= 9'],
+        }),
+    ],
+    cssModules: {
+        localIdentName: '[name]_[local]',
+    },
+};
+
 module.exports = {
-    entry: './index.js',
+    entry: {
+        bundle: './index.js',
+    },
     output: {
-        path: './dist',
-        publicPath: '/assets/',
-        filename: 'bundle.js',
+        path: path.resolve(process.cwd(), global.visionConfig.docsPath),
+        publicPath: '/',
+        filename: '[name].js',
         library: 'VisionUI',
         libraryTarget: 'umd',
     },
-    // externals: ['vue']
+    externals: {
+        'vue': {
+            root: 'Vue',
+            amd: 'Vue',
+            commonjs: 'vue',
+            commonjs2: 'vue',
+        },
+    },
     resolve: {
+        modules: [path.join(__dirname, '../node_modules'), 'node_modules'],
         alias: { 'vue$': 'vue/dist/vue.common.js' },
     },
     resolveLoader: {
-        modules: [path.join(__dirname, '../node_modules'), "web_loaders", "web_modules", "node_loaders", "node_modules"],
-
+        modules: [path.join(__dirname, '../node_modules'), 'web_loaders', 'web_modules', 'node_loaders', 'node_modules'],
+        alias: {
+            'css-loader': 'vision-css-loader',
+            'vue-loader': 'vision-vue-loader',
+            'vue-style-loader': 'vision-style-loader',
+        },
     },
+    devtool: '#eval-source-map',
     module: {
         rules: [
-            { test: /\.js$/, loader: 'babel-loader',
-                // exclude: /node_modules/,
-                // include: /node_modules\/vision-/,
+            { test: /\.vue$/, loader: 'vue-loader', options: vueOptions },
+            { test: /\.vue\/index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
+            {
+                test: /\.js$/,
+                exclude: /node_modules(.+)(?!\.vue\/index\.js$)/,
+                loader: 'babel-loader',
                 options: babelConfig,
+                enforce: 'pre', // for vue-multifile-loader
+            }, {
+                test: /\.css$/, loader: 'css-loader',
+                options: {
+                    localIdentName: '[name]_[local]',
+                    getLocalIdent(context, localIdentName, localName, options) {
+                        console.log('!!!!', context);
+                        console.log('!!!!', options);
+                        // A temp solution
+                        if (localName === 'root')
+                            localIdentName = localIdentName.replace(/_\[local\]/gi, '');
+                        else
+                            localIdentName = localIdentName.replace(/\[local\]/gi, localName);
+
+                        return localIdentName;
+                    }
+                }
             },
-            { test: /\.vue\/index\.js$/, loader: require.resolve('../lib/vision-loader'), options: {
-                docsPath: visionConfig.docsPath,
-            }},
-            // { test: /\.vue\/index.md/, use: [
-            //     { loader: 'file-loader' },
-            //     { loader: 'markdown-it-loader' },
-            // ]},
-            // { test: /\.vue$/, loader: 'vue-loader' },
             { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: {
                 name: '[name].[ext]?[hash]',
             }},
         ],
     },
-    devtool: '#eval-source-map',
-    devServer: {
-        historyApiFallback: true,
-        // noInfo: true,
-    },
-    performance: { hints: 'warning' },
-}
+};

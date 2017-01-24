@@ -14,6 +14,7 @@ program
     .usage('<task> [options]')
     .version(pkg.version)
     //  .command('init [options] <repo>', 'init a repo')
+    .command('dev [options]', 'dev library')
     .command('build [options]', 'build library')
     // .command('dev')
     .parse(process.argv);
