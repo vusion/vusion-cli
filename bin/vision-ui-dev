@@ -16,43 +16,6 @@ global.visionConfig = {
 };
 
 const port = process.env.PORT || 5000; // config.dev.port;
-const uri = 'http://localhost:' + port;
 
-/**
- * Start Run Webpack
- */
-const path = require('path');
-const opn = require('opn');
-const webpack = require('webpack');
-const webpackConfig = require('../vision-ui/webpack.dev.conf');
-const WebpackDevServer = require('webpack-dev-server');
-
-// add hot-reload related code to entry chunks
-Object.keys(webpackConfig.entry).forEach((name) => {
-    webpackConfig.entry[name] = [
-        require.resolve('webpack-dev-server/client') + '?' + uri,
-        require.resolve('webpack/hot/dev-server'),
-        webpackConfig.entry[name],
-    ];
-});
-
-const compiler = webpack(webpackConfig);
-const server = new WebpackDevServer(compiler, {
-    contentBase: webpackConfig.output.path,
-    // noInfo: true,
-    hot: true,
-    inline: true,
-    historyApiFallback: true,
-    stats: { colors: true },
-});
-
-/**
- * Start Server
- */
-server.listen(port, (err) => {
-    if (err)
-        return console.log(err);
-
-    console.log('> Listening at ' + uri + '\n');
-    opn(uri);
-});
+const dev = require('../src/dev');
+dev(require('../config/vision-ui'), port);

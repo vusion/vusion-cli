@@ -1,10 +1,9 @@
 'use strict';
 
-const merge = require('webpack-merge');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.base.conf');
 
-module.exports = merge(webpackConfig, {
+module.exports = Object.assign(webpackConfig, {
     devtool: '#source-map',
     plugins: [
         // new webpack.DefinePlugin({

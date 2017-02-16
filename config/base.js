@@ -22,21 +22,6 @@ module.exports = {
     entry: {
         bundle: './index.js',
     },
-    output: {
-        path: path.resolve(process.cwd(), global.visionConfig.docsPath),
-        publicPath: '/',
-        filename: '[name].js',
-        library: 'VisionUI',
-        libraryTarget: 'umd',
-    },
-    externals: {
-        'vue': {
-            root: 'Vue',
-            amd: 'Vue',
-            commonjs: 'vue',
-            commonjs2: 'vue',
-        },
-    },
     resolve: {
         modules: [path.join(__dirname, '../node_modules'), 'node_modules'],
         alias: { 'vue$': 'vue/dist/vue.common.js' },

@@ -14,8 +14,12 @@ program
     .usage('<task> [options]')
     .version(pkg.version)
     //  .command('init [options] <repo>', 'init a repo')
+    .command('dev [options]', 'dev project')
     .command('build [options]', 'build project')
-    // .command('dev')
     .parse(process.argv);
 
 // const command = program.args[0];
+
+// global.visionConfig = {
+//     output
+// };
