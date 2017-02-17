@@ -11,15 +11,8 @@ program
     .parse(process.argv);
 
 process.env.NODE_ENV = 'development';
-global.visionConfig = {};
-
-const fs = require('fs');
-const path = require('path');
-const port = process.env.PORT || 7000; // config.dev.port;
-
-const visionConfigPath = path.join(process.cwd(), 'vision.config.js');
-if (fs.existsSync(visionConfigPath))
-    global.visionConfig = require(visionConfigPath);
+global.visionConfig = require('../src/getVisionConfig');
 
 const dev = require('../src/dev');
+const port = process.env.PORT || 7000; // config.dev.port;
 dev(require('../config/vision'), port);

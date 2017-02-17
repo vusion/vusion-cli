@@ -2,7 +2,7 @@
 
 'use strict';
 
-require('../src/check-versions')();
+require('../src/checkVersions')();
 const fs = require('fs');
 const pkg = require('../package.json');
 
@@ -17,9 +17,3 @@ program
     .command('dev [options]', 'dev library')
     .command('build [options]', 'build library')
     .parse(process.argv);
-
-// const command = program.args[0];
-
-global.visionConfig = {
-    docsPath: './docs',
-};

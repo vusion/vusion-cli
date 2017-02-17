@@ -62,4 +62,4 @@ module.exports = function (webpackConfig, port) {
         console.log('> Listening at ' + uri + '\n');
         opn(uri);
     });
-}
+};

@@ -11,11 +11,10 @@ program
     .parse(process.argv);
 
 process.env.NODE_ENV = 'development';
-global.visionConfig = {
+global.visionConfig = Object.assign({
     docsPath: './docs',
-};
-
-const port = process.env.PORT || 5000; // config.dev.port;
+}, require('../src/getVisionConfig'));
 
 const dev = require('../src/dev');
+const port = process.env.PORT || 5000; // config.dev.port;
 dev(require('../config/vision-ui'), port);
