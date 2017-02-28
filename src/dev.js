@@ -2,6 +2,7 @@
 
 const path = require('path');
 const opn = require('opn');
+const merge = require('./merge');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const FriendlyErrors = require('friendly-errors-webpack-plugin');
@@ -9,13 +10,13 @@ const FriendlyErrors = require('friendly-errors-webpack-plugin');
 module.exports = function (webpackConfig, port) {
     const uri = 'http://localhost:' + port;
 
-    webpackConfig = Object.assign(webpackConfig, global.visionConfig.webpack, {
+    webpackConfig = merge(webpackConfig, global.visionConfig.webpack, {
         //     // eval-source-map is faster for development
         //     devtool: '#eval-source-map',
         plugins: [
-            // new webpack.DefinePlugin({
-            //     'process.env': 'development',
-            // }),
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': '"development"',
+            }),
             new webpack.HotModuleReplacementPlugin(), // hot reload
             // new webpack.NamedModulesPlugin(),
             new webpack.NoEmitOnErrorsPlugin(), // skip errors

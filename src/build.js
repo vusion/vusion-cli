@@ -2,17 +2,16 @@
 
 require('shelljs/global');
 const ora = require('ora');
+const merge = require('./merge');
 const webpack = require('webpack');
 
 module.exports = function (webpackConfig, port) {
-    webpackConfig = Object.assign(webpackConfig, global.visionConfig.webpack, {
+    webpackConfig = merge(webpackConfig, global.visionConfig.webpack, {
         devtool: '#source-map',
         plugins: [
-            // new webpack.DefinePlugin({
-            //     'process.env': {
-            //         NODE_ENV: '"production"',
-            //     },
-            // }),
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': '"production"',
+            }),
             new webpack.optimize.OccurrenceOrderPlugin(),
             new webpack.optimize.UglifyJsPlugin({
                 sourceMap: true,
