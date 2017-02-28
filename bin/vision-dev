@@ -14,5 +14,4 @@ process.env.NODE_ENV = 'development';
 global.visionConfig = require('../src/getVisionConfig');
 
 const dev = require('../src/dev');
-const port = process.env.PORT || 7000; // config.dev.port;
-dev(require('../config/vision'), port);
+dev(require('../config/vision'));

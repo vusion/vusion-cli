@@ -16,5 +16,4 @@ global.visionConfig = Object.assign({
 }, require('../src/getVisionConfig'));
 
 const dev = require('../src/dev');
-const port = process.env.PORT || 5000; // config.dev.port;
-dev(require('../config/vision-ui'), port);
+dev(require('../config/vision-ui'));

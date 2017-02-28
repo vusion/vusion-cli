@@ -55,6 +55,7 @@
     "precss": "^1.4.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "tcp-port-used": "^0.1.2",
     "vision-css-loader": "^0.1.0",
     "vision-style-loader": "^0.1.0",
     "vision-vue-loader": "^0.1.4",

@@ -2,14 +2,27 @@
 
 const path = require('path');
 const opn = require('opn');
+const tcpPortUsed = require('tcp-port-used');
 const merge = require('./merge');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const FriendlyErrors = require('friendly-errors-webpack-plugin');
 
-module.exports = function (webpackConfig, port) {
-    const uri = 'http://localhost:' + port;
+const ip = '127.0.0.1';
 
+const checkPort = function (port) {
+    return tcpPortUsed.check(port, ip)
+        .then((used) => {
+            if (used)
+                return checkPort(port + 1);
+            else
+                return port;
+        });
+}
+
+const start = function (webpackConfig, port) {
+    const uri = `http://${ip}:${port}`;
+    
     webpackConfig = merge(webpackConfig, global.visionConfig.webpack, {
         //     // eval-source-map is faster for development
         //     devtool: '#eval-source-map',
@@ -63,4 +76,9 @@ module.exports = function (webpackConfig, port) {
         console.log('> Listening at ' + uri + '\n');
         opn(uri);
     });
+};
+
+module.exports = function (webpackConfig) {
+    checkPort(global.visionConfig.port || process.env.PORT || 7000)
+        .then((port) => start(webpackConfig, port));
 };
