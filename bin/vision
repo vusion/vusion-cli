@@ -39,8 +39,6 @@ global.visionConfig = Object.assign({
 if (program.port)
     global.visionConfig.webpackDevServer.port = program.port;
 
-console.log(global.visionConfig);
-
 /**
  * Run Task
  */

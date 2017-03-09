@@ -1,9 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
-const babelConfig = require('../.babelrc.js');
 
 const vueOptions = {
-    babel: babelConfig,
     postcss: [
         require('postcss-import'),
         require('precss')({
@@ -40,12 +38,6 @@ module.exports = {
             { test: /\.vue$/, loader: 'vision-vue-loader', options: vueOptions },
             { test: /\.vue\/index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             {
-                test: /\.js$/,
-                exclude: /node_modules(.+)(?!\.vue\/index\.js$)/,
-                loader: 'babel-loader',
-                options: babelConfig,
-                enforce: 'pre', // for vue-multifile-loader
-            }, {
                 test: /\.css$/, loader: 'css-loader',
                 options: {
                     localIdentName: '[name]_[local]',
