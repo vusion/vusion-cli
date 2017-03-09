@@ -79,6 +79,6 @@ const start = function (webpackConfig, port) {
 };
 
 module.exports = function (webpackConfig) {
-    checkPort(global.visionConfig.port || process.env.PORT || 7000)
+    checkPort(global.visionConfig.webpackDevServer.port || 9000)
         .then((port) => start(webpackConfig, port));
 };

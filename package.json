@@ -5,8 +5,7 @@
   "author": "Rainfore <rainforest92@126.com>",
   "preferGlobal": true,
   "bin": {
-    "vision": "bin/vision",
-    "vision-ui": "bin/vision-ui"
+    "vision": "bin/vision"
   },
   "repository": "vision-app/vision-cli",
   "homepage": "http://vision-app.github.io",

@@ -5,7 +5,7 @@ const ora = require('ora');
 const merge = require('./merge');
 const webpack = require('webpack');
 
-module.exports = function (webpackConfig, port) {
+module.exports = function (webpackConfig) {
     webpackConfig = merge(webpackConfig, global.visionConfig.webpack, {
         devtool: '#source-map',
         plugins: [

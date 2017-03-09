@@ -13,19 +13,37 @@ const program = require('commander');
 program
     .usage('<type> <task> [options]')
     .version(pkg.version)
+    .option('-p, --port <port>', 'Web Server Port', parseInt)
+    .option('-H, --no-hot', 'Disable hot reload')
     //  .command('init [options] <repo>', 'init a repo')
     .parse(process.argv);
 
+/**
+ * Check Type
+ */
 const type = program.args[0];
 if (type === 'app')
     global.visionConfig = require('../src/getVisionConfig');
-else if (type !== 'ui')
+else if (type === 'ui')
     global.visionConfig = Object.assign({
         docsPath: './docs',
     }, require('../src/getVisionConfig'));
 else
     throw new Error('Unknown type!');
 
+global.visionConfig = Object.assign({
+    webpack: {},
+    webpackDevServer: {},
+}, global.visionConfig);
+
+if (program.port)
+    global.visionConfig.webpackDevServer.port = program.port;
+
+console.log(global.visionConfig);
+
+/**
+ * Run Task
+ */
 const task = program.args[1];
 if (task === 'dev') {
     process.env.NODE_ENV = 'development';
@@ -33,7 +51,5 @@ if (task === 'dev') {
     process.env.NODE_ENV = 'production';
 } else
     throw new Error('Unkown task!');
-
-
 
 require('../src/' + task)(require('../config/' + type));
