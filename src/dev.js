@@ -22,7 +22,7 @@ const checkPort = function (port) {
 
 const start = function (webpackConfig, port) {
     const uri = `http://${ip}:${port}`;
-    
+
     webpackConfig = merge(webpackConfig, global.visionConfig.webpack, {
         //     // eval-source-map is faster for development
         //     devtool: '#eval-source-map',

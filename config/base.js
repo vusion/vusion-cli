@@ -24,7 +24,7 @@ module.exports = {
     },
     resolve: {
         modules: [path.join(__dirname, '../node_modules'), 'node_modules'],
-        alias: { 'vue$': 'vue/dist/vue.common.js' },
+        alias: { 'vue$': 'vue/dist/vue.esm.js' },
     },
     resolveLoader: {
         modules: [path.join(__dirname, '../node_modules'), 'web_loaders', 'web_modules', 'node_loaders', 'node_modules'],
@@ -37,7 +37,7 @@ module.exports = {
     devtool: '#eval-source-map',
     module: {
         rules: [
-            { test: /\.vue$/, loader: 'vue-loader', options: vueOptions },
+            { test: /\.vue$/, loader: 'vision-vue-loader', options: vueOptions },
             { test: /\.vue\/index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             {
                 test: /\.js$/,
