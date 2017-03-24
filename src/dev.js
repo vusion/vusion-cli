@@ -24,11 +24,11 @@ const start = function (webpackConfig, port) {
     const uri = `http://${ip}:${port}`;
 
     webpackConfig = merge(webpackConfig, global.visionConfig.webpack, {
-        //     // eval-source-map is faster for development
-        //     devtool: '#eval-source-map',
+        // eval-source-map is faster for development
+        devtool: '#eval-source-map',
         plugins: [
-            new webpack.DefinePlugin({
-                'process.env.NODE_ENV': '"development"',
+            new webpack.EnvironmentPlugin({
+                NODE_ENV: 'development',
             }),
             new webpack.HotModuleReplacementPlugin(), // hot reload
             // new webpack.NamedModulesPlugin(),

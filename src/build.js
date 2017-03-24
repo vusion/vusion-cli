@@ -4,21 +4,29 @@ require('shelljs/global');
 const ora = require('ora');
 const merge = require('./merge');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = function (webpackConfig) {
     webpackConfig = merge(webpackConfig, global.visionConfig.webpack, {
         devtool: '#source-map',
         plugins: [
-            new webpack.DefinePlugin({
-                'process.env.NODE_ENV': '"production"',
+            new webpack.EnvironmentPlugin({
+                NODE_ENV: 'production',
             }),
             new webpack.optimize.OccurrenceOrderPlugin(),
-            new webpack.optimize.UglifyJsPlugin({
+            new ExtractTextPlugin('styles.css'),
+            new UglifyJSPlugin({
                 sourceMap: true,
                 compress: { warnings: false },
             }),
             new webpack.LoaderOptionsPlugin({
                 minimize: true,
+            }),
+            new webpack.BannerPlugin({
+                banner: 'Packed by Vision.',
+                entryOnly: true,
+                test: /\.js$/,
             }),
         ],
         performance: { hints: 'warning' },

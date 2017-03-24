@@ -9,12 +9,4 @@ module.exports = Object.assign(config, {
         library: 'VisionUI',
         libraryTarget: 'umd',
     },
-    externals: {
-        'vue': {
-            root: 'Vue',
-            amd: 'Vue',
-            commonjs: 'vue',
-            commonjs2: 'vue',
-        },
-    },
 });

@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const vueOptions = {
+    preserveWhitespace: false,
     postcss: [
         require('postcss-import'),
         require('precss')({
@@ -37,6 +38,7 @@ module.exports = {
         rules: [
             { test: /\.vue$/, loader: 'vision-vue-loader', options: vueOptions },
             { test: /\.vue\/index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
+            { test: /\.vue\/index\.js$/, loader: 'vision-doc-loader' }, // Position below and Processing before `vue-multifile-loader`
             {
                 test: /\.css$/, loader: 'css-loader',
                 options: {
