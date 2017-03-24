@@ -1,7 +1,7 @@
 {
   "name": "vision-cli",
   "description": "CLI for Vision Project or Vision UI Library.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Rainfore <rainforest92@126.com>",
   "preferGlobal": true,
   "bin": {
@@ -54,8 +54,9 @@
     "uglify-js": "mishoo/UglifyJS2#harmony",
     "uglifyjs-webpack-plugin": "^0.3.0",
     "vision-css-loader": "^0.1.0",
-    "vision-style-loader": "^0.1.0",
-    "vision-vue-loader": "vision-app/vision-vue-loader",
+    "vision-style-loader": "^0.1.1",
+    "vision-vue-loader": "^0.2.0",
+    "vision-doc-loader": "^0.0.1",
     "vue": "^2.2.1",
     "vue-hot-reload-api": "^2.0.11",
     "vue-loader": "^11.1.4",
