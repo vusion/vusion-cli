@@ -35,6 +35,8 @@
     "commander": "^2.9.0",
     "connect-history-api-fallback": "^1.3.0",
     "css-loader": "^0.26.1",
+    "eslint": "^3.18.0",
+    "eslint-config-vision": "^1.1.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "github:webpack/file-loader",
     "friendly-errors-webpack-plugin": "^1.1.3",

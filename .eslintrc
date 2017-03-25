@@ -1,0 +1,7 @@
+{
+    "extends": "vision",
+    "env": {
+        "browser": true,
+        "node": true
+    }
+}
