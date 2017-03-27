@@ -1,7 +1,7 @@
 {
   "name": "vision-cli",
   "description": "CLI for Vision Project or Vision UI Library.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Rainfore <rainforest92@126.com>",
   "preferGlobal": true,
   "bin": {
