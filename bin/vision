@@ -3,7 +3,6 @@
 'use strict';
 
 require('../src/checkVersions')();
-const fs = require('fs');
 const pkg = require('../package.json');
 
 /**
@@ -24,11 +23,11 @@ program
 const type = program.args[0];
 if (type === 'app')
     global.visionConfig = require('../src/getVisionConfig');
-else if (type === 'ui')
+else if (type === 'ui') {
     global.visionConfig = Object.assign({
         docsPath: './docs',
     }, require('../src/getVisionConfig'));
-else
+} else
     throw new Error('Unknown type!');
 
 global.visionConfig = Object.assign({
@@ -43,11 +42,11 @@ if (program.port)
  * Run Task
  */
 const task = program.args[1];
-if (task === 'dev') {
+if (task === 'dev')
     process.env.NODE_ENV = 'development';
-} else if (task === 'build') {
+else if (task === 'build')
     process.env.NODE_ENV = 'production';
-} else
+else
     throw new Error('Unkown task!');
 
 require('../src/' + task)(require('../config/' + type));

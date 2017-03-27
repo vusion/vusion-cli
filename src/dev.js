@@ -18,12 +18,12 @@ const checkPort = function (port) {
             else
                 return port;
         });
-}
+};
 
 const start = function (webpackConfig, port) {
     const uri = `http://${ip}:${port}`;
 
-    webpackConfig = merge(webpackConfig, global.visionConfig.webpack, {
+    webpackConfig = merge(webpackConfig, {
         // eval-source-map is faster for development
         devtool: '#eval-source-map',
         plugins: [
@@ -42,7 +42,7 @@ const start = function (webpackConfig, port) {
         //         new FriendlyErrors()
         ],
         performance: { hints: false },
-    });
+    }, global.visionConfig.webpack);
 
     // add hot-reload related code to entry chunks
     Object.keys(webpackConfig.entry).forEach((name) => {
@@ -71,9 +71,9 @@ const start = function (webpackConfig, port) {
      */
     server.listen(port, (err) => {
         if (err)
-            return console.log(err);
+            return console.error(err);
 
-        console.log('> Listening at ' + uri + '\n');
+        console.info('> Listening at ' + uri + '\n');
         opn(uri);
     });
 };

@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 
 const vueOptions = {
     preserveWhitespace: false,
@@ -23,7 +22,7 @@ module.exports = {
     },
     resolve: {
         modules: [path.join(__dirname, '../node_modules'), 'node_modules'],
-        alias: { 'vue$': 'vue/dist/vue.esm.js' },
+        alias: { vue$: 'vue/dist/vue.esm.js' },
     },
     resolveLoader: {
         modules: [path.join(__dirname, '../node_modules'), 'web_loaders', 'web_modules', 'node_loaders', 'node_modules'],
@@ -44,8 +43,6 @@ module.exports = {
                 options: {
                     localIdentName: '[name]_[local]',
                     getLocalIdent(context, localIdentName, localName, options) {
-                        console.log('!!!!', context);
-                        console.log('!!!!', options);
                         // A temp solution
                         if (localName === 'root')
                             localIdentName = localIdentName.replace(/_\[local\]/gi, '');
@@ -53,12 +50,12 @@ module.exports = {
                             localIdentName = localIdentName.replace(/\[local\]/gi, localName);
 
                         return localIdentName;
-                    }
-                }
+                    },
+                },
             },
             { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: {
                 name: '[name].[ext]?[hash]',
-            }},
+            } },
         ],
     },
 };

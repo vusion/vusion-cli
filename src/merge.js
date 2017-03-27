@@ -16,9 +16,9 @@ const smartMerge = function (target, source) {
         result = target;
         for (const key in source) {
             if (source.hasOwnProperty(key)) {
-                if (source[key] instanceof Array) {
+                if (source[key] instanceof Array)
                     target[key] = smartMerge(target[key] || [], source[key]);
-                } else if (source[key] instanceof Object && source[key].EXTENDS) {
+                else if (source[key] instanceof Object && source[key].EXTENDS) {
                     target[key] = smartMerge(target[key] || {}, source[key]);
                     delete target[key].EXTENDS;
                 } else
