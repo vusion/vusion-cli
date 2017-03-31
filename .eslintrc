@@ -1,5 +1,5 @@
 {
-    "extends": "vision",
+    "extends": "vusion",
     "env": {
         "browser": true,
         "node": true

@@ -27,17 +27,17 @@ module.exports = {
     resolveLoader: {
         modules: [path.join(__dirname, '../node_modules'), 'web_loaders', 'web_modules', 'node_loaders', 'node_modules'],
         alias: {
-            'css-loader': 'vision-css-loader',
-            'vue-loader': 'vision-vue-loader',
-            'vue-style-loader': 'vision-style-loader',
+            'css-loader': 'vusion-css-loader',
+            'vue-loader': 'vusion-vue-loader',
+            'vue-style-loader': 'vusion-style-loader',
         },
     },
     devtool: '#eval-source-map',
     module: {
         rules: [
-            { test: /\.vue$/, loader: 'vision-vue-loader', options: vueOptions },
+            { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue\/index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
-            { test: /\.vue\/index\.js$/, loader: 'vision-doc-loader' }, // Position below and Processing before `vue-multifile-loader`
+            { test: /\.vue\/index\.js$/, loader: 'vusion-doc-loader' }, // Position below and Processing before `vue-multifile-loader`
             {
                 test: /\.css$/, loader: 'css-loader',
                 options: {

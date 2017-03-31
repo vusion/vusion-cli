@@ -22,21 +22,21 @@ program
  */
 const type = program.args[0];
 if (type === 'app')
-    global.visionConfig = require('../src/getVisionConfig');
+    global.vusionConfig = require('../src/getVusionConfig');
 else if (type === 'ui') {
-    global.visionConfig = Object.assign({
+    global.vusionConfig = Object.assign({
         docsPath: './docs',
-    }, require('../src/getVisionConfig'));
+    }, require('../src/getVusionConfig'));
 } else
     throw new Error('Unknown type!');
 
-global.visionConfig = Object.assign({
+global.vusionConfig = Object.assign({
     webpack: {},
     webpackDevServer: {},
-}, global.visionConfig);
+}, global.vusionConfig);
 
 if (program.port)
-    global.visionConfig.webpackDevServer.port = program.port;
+    global.vusionConfig.webpackDevServer.port = program.port;
 
 /**
  * Run Task

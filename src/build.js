@@ -24,13 +24,13 @@ module.exports = function (webpackConfig) {
                 minimize: true,
             }),
             new webpack.BannerPlugin({
-                banner: 'Packed by Vision.',
+                banner: 'Packed by Vusion.',
                 entryOnly: true,
                 test: /\.js$/,
             }),
         ],
         performance: { hints: 'warning' },
-    }, global.visionConfig.webpack);
+    }, global.vusionConfig.webpack);
 
     /* eslint-disable no-undef */
     rm('-rf', webpackConfig.output.path);

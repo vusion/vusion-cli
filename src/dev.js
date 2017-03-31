@@ -42,7 +42,7 @@ const start = function (webpackConfig, port) {
         //         new FriendlyErrors()
         ],
         performance: { hints: false },
-    }, global.visionConfig.webpack);
+    }, global.vusionConfig.webpack);
 
     // add hot-reload related code to entry chunks
     Object.keys(webpackConfig.entry).forEach((name) => {
@@ -64,7 +64,7 @@ const start = function (webpackConfig, port) {
         inline: true,
         historyApiFallback: true,
         stats: { colors: true },
-    }, global.visionConfig.webpackDevServer));
+    }, global.vusionConfig.webpackDevServer));
 
     /**
      * Start Server
@@ -79,6 +79,6 @@ const start = function (webpackConfig, port) {
 };
 
 module.exports = function (webpackConfig) {
-    checkPort(global.visionConfig.webpackDevServer.port || 9000)
+    checkPort(global.vusionConfig.webpackDevServer.port || 9000)
         .then((port) => start(webpackConfig, port));
 };
