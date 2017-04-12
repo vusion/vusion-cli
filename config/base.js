@@ -36,8 +36,8 @@ module.exports = {
     module: {
         rules: [
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
-            { test: /\.vue\/index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
-            { test: /\.vue\/index\.js$/, loader: 'vusion-doc-loader' }, // Position below and Processing before `vue-multifile-loader`
+            { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
+            { test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }, // Position below and Processing before `vue-multifile-loader`
             {
                 test: /\.css$/, loader: 'css-loader',
                 options: {

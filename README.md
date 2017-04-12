@@ -8,8 +8,8 @@ CLI for Vusion Projects, including Application and UI Library.
 
 [npm-img]: http://img.shields.io/npm/v/vusion-cli.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/vusion-cli
-[david-img]: http://img.shields.io/david/rainfore/vusion-cli.svg?style=flat-square
-[david-url]: https://david-dm.org/rainfore/vusion-cli
+[david-img]: http://img.shields.io/david/vusion/vusion-cli.svg?style=flat-square
+[david-url]: https://david-dm.org/vusion/vusion-cli
 [download-img]: https://img.shields.io/npm/dm/vusion-cli.svg?style=flat-square
 [download-url]: https://npmjs.org/package/vusion-cli
 
