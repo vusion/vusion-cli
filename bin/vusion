@@ -14,14 +14,16 @@ program
     .version(pkg.version)
     .option('-p, --port <port>', 'Web Server Port', parseInt)
     .option('-H, --no-hot', 'Disable hot reload')
-    //  .command('init [options] <repo>', 'init a repo')
+    .command('publish <directory>', 'Publish a directory to gh-pages')
     .parse(process.argv);
 
 /**
  * Check Type
  */
 const type = program.args[0];
-if (type === 'app')
+if (type === 'publish')
+    return;
+else if (type === 'app')
     global.vusionConfig = require('../src/getVusionConfig');
 else if (type === 'ui') {
     global.vusionConfig = Object.assign({
