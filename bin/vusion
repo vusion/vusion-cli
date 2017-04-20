@@ -25,6 +25,7 @@ if (type === 'app')
     global.vusionConfig = require('../src/getVusionConfig');
 else if (type === 'ui') {
     global.vusionConfig = Object.assign({
+        assetsPath: './src/assets',
         docsPath: './docs',
     }, require('../src/getVusionConfig'));
 } else
