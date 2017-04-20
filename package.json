@@ -58,7 +58,7 @@
     "vusion-css-loader": "^0.1.4",
     "vusion-style-loader": "^0.1.2",
     "vusion-vue-loader": "^0.2.0",
-    "vusion-doc-loader": "^0.1.0",
+    "vusion-doc-loader": "^0.2.0",
     "vue": "^2.2.1",
     "vue-hot-reload-api": "^2.0.11",
     "vue-loader": "^11.1.4",

@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const shell = require('shelljs');
 const ora = require('ora');
 const merge = require('./merge');
