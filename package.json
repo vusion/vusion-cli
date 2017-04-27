@@ -1,7 +1,7 @@
 {
   "name": "vusion-cli",
   "description": "CLI for Vusion Projects, including Application and UI Library.",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "author": "Rainfore <rainforest92@126.com>",
   "preferGlobal": true,
   "bin": {
@@ -56,15 +56,14 @@
     "tcp-port-used": "^0.1.2",
     "uglify-js": "mishoo/UglifyJS2#harmony",
     "uglifyjs-webpack-plugin": "^0.4.2",
-    "vue": "^2.2.1",
+    "vue": "^2.3.0",
     "vue-hot-reload-api": "^2.0.11",
-    "vue-loader": "^11.1.4",
-    "vue-multifile-loader": "^0.1.0",
-    "vue-template-compiler": "^2.2.1",
+    "vue-multifile-loader": "^12.0.0",
+    "vue-template-compiler": "^2.3.0",
     "vusion-css-loader": "^0.1.4",
     "vusion-doc-loader": "^0.2.0",
     "vusion-style-loader": "^0.1.2",
-    "vusion-vue-loader": "^0.2.0",
+    "vusion-vue-loader": "^12.0.0",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   }
