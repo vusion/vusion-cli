@@ -12,6 +12,13 @@ module.exports = merge(config, {
         library: 'VusionUI',
         libraryTarget: 'umd',
     },
+    module: {
+        EXTENDS: true,
+        rules: [
+            'EXTENDS',
+            { test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }, // Position below so processing before `vue-multifile-loader`
+        ],
+    },
     plugins: [
         new VusionDocPlugin(),
     ],

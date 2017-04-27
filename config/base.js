@@ -37,22 +37,6 @@ module.exports = {
         rules: [
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
-            { test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }, // Position below so processing before `vue-multifile-loader`
-            // {
-            //     test: /\.css$/, loader: 'css-loader',
-            //     options: {
-            //         localIdentName: '[name]_[local]',
-            //         getLocalIdent(context, localIdentName, localName, options) {
-            //             // A temp solution
-            //             if (localName === 'root')
-            //                 localIdentName = localIdentName.replace(/_\[local\]/gi, '');
-            //             else
-            //                 localIdentName = localIdentName.replace(/\[local\]/gi, localName);
-            //
-            //             return localIdentName;
-            //         },
-            //     },
-            // },
             { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: {
                 name: '[name].[ext]?[hash]',
             } },
