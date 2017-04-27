@@ -4,7 +4,7 @@ const merge = require('../src/merge');
 
 module.exports = merge(config, {
     output: {
-        path: path.resolve(process.cwd(), 'dist'),
+        path: process.cwd(),
         publicPath: '/',
         filename: '[name].js',
     },

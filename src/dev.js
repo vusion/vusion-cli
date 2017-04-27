@@ -56,7 +56,8 @@ const start = function (webpackConfig, port) {
     });
 
     // Remove output directory and copy assets
-    shell.rm('-rf', webpackConfig.output.path);
+    if (webpackConfig.output.path !== process.cwd())
+        shell.rm('-rf', webpackConfig.output.path);
     if (global.vusionConfig.assetsPath)
         shell.cp('-r', path.resolve(process.cwd(), global.vusionConfig.assetsPath), webpackConfig.output.path);
 
