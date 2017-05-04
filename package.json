@@ -1,7 +1,7 @@
 {
   "name": "vusion-cli",
   "description": "CLI for Vusion Projects, including Application and UI Library.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Rainfore <rainforest92@126.com>",
   "preferGlobal": true,
   "bin": {
@@ -48,6 +48,7 @@
     "markdown-it-loader": "^0.5.0",
     "opn": "^4.0.2",
     "ora": "^1.2.0",
+    "postcss-calc": "^5.3.1",
     "postcss-cssnext": "^2.10.0",
     "postcss-import": "^9.1.0",
     "precss": "^1.4.0",

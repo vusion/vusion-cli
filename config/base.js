@@ -7,6 +7,7 @@ const vueOptions = {
         require('precss')({
             path: ['node_modules'],
         }),
+        require('postcss-calc'),
         require('autoprefixer')({
             browsers: ['last 4 versions', 'ie >= 9'],
         }),
