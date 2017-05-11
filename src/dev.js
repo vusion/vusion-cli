@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const shell = require('shelljs');
 const opn = require('opn');
 const tcpPortUsed = require('tcp-port-used');
 const merge = require('./merge');
@@ -27,6 +28,7 @@ const start = function (webpackConfig, port) {
         // eval-source-map is faster for development
         devtool: '#eval-source-map',
         plugins: [
+            'EXTENDS',
             new webpack.EnvironmentPlugin({
                 NODE_ENV: 'development',
             }),
@@ -52,6 +54,12 @@ const start = function (webpackConfig, port) {
             webpackConfig.entry[name],
         ];
     });
+
+    // Remove output directory and copy assets
+    if (webpackConfig.output.path !== process.cwd())
+        shell.rm('-rf', webpackConfig.output.path);
+    if (global.vusionConfig.assetsPath)
+        shell.cp('-r', path.resolve(process.cwd(), global.vusionConfig.assetsPath), webpackConfig.output.path);
 
     /**
      * Start Run Webpack

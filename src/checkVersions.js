@@ -23,12 +23,12 @@ module.exports = function () {
     });
 
     if (warnings.length) {
-        console.log('');
-        console.log(chalk.yellow('To use this template, you must update following to modules:'));
-        console.log();
+        console.warn('');
+        console.warn(chalk.yellow('To use this template, you must update following to modules:'));
+        console.warn();
 
-        warnings.forEach((warning) => console.log('  ' + warning));
-        console.log();
+        warnings.forEach((warning) => console.warn('  ' + warning));
+        console.warn();
         process.exit(1);
     }
-}
+};

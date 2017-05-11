@@ -17,16 +17,21 @@ program
     .option('-H, --no-hot', 'Disable hot reload')
     .option('-C, --c-path <path>', 'Vusion Component Path')
     //  .command('init [options] <repo>', 'init a repo')
+    .command('publish <directory>', 'Publish a directory to gh-pages')
     .parse(process.argv);
 
 /**
  * Check Type
  */
 const type = program.args[0];
-if (type === 'app')
+
+if (type === 'publish')
+    return;
+else if (type === 'app')
     global.vusionConfig = config.vusion;
 else if (type === 'ui') {
     global.vusionConfig = Object.assign({
+        assetsPath: './src/assets',
         docsPath: './docs',
     }, config.vusion);
 } else if (type === 'board') {

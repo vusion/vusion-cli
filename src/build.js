@@ -1,6 +1,7 @@
 'use strict';
 
-require('shelljs/global');
+const path = require('path');
+const shell = require('shelljs');
 const ora = require('ora');
 const merge = require('./merge');
 const webpack = require('webpack');
@@ -11,6 +12,7 @@ module.exports = function (webpackConfig) {
     webpackConfig = merge(webpackConfig, {
         devtool: '#source-map',
         plugins: [
+            'EXTENDS',
             new webpack.EnvironmentPlugin({
                 NODE_ENV: 'production',
             }),
@@ -32,8 +34,11 @@ module.exports = function (webpackConfig) {
         performance: { hints: 'warning' },
     }, global.vusionConfig.webpack);
 
-    /* eslint-disable no-undef */
-    rm('-rf', webpackConfig.output.path);
+    // Remove output directory and copy assets
+    if (webpackConfig.output.path !== process.cwd())
+        shell.rm('-rf', webpackConfig.output.path);
+    if (global.vusionConfig.assetsPath)
+        shell.cp('-r', path.resolve(process.cwd(), global.vusionConfig.assetsPath), webpackConfig.output.path);
 
     const spinner = ora('building for production...');
     spinner.start();

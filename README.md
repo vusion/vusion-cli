@@ -29,5 +29,6 @@ npm install -g vusion-cli
 - `vusion app build`
 - `vusion ui dev`
 - `vusion ui build`
+- `vusion publish`: Publish a directory to gh-pages
 
 - `vusion -V, --version`: Show the version of current CLI
