@@ -49,13 +49,21 @@ global.vusionConfig = Object.assign({
 if (program.port)
     global.vusionConfig.webpackDevServer.port = program.port;
 
-if (type === 'server' && program.cPath)
+if (type === 'server' && program.cPath) {
     global.vusionConfig.webpack.resolve = {
         EXTENDS: true,
         alias: {
             EditableComponent: program.cPath,
         },
     };
+    global.vusionConfig.webpack.module = {
+        EXTENDS: true,
+        rules: [
+            { test: /\.vue[\\/]index\.js$/, loader: 'vues-multifile-loader' },
+        ],
+    }
+}
+
 
 /**
  * Run Task
