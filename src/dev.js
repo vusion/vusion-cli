@@ -83,6 +83,7 @@ const start = function (webpackConfig, port) {
 
         console.info('> Listening at ' + uri + '\n');
         opn(uri);
+        process.send && process.send('server start');
     });
 };
 
