@@ -45,11 +45,30 @@ if (program.port)
  * Run Task
  */
 const task = program.args[1];
-if (task === 'dev')
+if (task === 'init'){
+    const execSync = require('child_process').execSync;
+    var repo = program.args[2];
+    if(!repo)
+        repo = type === 'app' ? 'vusion-app-sample' : 'vusion-ui-sample';
+    var needlessRepo = type === 'app' ? 'ui-simple' : 'app-simple';
+    const URL = type === 'app'
+        ?'https://github.com/vusion/vusion-samples.git'
+            :'https://github.com/vusion/vusion-samples.git';
+    console.log(execSync([
+        `git clone -b master --depth 1 ${URL} ${repo}`,
+        `cd ${repo}`,
+        `rm -rf .git`,
+        `rm -rf ${needlessRepo}`,
+        `git init`,
+    ].join('&&')) + '');
+    process.chdir(repo);
+
+}
+else if (task === 'dev')
     process.env.NODE_ENV = 'development';
 else if (task === 'build')
     process.env.NODE_ENV = 'production';
 else
     throw new Error('Unkown task!');
 
-require('../src/' + task)(require('../config/' + type));
+task !== 'init' && require('../src/' + task)(require('../config/' + type));
