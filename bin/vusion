@@ -4,6 +4,7 @@
 
 require('../src/checkVersions')();
 const pkg = require('../package.json');
+const shell = require('shelljs');
 
 /**
  * Parse Commands
@@ -45,30 +46,22 @@ if (program.port)
  * Run Task
  */
 const task = program.args[1];
-if (task === 'init'){
-    const execSync = require('child_process').execSync;
-    var repo = program.args[2];
-    if(!repo)
-        repo = type === 'app' ? 'vusion-app-sample' : 'vusion-ui-sample';
-    var needlessRepo = type === 'app' ? 'ui-simple' : 'app-simple';
-    const URL = type === 'app'
-        ?'https://github.com/vusion/vusion-samples.git'
-            :'https://github.com/vusion/vusion-samples.git';
-    console.log(execSync([
-        `git clone -b master --depth 1 ${URL} ${repo}`,
-        `cd ${repo}`,
-        `rm -rf .git`,
-        `rm -rf ${needlessRepo}`,
-        `git init`,
-    ].join('&&')) + '');
-    process.chdir(repo);
+if (task === 'init') {
+    const projectName = program.args[2] || 'my-project';
+    const folder = type + '-simple';
 
-}
-else if (task === 'dev')
+    const URL = 'https://github.com/vusion/vusion-samples.git';
+    shell.exec(`git clone -b master --depth 1 ${URL}`);
+    shell.mv('vusion-samples/' + folder, './' + projectName);
+    shell.rm('-rf', 'vusion-samples');
+
+    console.info(`Initialized "${projectName}".`);
+} else if (task === 'dev')
     process.env.NODE_ENV = 'development';
 else if (task === 'build')
     process.env.NODE_ENV = 'production';
 else
     throw new Error('Unkown task!');
 
-task !== 'init' && require('../src/' + task)(require('../config/' + type));
+if (task === 'dev' || task === 'build')
+    require('../src/' + task)(require('../config/' + type));

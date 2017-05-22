@@ -27,10 +27,10 @@ npm install -g vusion-cli
 
 - `vusion app dev`
 - `vusion app build`
-- `vusion app init`: create an initial app project
+- `vusion app init <project-name>`: Initialize an Application project
 - `vusion ui dev`
 - `vusion ui build`
-- `vusion ui init`: create an initial ui project
+- `vusion ui init <project-name>`: Initialize a UI Library project
 - `vusion publish`: Publish a directory to gh-pages
 
 - `vusion -V, --version`: Show the version of current CLI
