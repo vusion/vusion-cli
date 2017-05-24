@@ -7,6 +7,9 @@
   "bin": {
     "vusion": "bin/vusion"
   },
+  "scripts": {
+    "precommit": "node_modules/vusion-hooks/pre-commit"
+  },
   "repository": "vusion/vusion-cli",
   "homepage": "http://vusion.github.io",
   "bugs": {
@@ -67,5 +70,9 @@
     "vusion-vue-loader": "^12.0.2",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5"
+  },
+  "devDependencies": {
+    "husky": "^0.13.3",
+    "vusion-hooks": "^0.1.0"
   }
 }
