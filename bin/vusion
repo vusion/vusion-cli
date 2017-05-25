@@ -56,12 +56,6 @@ if (type === 'server' && program.cPath) {
             EditableComponent: program.cPath,
         },
     };
-    global.vusionConfig.webpack.module = {
-        EXTENDS: true,
-        rules: [
-            { test: /\.vue[\\/]index\.js$/, loader: 'vues-multifile-loader' },
-        ],
-    }
 }
 
 
