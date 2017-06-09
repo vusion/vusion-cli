@@ -61,7 +61,7 @@ if (task === 'init') {
 else if (task === 'build')
     process.env.NODE_ENV = 'production';
 else
-    throw new Error('Unkown task!');
+    throw new Error('Unknown task!');
 
 if (task === 'dev' || task === 'build')
     require('../src/' + task)(require('../config/' + type));
