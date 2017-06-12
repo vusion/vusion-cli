@@ -6,6 +6,7 @@ require('../src/checkVersions')();
 const pkg = require('../package.json');
 const shell = require('shelljs');
 const config = require('../src/getVusionConfig');
+const path = require('path');
 
 /**
  * Parse Commands
@@ -54,7 +55,7 @@ if (type === 'server' && program.cPath) {
     global.vusionConfig.webpack.resolve = {
         EXTENDS: true,
         alias: {
-            EditableComponent: program.cPath,
+            EditableComponent: path.resolve(process.cwd(), program.cPath),
         },
     };
 }

@@ -22,11 +22,13 @@ module.exports = {
         bundle: './index.js',
     },
     resolve: {
+        // @QUESTION: If not put 'node_modules' at last, there are some problem on dependencies
         modules: [path.join(__dirname, '../node_modules'), 'node_modules'],
         alias: { vue$: 'vue/dist/vue.esm.js' },
     },
     resolveLoader: {
-        modules: ['web_loaders', 'web_modules', 'node_loaders', 'node_modules', path.join(__dirname, '../node_modules')],
+        // Put 'node_modules' at first to allow developer to customize loader
+        modules: ['node_modules', path.join(process.cwd(), 'node_modules'), path.join(__dirname, '../node_modules')],
         alias: {
             'css-loader': 'vusion-css-loader',
             'vue-loader': 'vusion-vue-loader',

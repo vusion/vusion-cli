@@ -22,7 +22,7 @@ const checkPort = function (port) {
 };
 
 const start = function (webpackConfig, port) {
-    const uri = `http://${ip}:${port}`;
+    const url = `http://${ip}:${port}`;
 
     webpackConfig = merge(webpackConfig, {
         // eval-source-map is faster for development
@@ -49,7 +49,7 @@ const start = function (webpackConfig, port) {
     // add hot-reload related code to entry chunks
     Object.keys(webpackConfig.entry).forEach((name) => {
         webpackConfig.entry[name] = [
-            require.resolve('webpack-dev-server/client') + '?' + uri,
+            require.resolve('webpack-dev-server/client') + '?' + url,
             require.resolve('webpack/hot/dev-server'),
             webpackConfig.entry[name],
         ];
@@ -81,8 +81,8 @@ const start = function (webpackConfig, port) {
         if (err)
             return console.error(err);
 
-        console.info('> Listening at ' + uri + '\n');
-        opn(uri);
+        console.info('> Listening at ' + url + '\n');
+        opn(url);
         process.send && process.send('server start');
     });
 };
