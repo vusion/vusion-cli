@@ -15,7 +15,7 @@ CLI for Vusion Projects, including Application and UI Library.
 
 ## Install
 
-```shell
+``` shell
 npm install -g vusion-cli
 ```
 
@@ -33,4 +33,17 @@ npm install -g vusion-cli
 - `vusion ui init <project-name>`: Initialize a UI Library project
 - `vusion publish`: Publish a directory to gh-pages
 
+- `-p, --port <port>`: WebpackDevServer port in dev mode
+- `--extract-css`: Extract CSS by ExtractTextPlugin in build mode
 - `vusion -V, --version`: Show the version of current CLI
+
+## Configuration
+
+``` js
+{
+    assetsPath: '',                 // Assets path will be copied to dest path
+    extractCSS: false,              // Extract CSS by ExtractTextPlugin in build mode
+    webpack: {...},                 // Extend webpack configuration
+    webpackDevServer: {...},        // Extend webpackDevServer configuration
+}
+```

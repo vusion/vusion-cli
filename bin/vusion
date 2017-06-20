@@ -13,8 +13,9 @@ const program = require('commander');
 program
     .usage('<type> <task> [options]')
     .version(pkg.version)
-    .option('-p, --port <port>', 'Web Server Port', parseInt)
+    .option('-p, --port <port>', 'Webpack dev server port in dev mode', parseInt)
     .option('-H, --no-hot', 'Disable hot reload')
+    .option('--extract-css', 'Extract CSS by ExtractTextPlugin in build mode')
     .command('publish <directory>', 'Publish a directory to gh-pages')
     .parse(process.argv);
 
@@ -35,6 +36,7 @@ else if (type === 'ui') {
     throw new Error('Unknown type!');
 
 global.vusionConfig = Object.assign({
+    extractCSS: program.extractCss,
     webpack: {},
     webpackDevServer: {},
 }, global.vusionConfig);
