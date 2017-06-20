@@ -15,7 +15,9 @@ program
     .version(pkg.version)
     .option('-p, --port <port>', 'Webpack dev server port in dev mode', parseInt)
     .option('-H, --no-hot', 'Disable hot reload')
+    .option('-s, --source-map', 'Generate source map in build mode')
     .option('--extract-css', 'Extract CSS by ExtractTextPlugin in build mode')
+    .option('--uglify-js', 'Compress and mangle JS by UglifyJSPlugin in build mode')
     .command('publish <directory>', 'Publish a directory to gh-pages')
     .parse(process.argv);
 
@@ -37,6 +39,7 @@ else if (type === 'ui') {
 
 global.vusionConfig = Object.assign({
     extractCSS: program.extractCss,
+    uglifyJS: program.uglifyJs,
     webpack: {},
     webpackDevServer: {},
 }, global.vusionConfig);

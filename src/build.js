@@ -9,28 +9,33 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = function (webpackConfig) {
+    const plugins = [
+        'EXTENDS',
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'production',
+        }),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new ExtractTextPlugin(webpackConfig.output.filename.replace(/\.js$/, '.css')),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true,
+        }),
+        new webpack.BannerPlugin({
+            banner: 'Packed by Vusion.',
+            entryOnly: true,
+            test: /\.js$/,
+        }),
+    ];
+
+    if (global.vusionConfig.uglifyJS) {
+        plugins.push(new UglifyJSPlugin({
+            sourceMap: !!global.vusionConfig.sourceMap,
+            compress: { warnings: false },
+        }));
+    }
+
     webpackConfig = merge(webpackConfig, {
-        devtool: '#source-map',
-        plugins: [
-            'EXTENDS',
-            new webpack.EnvironmentPlugin({
-                NODE_ENV: 'production',
-            }),
-            new webpack.optimize.OccurrenceOrderPlugin(),
-            new ExtractTextPlugin('styles.css'),
-            new UglifyJSPlugin({
-                sourceMap: true,
-                compress: { warnings: false },
-            }),
-            new webpack.LoaderOptionsPlugin({
-                minimize: true,
-            }),
-            new webpack.BannerPlugin({
-                banner: 'Packed by Vusion.',
-                entryOnly: true,
-                test: /\.js$/,
-            }),
-        ],
+        devtool: global.vusionConfig.sourceMap ? '#source-map' : false,
+        plugins,
         performance: { hints: 'warning' },
     }, global.vusionConfig.webpack);
 

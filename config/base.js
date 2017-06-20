@@ -1,5 +1,4 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const vueOptions = {
     preserveWhitespace: false,
@@ -16,7 +15,7 @@ const vueOptions = {
     cssModules: {
         localIdentName: '[name]_[local]',
     },
-    extractCSS: global.vusionConfig.extractCSS,
+    extractCSS: global.vusionConfig.extractCSS && process.env.NODE_ENV === 'production',
 };
 
 module.exports = {
