@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const shell = require('shelljs');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .usage('<project-type> <project-name>')
+    .parse(process.argv);
+
+/**
+ * Execute Task
+ */
+const projectType = program.args[0];
+const projectName = program.args[1] || 'my-project';
+const folder = projectType + '-simple';
+
+const URL = 'https://github.com/vusion/vusion-templates.git';
+shell.exec(`git clone -b master --depth 1 ${URL}`);
+shell.mv('vusion-templates/' + folder, './' + projectName);
+shell.rm('-rf', 'vusion-templates');
+
+console.info(`Initialized "${projectName}".`);

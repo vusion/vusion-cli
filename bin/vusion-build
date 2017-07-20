@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .option('-c, --config-path <path>', 'Vusion config path')
+    .parse(process.argv);
+
+/**
+ * Execute Task
+ */
+process.env.NODE_ENV = 'production';
+const config = global.vusionConfig = require('../src/getVusionConfig')(program.configPath);
+
+require('../src/build')(require('../config/' + config.type));

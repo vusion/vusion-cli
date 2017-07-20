@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-'use strict';
-
 const fs = require('fs');
 const ghpages = require('gh-pages');
 
@@ -10,10 +8,11 @@ const ghpages = require('gh-pages');
  */
 const program = require('commander');
 program
-    .usage('<directory>')
+    .option('-d, --docs-path <path>', 'Docs path')
     .parse(process.argv);
 
-const directory = program.args[0] || 'docs';
+const config = global.vusionConfig = require('../src/getVusionConfig')(program.configPath);
+const directory = program.docsPath || config.docsPath;
 if (!fs.existsSync(directory))
     console.error(`Cannot find "${directory}" directory!`);
 if (!fs.statSync(directory).isDirectory())

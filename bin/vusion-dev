@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+
+const path = require('path');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .option('-c, --config-path <path>', 'Vusion config path')
+    .option('-C, --c-path <path>', 'Vusion Component Path')
+    .option('-p, --port <port>', 'Web Server Port', parseInt)
+    .option('-H, --no-hot', 'Disable hot reload')
+    .parse(process.argv);
+
+/**
+ * Execute Task
+ */
+process.env.NODE_ENV = 'development';
+const config = global.vusionConfig = require('../src/getVusionConfig')(program.configPath);
+
+if (program.port)
+    config.webpackDevServer.port = program.port;
+// @TODO: Remove it
+if (config.type === 'server' && program.cPath) {
+    config.webpack.resolve = {
+        EXTENDS: true,
+        alias: {
+            EditableComponent: path.resolve(process.cwd(), program.cPath),
+        },
+    };
+}
+
+require('../src/dev')(require('../config/' + config.type));

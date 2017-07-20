@@ -1,6 +1,6 @@
 # Vusion CLI
 
-CLI for Vusion Projects, including Application and UI Library.
+CLI for developing Vusion Projects.
 
 [![NPM Version][npm-img]][npm-url]
 [![Dependencies][david-img]][david-url]
@@ -12,6 +12,11 @@ CLI for Vusion Projects, including Application and UI Library.
 [david-url]: https://david-dm.org/vusion/vusion-cli
 [download-img]: https://img.shields.io/npm/dm/vusion-cli.svg?style=flat-square
 [download-url]: https://npmjs.org/package/vusion-cli
+
+## Project Types
+
+- `library`
+- `webapp`
 
 ## Install
 
@@ -25,12 +30,9 @@ npm install -g vusion-cli
 
 - `vusion help`: Show help of all commands
 
-- `vusion app dev`
-- `vusion app build`
-- `vusion app init <project-name>`: Initialize an Application project
-- `vusion ui dev`
-- `vusion ui build`
-- `vusion ui init <project-name>`: Initialize a UI Library project
+- `vusion init <project-type> <project-name>`: Initalize a vusion project
+- `vusion dev`: Run develop server
+- `vusion build`: Build a distribution
 - `vusion publish`: Publish a directory to gh-pages
 
 - `vusion -V, --version`: Show the version of current CLI

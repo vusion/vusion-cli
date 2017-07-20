@@ -1,84 +1,17 @@
 #!/usr/bin/env node
 
-'use strict';
-
 require('../src/checkVersions')();
 const pkg = require('../package.json');
-const shell = require('shelljs');
-const path = require('path');
 
 /**
  * Parse Commands
  */
 const program = require('commander');
 program
-    .usage('<type> <task> [options]')
+    .usage('<task> [options]')
     .version(pkg.version)
-    .option('-p, --port <port>', 'Web Server Port', parseInt)
-    .option('-H, --no-hot', 'Disable hot reload')
-    .option('-c, --config-path <path>', 'Vusion Config Path')
-    .option('-C, --c-path <path>', 'Vusion Component Path')
-    //  .command('init [options] <repo>', 'init a repo')
+    .command('init <directory>', 'Initialize a project')
+    .command('dev', 'Run Developing Server')
+    .command('build', 'Build a distribution')
     .command('publish <directory>', 'Publish a directory to gh-pages')
     .parse(process.argv);
-
-/**
- * Check Type
- */
-const type = program.args[0];
-const config = require('../src/getVusionConfig')(program.configPath);
-
-if (type === 'publish')
-    shell.exit(0);
-else if (type === 'app')
-    global.vusionConfig = config;
-else if (type === 'ui') {
-    global.vusionConfig = Object.assign({
-        assetsPath: './src/assets',
-        docsPath: './docs',
-    }, config);
-} else if (type === 'board' || type === 'server')
-    global.vusionConfig = config;
-else
-    throw new Error('Unknown type!');
-
-global.vusionConfig = Object.assign({
-    webpack: {},
-    webpackDevServer: {},
-}, global.vusionConfig);
-
-if (program.port)
-    global.vusionConfig.webpackDevServer.port = program.port;
-
-if (type === 'server' && program.cPath) {
-    global.vusionConfig.webpack.resolve = {
-        EXTENDS: true,
-        alias: {
-            EditableComponent: path.resolve(process.cwd(), program.cPath),
-        },
-    };
-}
-
-/**
- * Run Task
- */
-const task = program.args[1];
-if (task === 'init') {
-    const projectName = program.args[2] || 'my-project';
-    const folder = type + '-simple';
-
-    const URL = 'https://github.com/vusion/vusion-samples.git';
-    shell.exec(`git clone -b master --depth 1 ${URL}`);
-    shell.mv('vusion-samples/' + folder, './' + projectName);
-    shell.rm('-rf', 'vusion-samples');
-
-    console.info(`Initialized "${projectName}".`);
-} else if (task === 'dev')
-    process.env.NODE_ENV = 'development';
-else if (task === 'build')
-    process.env.NODE_ENV = 'production';
-else
-    throw new Error('Unknown task!');
-
-if (task === 'dev' || task === 'build')
-    require('../src/' + task)(require('../config/' + type));
