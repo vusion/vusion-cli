@@ -14,6 +14,7 @@ program
     .usage('<type> <task> [options]')
     .version(pkg.version)
     .option('-p, --port <port>', 'Webpack dev server port in dev mode', parseInt)
+    .option('-C, --no-clean', 'Disable clean and copy')
     .option('-H, --no-hot', 'Disable hot reload')
     .option('-s, --source-map', 'Generate source map in build mode')
     .option('--extract-css', 'Extract CSS by ExtractTextPlugin in build mode')

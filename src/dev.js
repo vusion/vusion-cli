@@ -9,20 +9,18 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const FriendlyErrors = require('friendly-errors-webpack-plugin');
 
-const ip = '127.0.0.1';
-
-const checkPort = function (port) {
-    return tcpPortUsed.check(port, ip)
+const checkPort = function (host, port) {
+    return tcpPortUsed.check(port, host)
         .then((used) => {
             if (used)
-                return checkPort(port + 1);
+                return checkPort(host, port + 1);
             else
                 return port;
         });
 };
 
-const start = function (webpackConfig, port) {
-    const uri = `http://${ip}:${port}`;
+const start = function (webpackConfig, host, port) {
+    const uri = `http://${host}:${port}`;
 
     webpackConfig = merge(webpackConfig, {
         // eval-source-map is faster for development
@@ -35,13 +33,7 @@ const start = function (webpackConfig, port) {
             new webpack.HotModuleReplacementPlugin(), // hot reload
             // new webpack.NamedModulesPlugin(),
             new webpack.NoEmitOnErrorsPlugin(), // skip errors
-        //         // https://github.com/ampedandwired/html-webpack-plugin
-        //         // new HtmlWebpackPlugin({
-        //         //     filename: 'index.html',
-        //         //     template: 'index.html',
-        //         //     inject: true
-        //         // }),
-        //         new FriendlyErrors()
+            // new FriendlyErrors()
         ],
         performance: { hints: false },
     }, global.vusionConfig.webpack);
@@ -56,10 +48,12 @@ const start = function (webpackConfig, port) {
     });
 
     // Remove output directory and copy assets
-    if (webpackConfig.output.path !== process.cwd())
-        shell.rm('-rf', webpackConfig.output.path);
-    if (global.vusionConfig.assetsPath)
-        shell.cp('-r', path.resolve(process.cwd(), global.vusionConfig.assetsPath), webpackConfig.output.path);
+    if (global.vusionConfig.clean) {
+        if (webpackConfig.output.path !== process.cwd())
+            shell.rm('-rf', webpackConfig.output.path);
+        if (global.vusionConfig.assetsPath)
+            shell.cp('-r', path.resolve(process.cwd(), global.vusionConfig.assetsPath), webpackConfig.output.path);
+    }
 
     /**
      * Start Run Webpack
@@ -77,7 +71,7 @@ const start = function (webpackConfig, port) {
     /**
      * Start Server
      */
-    server.listen(port, (err) => {
+    server.listen(port, host, (err) => {
         if (err)
             return console.error(err);
 
@@ -87,6 +81,7 @@ const start = function (webpackConfig, port) {
 };
 
 module.exports = function (webpackConfig) {
-    checkPort(global.vusionConfig.webpackDevServer.port || 9000)
-        .then((port) => start(webpackConfig, port));
+    const host = global.vusionConfig.webpackDevServer.host || 'localhost';
+    checkPort(host, global.vusionConfig.webpackDevServer.port || 9000)
+        .then((port) => start(webpackConfig, host, port));
 };
