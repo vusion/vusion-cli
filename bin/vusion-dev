@@ -7,6 +7,7 @@ const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
+    .option('-C, --no-clean', 'Disable clean and copy')
     .option('-p, --port <port>', 'Web Server Port', parseInt)
     .option('-H, --no-hot', 'Disable hot reload')
     .parse(process.argv);
@@ -17,9 +18,13 @@ program
 process.env.NODE_ENV = 'development';
 const config = global.vusionConfig = require('../src/getVusionConfig')(program.configPath);
 
-if (program.port)
-    config.webpackDevServer.port = program.port;
 if (program.entryPath)
     config.webpack.entry = { bundle: program.entryPath };
+if (program.hasOwnProperty('clean'))
+    config.clean = program.clean;
+if (program.port)
+    config.webpackDevServer.port = program.port;
+if (program.hasOwnProperty('hot'))
+    config.hot = program.hot;
 
 require('../src/dev')(require('../config/' + config.type));

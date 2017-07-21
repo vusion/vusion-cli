@@ -9,45 +9,42 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const FriendlyErrors = require('friendly-errors-webpack-plugin');
 
-const ip = '127.0.0.1';
+const config = global.vusionConfig;
 
-const checkPort = function (port) {
-    return tcpPortUsed.check(port, ip)
+const checkPort = function (host, port) {
+    return tcpPortUsed.check(port, host)
         .then((used) => {
             if (used)
-                return checkPort(port + 1);
+                return checkPort(host, port + 1);
             else
                 return port;
         });
 };
 
-const start = function (webpackConfig, port) {
-    const url = `http://${ip}:${port}`;
+const start = function (webpackConfig, host, port) {
+    const url = `http://${host}:${port}`;
+
+    const plugins = [
+        'EXTENDS',
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'development',
+        }),
+        // new webpack.NamedModulesPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(), // skip errors
+        // new FriendlyErrors()
+    ];
+
+    config.hot && plugins.push(new webpack.HotModuleReplacementPlugin());
 
     webpackConfig = merge(webpackConfig, {
         // eval-source-map is faster for development
         devtool: '#eval-source-map',
-        plugins: [
-            'EXTENDS',
-            new webpack.EnvironmentPlugin({
-                NODE_ENV: 'development',
-            }),
-            new webpack.HotModuleReplacementPlugin(), // hot reload
-            // new webpack.NamedModulesPlugin(),
-            new webpack.NoEmitOnErrorsPlugin(), // skip errors
-        //         // https://github.com/ampedandwired/html-webpack-plugin
-        //         // new HtmlWebpackPlugin({
-        //         //     filename: 'index.html',
-        //         //     template: 'index.html',
-        //         //     inject: true
-        //         // }),
-        //         new FriendlyErrors()
-        ],
+        plugins,
         performance: { hints: false },
-    }, global.vusionConfig.webpack);
+    }, config.webpack);
 
     // add hot-reload related code to entry chunks
-    Object.keys(webpackConfig.entry).forEach((name) => {
+    config.hot && Object.keys(webpackConfig.entry).forEach((name) => {
         webpackConfig.entry[name] = [
             require.resolve('webpack-dev-server/client') + '?' + url,
             require.resolve('webpack/hot/dev-server'),
@@ -56,10 +53,12 @@ const start = function (webpackConfig, port) {
     });
 
     // Remove output directory and copy assets
-    if (webpackConfig.output.path !== process.cwd())
-        shell.rm('-rf', webpackConfig.output.path);
-    if (global.vusionConfig.assetsPath)
-        shell.cp('-r', path.resolve(process.cwd(), global.vusionConfig.assetsPath), webpackConfig.output.path);
+    if (config.clean) {
+        if (webpackConfig.output.path !== process.cwd())
+            shell.rm('-rf', webpackConfig.output.path);
+        if (config.assetsPath)
+            shell.cp('-r', path.resolve(process.cwd(), config.assetsPath), webpackConfig.output.path);
+    }
 
     /**
      * Start Run Webpack
@@ -68,16 +67,16 @@ const start = function (webpackConfig, port) {
     const server = new WebpackDevServer(compiler, Object.assign({
         contentBase: webpackConfig.output.path,
         // noInfo: true,
-        hot: true,
+        hot: config.hot,
         inline: true,
         historyApiFallback: true,
         stats: { colors: true },
-    }, global.vusionConfig.webpackDevServer));
+    }, config.webpackDevServer));
 
     /**
      * Start Server
      */
-    server.listen(port, (err) => {
+    server.listen(port, host, (err) => {
         if (err)
             return console.error(err);
 
@@ -88,6 +87,7 @@ const start = function (webpackConfig, port) {
 };
 
 module.exports = function (webpackConfig) {
-    checkPort(global.vusionConfig.webpackDevServer.port || 9000)
-        .then((port) => start(webpackConfig, port));
+    const host = config.webpackDevServer.host || 'localhost';
+    checkPort(host, config.webpackDevServer.port || 9000)
+        .then((port) => start(webpackConfig, host, port));
 };

@@ -8,37 +8,44 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
+const config = global.vusionConfig;
+
 module.exports = function (webpackConfig) {
+    const plugins = [
+        'EXTENDS',
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: 'production',
+        }),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new ExtractTextPlugin(webpackConfig.output.filename.replace(/\.js$/, '.css')),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true,
+        }),
+        new webpack.BannerPlugin({
+            banner: 'Packed by Vusion.',
+            entryOnly: true,
+            test: /\.js$/,
+        }),
+    ];
+
+    config.uglifyJS && plugins.push(new UglifyJSPlugin({
+        sourceMap: config.sourceMap,
+        compress: { warnings: false },
+    }));
+
     webpackConfig = merge(webpackConfig, {
-        devtool: '#source-map',
-        plugins: [
-            'EXTENDS',
-            new webpack.EnvironmentPlugin({
-                NODE_ENV: 'production',
-            }),
-            new webpack.optimize.OccurrenceOrderPlugin(),
-            new ExtractTextPlugin('styles.css'),
-            new UglifyJSPlugin({
-                sourceMap: true,
-                compress: { warnings: false },
-            }),
-            new webpack.LoaderOptionsPlugin({
-                minimize: true,
-            }),
-            new webpack.BannerPlugin({
-                banner: 'Packed by Vusion.',
-                entryOnly: true,
-                test: /\.js$/,
-            }),
-        ],
+        devtool: config.sourceMap ? '#source-map' : false,
+        plugins,
         performance: { hints: 'warning' },
-    }, global.vusionConfig.webpack);
+    }, config.webpack);
 
     // Remove output directory and copy assets
-    if (webpackConfig.output.path !== process.cwd())
-        shell.rm('-rf', webpackConfig.output.path);
-    if (global.vusionConfig.assetsPath)
-        shell.cp('-r', path.resolve(process.cwd(), global.vusionConfig.assetsPath), webpackConfig.output.path);
+    if (config.clean) {
+        if (webpackConfig.output.path !== process.cwd())
+            shell.rm('-rf', webpackConfig.output.path);
+        if (config.assetsPath)
+            shell.cp('-r', path.resolve(process.cwd(), config.assetsPath), webpackConfig.output.path);
+    }
 
     const spinner = ora('building for production...');
     spinner.start();

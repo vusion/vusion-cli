@@ -15,6 +15,7 @@ const vueOptions = {
     cssModules: {
         localIdentName: '[name]_[local]',
     },
+    extractCSS: global.vusionConfig.extractCSS && process.env.NODE_ENV === 'production',
 };
 
 module.exports = {

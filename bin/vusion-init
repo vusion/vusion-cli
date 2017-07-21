@@ -15,7 +15,7 @@ program
  */
 const projectType = program.args[0];
 const projectName = program.args[1] || 'my-project';
-const folder = projectType + '-simple';
+const folder = projectType;
 
 const URL = 'https://github.com/vusion/vusion-templates.git';
 shell.exec(`git clone -b master --depth 1 ${URL}`);

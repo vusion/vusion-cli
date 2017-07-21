@@ -7,6 +7,10 @@ const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
+    .option('-C, --no-clean', 'Disable clean and copy')
+    .option('-s, --source-map', 'Generate source map in build mode')
+    .option('--extract-css', 'Extract CSS by ExtractTextPlugin in build mode')
+    .option('--uglify-js', 'Compress and mangle JS by UglifyJSPlugin in build mode')
     .parse(process.argv);
 
 /**
@@ -17,5 +21,13 @@ const config = global.vusionConfig = require('../src/getVusionConfig')(program.c
 
 if (program.entryPath)
     config.webpack.entry = { bundle: program.entryPath };
+if (program.hasOwnProperty('clean'))
+    config.clean = program.clean;
+if (program.hasOwnProperty('sourceMap'))
+    config.sourceMap = program.sourceMap;
+if (program.hasOwnProperty('extractCss'))
+    config.extractCSS = program.extractCss;
+if (program.hasOwnProperty('uglifyJs'))
+    config.uglifyJS = program.uglifyJs;
 
 require('../src/build')(require('../config/' + config.type));
