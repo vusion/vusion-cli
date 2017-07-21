@@ -17,6 +17,7 @@ module.exports = function (webpackConfig) {
             NODE_ENV: 'production',
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new ExtractTextPlugin(webpackConfig.output.filename.replace(/\.js$/, '.css')),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
