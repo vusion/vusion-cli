@@ -6,6 +6,7 @@
 const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
+    .option('-e, --entry-path <path>', 'Change default entry path')
     .parse(process.argv);
 
 /**
@@ -13,5 +14,8 @@ program
  */
 process.env.NODE_ENV = 'production';
 const config = global.vusionConfig = require('../src/getVusionConfig')(program.configPath);
+
+if (program.entryPath)
+    config.webpack.entry = { bundle: program.entryPath };
 
 require('../src/build')(require('../config/' + config.type));
