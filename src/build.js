@@ -17,7 +17,6 @@ module.exports = function (webpackConfig) {
             NODE_ENV: 'production',
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.ModuleConcatenationPlugin(),
         new ExtractTextPlugin(webpackConfig.output.filename.replace(/\.js$/, '.css')),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
@@ -28,6 +27,8 @@ module.exports = function (webpackConfig) {
             test: /\.js$/,
         }),
     ];
+
+    config.experimental && plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
 
     config.uglifyJS && plugins.push(new UglifyJSPlugin({
         sourceMap: config.sourceMap,
