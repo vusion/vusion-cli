@@ -8,7 +8,7 @@
     "vusion": "bin/vusion"
   },
   "scripts": {
-    "precommit": "node_modules/vusion-hooks/pre-commit"
+    "precommit": "bash node_modules/vusion-hooks/pre-commit"
   },
   "repository": "vusion/vusion-cli",
   "homepage": "http://vusion.github.io",
@@ -58,10 +58,10 @@
     "shelljs": "^0.7.8",
     "tcp-port-used": "^0.1.2",
     "uglifyjs-webpack-plugin": "^0.4.6",
-    "vue": "^2.4.2",
+    "vue": "^2.4.0",
     "vue-hot-reload-api": "^2.1.0",
     "vue-multifile-loader": "^13.0.2",
-    "vue-template-compiler": "^2.4.2",
+    "vue-template-compiler": "^2.4.0",
     "vusion-css-loader": "^0.1.4",
     "vusion-doc-loader": "^0.2.2",
     "vusion-style-loader": "^0.1.4",
