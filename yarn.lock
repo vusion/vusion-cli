@@ -2285,7 +2285,7 @@ loader-runner@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
 
-loader-utils@^0.2.16, loader-utils@^0.2.7, loader-utils@~0.2.2:
+loader-utils@^0.2.16, loader-utils@~0.2.2:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.17.tgz#f86e6374d43205a6e6c60e9196f17c0299bfb348"
   dependencies:
@@ -4497,7 +4497,7 @@ vue-style-loader@^3.0.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.4.2:
+vue-template-compiler@^2.4.0:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.4.2.tgz#5a45d843f148b098f6c1d1e35ac20c4956d30ad1"
   dependencies:
@@ -4508,13 +4508,13 @@ vue-template-es2015-compiler@^1.5.3:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.5.3.tgz#22787de4e37ebd9339b74223bc467d1adee30545"
 
-vue@^2.4.2:
+vue@^2.4.0:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
 
-vusion-css-loader@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/vusion-css-loader/-/vusion-css-loader-0.1.4.tgz#f544287c07911229904075ea8e59e722325e49be"
+vusion-css-loader@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/vusion-css-loader/-/vusion-css-loader-0.2.0.tgz#ca2357e273613d64acfbc50dd88c55aa6cbe4214"
   dependencies:
     babel-code-frame "^6.11.0"
     css-selector-tokenizer "^0.7.0"
@@ -4541,12 +4541,6 @@ vusion-doc-loader@^0.2.2:
 vusion-hooks@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/vusion-hooks/-/vusion-hooks-0.1.1.tgz#31fd91e2edd95fe8fd57ee30b2dc4d194435ebed"
-
-vusion-style-loader@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/vusion-style-loader/-/vusion-style-loader-0.1.4.tgz#f22d6d937509236cdb55bf2b02402657ba56effe"
-  dependencies:
-    loader-utils "^0.2.7"
 
 vusion-vue-loader@^13.0.2:
   version "13.0.2"

@@ -1,7 +1,7 @@
 {
   "name": "vusion-cli",
   "description": "CLI for Vusion Projects, including Application and UI Library.",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": "Rainfore <rainforest92@126.com>",
   "preferGlobal": true,
   "bin": {
@@ -62,9 +62,8 @@
     "vue-hot-reload-api": "^2.1.0",
     "vue-multifile-loader": "^13.0.2",
     "vue-template-compiler": "^2.4.0",
-    "vusion-css-loader": "^0.1.4",
+    "vusion-css-loader": "^0.2.0",
     "vusion-doc-loader": "^0.2.2",
-    "vusion-style-loader": "^0.1.4",
     "vusion-vue-loader": "^13.0.2",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.5.1"

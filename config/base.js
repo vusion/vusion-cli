@@ -13,7 +13,7 @@ const vueOptions = {
         }),
     ],
     cssModules: {
-        localIdentName: '[name]_[local]',
+        localIdentName: '[name]_[local]_[hash:base64:8]',
     },
     extractCSS: global.vusionConfig.extractCSS && process.env.NODE_ENV === 'production',
 };
@@ -33,7 +33,6 @@ module.exports = {
         alias: {
             'css-loader': 'vusion-css-loader',
             'vue-loader': 'vusion-vue-loader',
-            'vue-style-loader': 'vusion-style-loader',
         },
     },
     devtool: '#eval-source-map',
