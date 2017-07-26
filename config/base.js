@@ -1,22 +1,36 @@
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const postcssPlugins = [
+    require('postcss-import'),
+    require('precss')({
+        path: ['node_modules'],
+    }),
+    require('postcss-calc'),
+    require('autoprefixer')({
+        browsers: ['last 4 versions', 'ie >= 9'],
+    }),
+];
 
 const vueOptions = {
     preserveWhitespace: false,
-    postcss: [
-        require('postcss-import'),
-        require('precss')({
-            path: ['node_modules'],
-        }),
-        require('postcss-calc'),
-        require('autoprefixer')({
-            browsers: ['last 4 versions', 'ie >= 9'],
-        }),
-    ],
+    postcss: postcssPlugins,
     cssModules: {
-        localIdentName: '[name]_[local]_[hash:base64:8]',
+        localIdentName: process.env.NODE_ENV === 'production' ? '[hash:base64:16]' : '[name]_[local]_[hash:base64:8]',
     },
     extractCSS: global.vusionConfig.extractCSS && process.env.NODE_ENV === 'production',
 };
+
+let cssRule = [
+    { loader: 'vusion-css-loader', options: { importLoaders: 1 } },
+    { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
+    'import-global-loader',
+];
+
+if (vueOptions.extractCSS)
+    cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
+else
+    cssRule.unshift('style-loader');
 
 module.exports = {
     entry: {
@@ -40,6 +54,7 @@ module.exports = {
         rules: [
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
+            { test: /\.css$/, use: cssRule },
             { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: {
                 name: '[name].[ext]?[hash]',
             } },
