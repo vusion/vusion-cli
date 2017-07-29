@@ -6,11 +6,14 @@ const TYPES = ['library', 'app', 'html5', 'full-stack'];
 module.exports = function (relativePath = 'vusion.config.js') {
     const config = {
         type: '',
+        assetsPath: '',
+        docsPath: '',
         clean: true,
         hot: true,
         sourceMap: false,
         extractCSS: false,
         uglifyJS: false,
+        experimental: false,
         webpack: {},
         webpackDevServer: {},
     };

@@ -10,7 +10,7 @@ const program = require('commander');
 program
     .usage('<task> [options]')
     .version(pkg.version)
-    .command('init <directory>', 'Initialize a project')
+    .command('init <project-type> <project-name>', 'Initialize a project')
     .command('dev', 'Run Developing Server')
     .command('build', 'Build a distribution')
     .command('publish <directory>', 'Publish a directory to gh-pages')
