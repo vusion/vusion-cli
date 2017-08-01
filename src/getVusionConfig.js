@@ -7,7 +7,6 @@ module.exports = function (relativePath = 'vusion.config.js') {
     const config = {
         type: '',
         assetsPath: '',
-        docsPath: '',
         clean: true,
         hot: true,
         sourceMap: false,
@@ -29,10 +28,9 @@ module.exports = function (relativePath = 'vusion.config.js') {
         throw new Error('Unknown project type!');
 
     if (config.type === 'library') {
+        config.docs = true;
         if (!config.assetsPath)
             config.assetsPath = './src/assets';
-        if (!config.docsPath)
-            config.docsPath = './docs';
     }
 
     return config;

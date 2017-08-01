@@ -7,12 +7,10 @@ const ghpages = require('gh-pages');
  * Parse Commands
  */
 const program = require('commander');
-program
-    .option('-d, --docs-path <path>', 'Docs path')
-    .parse(process.argv);
+program.parse(process.argv);
 
 const config = global.vusionConfig = require('../src/getVusionConfig')(program.configPath);
-const directory = program.docsPath || config.docsPath;
+const directory = config.output.path;
 if (!fs.existsSync(directory))
     console.error(`Cannot find "${directory}" directory!`);
 if (!fs.statSync(directory).isDirectory())

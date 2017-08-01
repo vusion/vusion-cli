@@ -1,6 +1,8 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const VusionDocPlugin = require('vusion-doc-loader/VusionDocPlugin');
 
+// Postcss plugins
 const postcssPlugins = [
     require('postcss-import'),
     require('precss')({
@@ -12,6 +14,7 @@ const postcssPlugins = [
     }),
 ];
 
+// Vue loader options
 const vueOptions = {
     preserveWhitespace: false,
     postcss: postcssPlugins,
@@ -21,18 +24,19 @@ const vueOptions = {
     extractCSS: global.vusionConfig.extractCSS && process.env.NODE_ENV === 'production',
 };
 
+// CSS loaders options
 let cssRule = [
     { loader: 'vusion-css-loader', options: { importLoaders: 1 } },
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
     'import-global-loader',
 ];
-
 if (vueOptions.extractCSS)
     cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
 else
     cssRule.unshift('style-loader');
 
-module.exports = {
+// Webpack config
+const webpackConfig = {
     entry: {
         bundle: './index.js',
     },
@@ -55,9 +59,14 @@ module.exports = {
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
-            { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: {
-                name: '[name].[ext]?[hash]',
-            } },
+            { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' } },
         ],
     },
 };
+
+if (global.vusionConfig.docs) {
+    webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
+    webpackConfig.plugins = [new VusionDocPlugin()];
+}
+
+module.exports = webpackConfig;

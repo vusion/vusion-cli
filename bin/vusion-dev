@@ -8,6 +8,7 @@ program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
     .option('-C, --no-clean', 'Disable clean and copy')
+    .option('-d, --docs', 'Generate docs of common components. Always be true if project type is `library`')
     .option('-p, --port <port>', 'Web Server Port', parseInt)
     .option('-H, --no-hot', 'Disable hot reload')
     .parse(process.argv);
@@ -22,6 +23,8 @@ if (program.entryPath)
     config.webpack.entry = { bundle: program.entryPath };
 if (program.hasOwnProperty('clean'))
     config.clean = program.clean;
+if (program.hasOwnProperty('docs'))
+    config.docs = program.docs;
 if (program.port)
     config.webpackDevServer.port = program.port;
 if (program.hasOwnProperty('hot'))

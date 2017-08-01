@@ -8,6 +8,7 @@ program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
     .option('-C, --no-clean', 'Disable clean and copy')
+    .option('-d, --docs', 'Generate docs of common components. Always be true if project type is `library`')
     .option('-s, --source-map', 'Generate source map in build mode')
     .option('--extract-css', 'Extract CSS by ExtractTextPlugin in build mode')
     .option('--uglify-js', 'Compress and mangle JS by UglifyJSPlugin in build mode')
@@ -24,6 +25,8 @@ if (program.entryPath)
     config.webpack.entry = { bundle: program.entryPath };
 if (program.hasOwnProperty('clean'))
     config.clean = program.clean;
+if (program.hasOwnProperty('docs'))
+    config.docs = program.docs;
 if (program.hasOwnProperty('sourceMap'))
     config.sourceMap = program.sourceMap;
 if (program.hasOwnProperty('extractCss'))
