@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('../src/checkVersions')();
+require('../lib/checkVersions')();
 const pkg = require('../package.json');
 
 /**

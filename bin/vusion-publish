@@ -9,7 +9,7 @@ const ghpages = require('gh-pages');
 const program = require('commander');
 program.parse(process.argv);
 
-const config = global.vusionConfig = require('../src/getVusionConfig')(program.configPath);
+const config = global.vusionConfig = require('../config/resolve')(program.configPath);
 const directory = config.output.path;
 if (!fs.existsSync(directory))
     console.error(`Cannot find "${directory}" directory!`);

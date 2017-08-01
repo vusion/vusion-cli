@@ -8,7 +8,8 @@ program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
     .option('-C, --no-clean', 'Disable clean and copy')
-    .option('-d, --docs', 'Generate docs of common components. Always be true if project type is `library`')
+    .option('-l, --library-path', 'Library entry path. To be `./index.js` by default if project type is `library`')
+    .option('-d, --docs', 'Generate docs of common components in library. Always be true if project type is `library`')
     .option('-s, --source-map', 'Generate source map in build mode')
     .option('--extract-css', 'Extract CSS by ExtractTextPlugin in build mode')
     .option('--uglify-js', 'Compress and mangle JS by UglifyJSPlugin in build mode')
@@ -19,12 +20,14 @@ program
  * Execute Task
  */
 process.env.NODE_ENV = 'production';
-const config = global.vusionConfig = require('../src/getVusionConfig')(program.configPath);
+const config = global.vusionConfig = require('../config/resolve')(program.configPath);
 
 if (program.entryPath)
     config.webpack.entry = { bundle: program.entryPath };
 if (program.hasOwnProperty('clean'))
     config.clean = program.clean;
+if (program.hasOwnProperty('libraryPath'))
+    config.libraryPath = program.libraryPath;
 if (program.hasOwnProperty('docs'))
     config.docs = program.docs;
 if (program.hasOwnProperty('sourceMap'))
@@ -36,4 +39,4 @@ if (program.hasOwnProperty('uglifyJs'))
 if (program.hasOwnProperty('experimental'))
     config.experimental = program.experimental;
 
-require('../src/build')(require('../config/' + config.type));
+require('../lib/build')(require('../webpack/' + config.type));

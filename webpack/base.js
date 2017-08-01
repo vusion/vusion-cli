@@ -2,6 +2,8 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const VusionDocPlugin = require('vusion-doc-loader/VusionDocPlugin');
 
+const config = global.vusionConfig;
+
 // Postcss plugins
 const postcssPlugins = [
     require('postcss-import'),
@@ -21,7 +23,7 @@ const vueOptions = {
     cssModules: {
         localIdentName: process.env.NODE_ENV === 'production' ? '[hash:base64:16]' : '[name]_[local]_[hash:base64:8]',
     },
-    extractCSS: global.vusionConfig.extractCSS && process.env.NODE_ENV === 'production',
+    extractCSS: config.extractCSS && process.env.NODE_ENV === 'production',
 };
 
 // CSS loaders options
@@ -64,7 +66,10 @@ const webpackConfig = {
     },
 };
 
-if (global.vusionConfig.docs) {
+if (config.libraryPath)
+    webpackConfig.resolve.alias.library$ = config.libraryPath;
+if (config.libraryPath && config.docs) {
+    webpackConfig.entry.docs = path.resolve(__dirname, '../entry/docs.js');
     webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
     webpackConfig.plugins = [new VusionDocPlugin()];
 }
