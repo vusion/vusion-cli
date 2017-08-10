@@ -8,7 +8,11 @@
     "vusion": "bin/vusion"
   },
   "scripts": {
-    "precommit": "bash node_modules/vusion-hooks/pre-commit"
+    "precommit": "bash node_modules/vusion-hooks/pre-commit",
+    "test": "npm run test-init && npm run test-dev && npm run test-build",
+    "test-init": "mocha test/test-init.js --timeout 60000 --require babel-register",
+    "test-dev": "cross-env TEST=true mocha test/test-dev.js --timeout 60000 --require babel-register",
+    "test-build": "mocha test/test-build.js --timeout 60000 --require babel-register"
   },
   "repository": "vusion/vusion-cli",
   "homepage": "http://vusion.github.io",
@@ -71,9 +75,14 @@
     "webpack-dev-server": "^2.5.1"
   },
   "devDependencies": {
+    "babel-register": "^6.24.1",
+    "chai": "^4.1.1",
+    "cross-env": "^5.0.5",
     "eslint": "^4.3.0",
     "eslint-config-vusion": "^1.2.0",
+    "execa": "^0.8.0",
     "husky": "^0.13.3",
+    "mocha": "^3.5.0",
     "vusion-hooks": "^0.1.0"
   }
 }
