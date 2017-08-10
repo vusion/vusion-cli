@@ -2,6 +2,7 @@
 
 CLI for developing Vusion Projects.
 
+[![CircleCI][circleci-img]][circleci-url]
 [![NPM Version][npm-img]][npm-url]
 [![Dependencies][david-img]][david-url]
 [![NPM Download][download-img]][download-url]
@@ -12,6 +13,8 @@ CLI for developing Vusion Projects.
 [david-url]: https://david-dm.org/vusion/vusion-cli
 [download-img]: https://img.shields.io/npm/dm/vusion-cli.svg?style=flat-square
 [download-url]: https://npmjs.org/package/vusion-cli
+[circleci-img]: https://img.shields.io/circleci/project/github/vusion/vusion-cli.svg?style=flat-square
+[circleci-url]: https://circleci.com/gh/vusion/vusion-cli
 
 ## Project Types
 
