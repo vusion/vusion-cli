@@ -68,7 +68,7 @@ describe('command: dev', () => {
         });
     });
 
-    describe.only('dev library type vusion project', () => {
+    describe('dev library type vusion project', () => {
         before((done) => {
             setup();
             execa(initCli, ['library', 'library-project'])
