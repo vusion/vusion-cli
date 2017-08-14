@@ -14,4 +14,5 @@ program
     .command('dev', 'Run Developing Server')
     .command('build', 'Build a distribution')
     .command('publish <directory>', 'Publish a directory to gh-pages')
+    .command('test', 'test a project')
     .parse(process.argv);

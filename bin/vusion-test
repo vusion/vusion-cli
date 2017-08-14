@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program.parse(process.argv);
+/**
+ * Execute Task
+ */
+process.env.NODE_ENV = 'test';
+global.vusionConfig = require('../config/resolve')();
+
+require('../lib/test')();

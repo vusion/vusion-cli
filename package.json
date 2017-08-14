@@ -48,6 +48,7 @@
     "gh-pages": "^1.0.0",
     "highlight.js": "^9.12.0",
     "import-global-loader": "^0.1.2",
+    "karma": "^1.7.0",
     "loader-utils": "^1.1.0",
     "markdown-it": "^8.3.1",
     "markdown-it-loader": "^0.6.0",
