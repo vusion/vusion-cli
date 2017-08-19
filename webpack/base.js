@@ -1,6 +1,7 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const VusionDocPlugin = require('vusion-doc-loader/VusionDocPlugin');
+const VusionDocPlugin = require('vusion-doc-loader').Plugin;
+const IconFontPlugin = require('icon-font-loader').Plugin;
 
 const config = global.vusionConfig;
 
@@ -31,6 +32,7 @@ let cssRule = [
     { loader: 'vusion-css-loader', options: { importLoaders: 1 } },
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
     'import-global-loader',
+    'icon-font-loader',
 ];
 if (vueOptions.extractCSS)
     cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
@@ -61,9 +63,12 @@ const webpackConfig = {
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
-            { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' } },
+            { test: /\.(png|jpg|gif|svg|ttf|eof|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' } },
         ],
     },
+    plugins: [
+        new IconFontPlugin({ fontName: 'vusion-icon-font' }),
+    ],
 };
 
 if (config.libraryPath)
@@ -71,7 +76,7 @@ if (config.libraryPath)
 if (config.libraryPath && config.docs) {
     webpackConfig.entry.docs = path.resolve(__dirname, '../entry/docs.js');
     webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
-    webpackConfig.plugins = [new VusionDocPlugin()];
+    webpackConfig.plugins.push(new VusionDocPlugin());
 }
 
 module.exports = webpackConfig;
