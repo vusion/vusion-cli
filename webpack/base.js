@@ -22,6 +22,7 @@ const vueOptions = {
     preserveWhitespace: false,
     postcss: postcssPlugins,
     cssModules: {
+        importLoaders: 3,
         localIdentName: process.env.NODE_ENV === 'production' ? '[hash:base64:16]' : '[name]_[local]_[hash:base64:8]',
     },
     extractCSS: config.extractCSS && process.env.NODE_ENV === 'production',
@@ -29,7 +30,7 @@ const vueOptions = {
 
 // CSS loaders options
 let cssRule = [
-    { loader: 'vusion-css-loader', options: { importLoaders: 1 } },
+    { loader: 'vusion-css-loader', options: vueOptions.cssModules },
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
     'import-global-loader',
     'icon-font-loader',
