@@ -8,6 +8,7 @@ const config = global.vusionConfig;
 // Postcss plugins
 const postcssPlugins = [
     require('postcss-import'),
+    require('postcss-url'),
     require('precss')({
         path: ['node_modules'],
     }),
@@ -31,9 +32,9 @@ const vueOptions = {
 // CSS loaders options
 let cssRule = [
     { loader: 'vusion-css-loader', options: vueOptions.cssModules },
+    'icon-font-loader',
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
     'import-global-loader',
-    'icon-font-loader',
 ];
 if (vueOptions.extractCSS)
     cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
