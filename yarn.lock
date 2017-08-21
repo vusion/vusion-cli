@@ -4721,9 +4721,9 @@ vue@^2.4.0:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
 
-vusion-css-loader@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/vusion-css-loader/-/vusion-css-loader-0.3.0.tgz#5090215bebdeca74d71ab2c818b010d267fa349b"
+vusion-css-loader@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/vusion-css-loader/-/vusion-css-loader-0.3.1.tgz#31c0308e26f5a52a0d32978e7cf019c6f3101424"
   dependencies:
     babel-code-frame "^6.11.0"
     css-selector-tokenizer "^0.7.0"
