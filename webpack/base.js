@@ -65,7 +65,7 @@ const webpackConfig = {
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
-            { test: /\.(png|jpg|gif|svg|ttf|eof|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' } },
+            { test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' } },
         ],
     },
     plugins: [
