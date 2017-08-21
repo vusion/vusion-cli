@@ -10,7 +10,8 @@ const program = require('commander');
 program.parse(process.argv);
 
 const config = global.vusionConfig = require('../config/resolve')(program.configPath);
-const directory = config.output.path;
+const webpackConfig = require('../webpack/' + config.type);
+const directory = webpackConfig.output.path;
 if (!fs.existsSync(directory))
     console.error(`Cannot find "${directory}" directory!`);
 if (!fs.statSync(directory).isDirectory())

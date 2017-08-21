@@ -1,12 +1,14 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const VusionDocPlugin = require('vusion-doc-loader/VusionDocPlugin');
+const VusionDocPlugin = require('vusion-doc-loader').Plugin;
+const IconFontPlugin = require('icon-font-loader').Plugin;
 
 const config = global.vusionConfig;
 
 // Postcss plugins
 const postcssPlugins = [
     require('postcss-import'),
+    require('postcss-url'),
     require('precss')({
         path: ['node_modules'],
     }),
@@ -21,6 +23,7 @@ const vueOptions = {
     preserveWhitespace: false,
     postcss: postcssPlugins,
     cssModules: {
+        importLoaders: 3,
         localIdentName: process.env.NODE_ENV === 'production' ? '[hash:base64:16]' : '[name]_[local]_[hash:base64:8]',
     },
     extractCSS: config.extractCSS && process.env.NODE_ENV === 'production',
@@ -28,7 +31,8 @@ const vueOptions = {
 
 // CSS loaders options
 let cssRule = [
-    { loader: 'vusion-css-loader', options: { importLoaders: 1 } },
+    { loader: 'vusion-css-loader', options: vueOptions.cssModules },
+    'icon-font-loader',
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
     'import-global-loader',
 ];
@@ -61,9 +65,12 @@ const webpackConfig = {
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
-            { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' } },
+            { test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' } },
         ],
     },
+    plugins: [
+        new IconFontPlugin({ fontName: 'vusion-icon-font' }),
+    ],
 };
 
 if (config.libraryPath)
@@ -71,7 +78,7 @@ if (config.libraryPath)
 if (config.libraryPath && config.docs) {
     webpackConfig.entry.docs = path.resolve(__dirname, '../entry/docs.js');
     webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
-    webpackConfig.plugins = [new VusionDocPlugin()];
+    webpackConfig.plugins.push(new VusionDocPlugin());
 }
 
 module.exports = webpackConfig;
