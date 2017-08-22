@@ -32,17 +32,37 @@ npm install -g vusion-cli
 ## Commands
 
 - `vusion help`: Show help of all commands
+- `vusion -V, --version`: Show the version of current CLI
 
 - `vusion init <project-type> <project-name>`: Initalize a vusion project
 - `vusion dev`: Run develop server
+    - `-c, --config-path <path>`: Vusion config path
+    - `-e, --entry-path <path>`: Change default entry path
+    - `-C, --no-clean`: Disable clean and copy
+    - `-l, --library-path <path>`: Library entry path. To be `./index.js` by default if project type is `library`
+    - `-d, --docs`: Generate docs of common components in library. Always be true if project type is `library`
+    - `-p, --port <port>`: Web Server Port
+    - `-H, --no-hot`: Disable hot reload
 - `vusion build`: Build a distribution
-- `vusion publish`: Publish a directory to gh-pages
-
-- `-p, --port <port>`: WebpackDevServer port in dev mode
-- `--extract-css`: Extract CSS by ExtractTextPlugin in build mode
-- `vusion -V, --version`: Show the version of current CLI
+    - `-c, --config-path <path>`: Vusion config path
+    - `-e, --entry-path <path>`: Change default entry path
+    - `-C, --no-clean`: Disable clean and copy
+    - `-l, --library-path <path>`: Library entry path. To be `./index.js` by default if project type is `library`
+    - `-d, --docs`: Generate docs of common components in library. Always be true if project type is `library`
+    - `-s, --source-map`: Generate source map in build mode
+    - `--extract-css`: Extract CSS by ExtractTextPlugin in build mode
+    - `--uglify-js`: Compress and mangle JS by UglifyJSPlugin in build mode
+    - `--experimental`: Enable some experimental loaders or plugins
+- `vusion test`: Run karma test
+    - `-c, --config-path <path>`: Vusion config path
+    - `-t, --test-path <path>`: Karma test base directory
+    - `-p, --port <port>`: Web Server Port
+    - `-w, --watch`: Karma watch
+- `vusion publish`: Publish output path to gh-pages
 
 ## Configuration
+
+Default `vusion.config.js` file:
 
 ``` js
 {
@@ -53,11 +73,13 @@ npm install -g vusion-cli
     docs: false,                    // Generate docs of common components in library. Always be true if project type is `library`
     hot: true,                      // Enable/Disable hot reload in `dev` mode
     sourceMap: false,               // Generate sourceMap in `build` mode
+    testPath: '',                   // Karma test base directory
     extractCSS: false,              // Extract CSS via ExtractTextPlugin in `build` mode
     uglifyJS: false,                // Compress JS via UglifyJSPlugin only in `build` mode
     experimental: false,            // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     webpack: {},                    // Extend webpack configuration
     webpackDevServer: {},           // Extend webpackDevServer configuration
+    karma: {},                      // Extend karma configuration
 }
 ```
 

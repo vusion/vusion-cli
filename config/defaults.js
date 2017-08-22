@@ -7,9 +7,11 @@ module.exports = {
     docs: false,                    // Generate docs of common components in library. Always be true if project type is `library`
     hot: true,                      // Enable/Disable hot reload in `dev` mode
     sourceMap: false,               // Generate sourceMap in `build` mode
+    testPath: '',                   // Karma test base directory
     extractCSS: false,              // Extract CSS via ExtractTextPlugin in `build` mode
     uglifyJS: false,                // Compress JS via UglifyJSPlugin only in `build` mode
     experimental: false,            // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     webpack: {},                    // Extend webpack configuration
     webpackDevServer: {},           // Extend webpackDevServer configuration
+    karma: {},                      // Extend karma configuration
 };

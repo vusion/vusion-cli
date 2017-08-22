@@ -4,11 +4,23 @@
  * Parse Commands
  */
 const program = require('commander');
-program.parse(process.argv);
+program
+    .option('-c, --config-path <path>', 'Vusion config path')
+    .option('-t, --test-path <path>', 'Karma test base directory')
+    .option('-p, --port <port>', 'Web Server Port', parseInt)
+    .option('-w, --watch', 'Karma watch')
+    .parse(process.argv);
 /**
  * Execute Task
  */
 process.env.NODE_ENV = 'test';
-global.vusionConfig = require('../config/resolve')();
+const config = global.vusionConfig = require('../config/resolve')(program.configPath);
 
-require('../lib/test')();
+if (program.hasOwnProperty('testPath'))
+    config.testPath = program.testPath;
+if (program.port)
+    config.karma.port = program.port;
+if (program.watch)
+    config.karma.singleRun = false;
+
+require('../lib/test')(require('../webpack/base'));
