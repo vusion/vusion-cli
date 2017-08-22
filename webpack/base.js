@@ -8,7 +8,15 @@ const config = global.vusionConfig;
 // Postcss plugins
 const postcssPlugins = [
     require('postcss-import'),
-    require('postcss-url'),
+    require('postcss-url')({
+        // Must start with `./`
+        // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
+        url(asset, dir) {
+            let rebasedUrl = path.normalize(path.relative(dir.to, asset.absolutePath));
+            rebasedUrl = path.sep === '\\' ? rebasedUrl.replace(/\\/g, '/') : rebasedUrl;
+            return `./${rebasedUrl}${asset.search}${asset.hash}`;
+        },
+    }),
     require('precss')({
         path: ['node_modules'],
     }),
