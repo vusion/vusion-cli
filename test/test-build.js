@@ -35,7 +35,7 @@ describe('command: build', () => {
                 .then((res) => execa(buildCli))
                 .then((res) => {
                     result = res;
-                    files = fs.readdirSync('./');
+                    files = fs.readdirSync('public');
                     done();
                 })
                 .catch(done);
