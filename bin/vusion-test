@@ -6,7 +6,6 @@
 const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
-    .option('-t, --test-path <path>', 'Karma test base directory')
     .option('-p, --port <port>', 'Web Server Port', parseInt)
     .option('-w, --watch', 'Karma watch')
     .parse(process.argv);
@@ -16,8 +15,6 @@ program
 process.env.NODE_ENV = 'test';
 const config = global.vusionConfig = require('../config/resolve')(program.configPath);
 
-if (program.hasOwnProperty('testPath'))
-    config.testPath = program.testPath;
 if (program.port)
     config.karma.port = program.port;
 if (program.watch)
