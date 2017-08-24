@@ -39,4 +39,5 @@ if (program.hasOwnProperty('uglifyJs'))
 if (program.hasOwnProperty('experimental'))
     config.experimental = program.experimental;
 
-require('../lib/build')(require('../webpack/' + config.type));
+const compiler = require('../lib/build')(require('../webpack/' + config.type));
+compiler.run();

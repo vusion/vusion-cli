@@ -33,4 +33,5 @@ if (program.port)
 if (program.hasOwnProperty('hot'))
     config.hot = program.hot;
 
-require('../lib/dev')(require('../webpack/' + config.type));
+const server = require('../lib/dev')(require('../webpack/' + config.type));
+server.start();

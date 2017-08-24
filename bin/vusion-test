@@ -20,4 +20,5 @@ if (program.port)
 if (program.watch)
     config.karma.singleRun = false;
 
-require('../lib/test')(require('../webpack/base'));
+const server = require('../lib/test')(require('../webpack/base'));
+server.start();
