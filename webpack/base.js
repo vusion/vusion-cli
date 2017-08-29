@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const VusionDocPlugin = require('vusion-doc-loader').Plugin;
@@ -80,6 +81,10 @@ const webpackConfig = {
         new IconFontPlugin({ fontName: 'vusion-icon-font' }),
     ],
 };
+
+// Babel
+if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) // babel-loader doesn't search babel options in package.json
+    webpackConfig.module.rules.unshift({ test: /\.js$/, exclude: (filepath) => filepath.includes('node_modules') && !(/\.(?:vue|vusion)[\\/].*\.js$/.test(filepath)), loader: 'babel-loader', enforce: 'pre' });
 
 if (config.libraryPath)
     webpackConfig.resolve.alias.library$ = config.libraryPath;
