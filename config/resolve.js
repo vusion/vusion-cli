@@ -4,18 +4,21 @@ const path = require('path');
 const TYPES = ['library', 'app', 'html5', 'fullstack'];
 const defaults = require('./defaults');
 
-module.exports = function (relativePath = 'vusion.config.js') {
+module.exports = function (configPath = 'vusion.config.js') {
     const config = defaults;
 
-    const packagePath = path.join(process.cwd(), 'package.json');
+    const packagePath = path.resolve(process.cwd(), 'package.json');
     if (fs.existsSync(packagePath))
         Object.assign(config, require(packagePath).vusion);
-    const configPath = path.join(process.cwd(), relativePath);
+    configPath = path.resolve(process.cwd(), configPath);
     if (fs.existsSync(configPath))
         Object.assign(config, require(configPath));
 
-    if (!TYPES.includes(config.type))
+    if (!TYPES.includes(config.type)) {
+        console.error('process.cwd:', process.cwd());
+        console.error('configPath:', configPath);
         throw new Error('Unknown project type!');
+    }
 
     if (config.type === 'library') {
         config.libraryPath = './index.js';
