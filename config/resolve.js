@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const TYPES = ['library', 'app', 'html5', 'full-stack'];
+const TYPES = ['library', 'app', 'html5', 'fullstack'];
 const defaults = require('./defaults');
 
 module.exports = function (relativePath = 'vusion.config.js') {
