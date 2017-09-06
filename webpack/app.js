@@ -8,5 +8,6 @@ module.exports = merge(config, {
         // Use relative public path by default
         // publicPath: '',
         filename: '[name].js',
+        chunkFilename: 'chunk.[name].[chunkhash:16].js',
     },
 });
