@@ -8,11 +8,11 @@ module.exports = function (configPath = 'vusion.config.js') {
     const config = defaults;
 
     const packagePath = path.resolve(process.cwd(), 'package.json');
-    if (fs.existsSync(packagePath))
-        Object.assign(config, require(packagePath).vusion);
     configPath = path.resolve(process.cwd(), configPath);
     if (fs.existsSync(configPath))
         Object.assign(config, require(configPath));
+    else if (fs.existsSync(packagePath))
+        Object.assign(config, require(packagePath).vusion);
 
     if (!TYPES.includes(config.type)) {
         console.error('process.cwd:', process.cwd());
