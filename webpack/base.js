@@ -35,6 +35,12 @@ const vueOptions = {
         localIdentName: process.env.NODE_ENV === 'production' ? '[hash:base64:16]' : '[name]_[local]_[hash:base64:8]',
     },
     extractCSS: config.extractCSS && process.env.NODE_ENV === 'production',
+    preLoaders: {
+        css: 'sprite-loader!import-global-loader!',
+    },
+    midLoaders: {
+        css: 'icon-font-loader',
+    },
 };
 
 // CSS loaders options
