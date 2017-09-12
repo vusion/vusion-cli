@@ -1,0 +1,156 @@
+#!/usr/bin/env node
+const exec = (cmd) => require('child_process').execSync(cmd, {
+    cwd: process.env.PWD,
+});
+const program = require('commander');
+const fs = require('fs');
+const path = require('path');
+
+fs.readFileAsync = function (filename, code) {
+    return new Promise(((resolve, reject) => {
+        fs.readFile(filename, code, (err, data) => {
+            if (err)
+                reject(err);
+            else
+                resolve(data);
+        });
+    }));
+};
+
+fs.writeFileAsync = function (filename, data) {
+    return new Promise(((resolve, reject) => {
+        fs.writeFile(filename, data, (err, data) => {
+            if (err)
+                reject(err);
+            else
+                resolve(data);
+        });
+    }));
+};
+fs.mkdirAsync = function (dir) {
+    return new Promise(((resolve, reject) => {
+        fs.mkdir(dir, (err) => {
+            if (err)
+                reject(err);
+            else
+                resolve();
+        });
+    }));
+};
+
+const fileToDir = function (filePath) {
+    return fs.readFileAsync(filePath, 'utf8').then((data) => {
+        fs.unlinkSync(filePath); // 删除文件
+        const html = /<template>([\s\S]+)<\/template>/g.exec(data)[1].trim();
+        const script = /<script>([\s\S]+)<\/script>/g.exec(data)[1].trim();
+        const style = /<style[^>]*>([\s\S]+)<\/style>/g.exec(data)[1].trim();
+        return fs.mkdirAsync(filePath).then((o) => {
+            const htmlPath = path.join(filePath, 'index.html');
+            const scriptPath = path.join(filePath, 'index.js');
+            const stylePath = path.join(filePath, 'module.css');
+
+            const htmlPro = fs.writeFileAsync(htmlPath, html);
+            const scriptPro = fs.writeFileAsync(scriptPath, script);
+            const stylePro = fs.writeFileAsync(stylePath, style);
+            return Promise.all([htmlPro, scriptPro, stylePro])
+                .then((result) => {
+                    console.log('wirte to dir success', result);
+                    return result;
+                }).catch((e) => {
+                    console.error(`write to file fail${e}`);
+                    return e;
+                });
+        }).catch((err) => {
+            throw err;
+        });
+    }).catch((e) => {
+        console.error(`readFileAsync:${filePath}:${e}`);
+        throw e;
+    });
+};
+
+const dirToFile = function (folderPath) {
+    // console.log('folderPath', folderPath);
+    const htmlPath = path.join(folderPath, 'index.html');
+    const scriptPath = path.join(folderPath, 'index.js');
+    const stylePath = path.join(folderPath, 'module.css');
+    // console.log('htmlPath,scriptPath,stylePath', htmlPath, scriptPath, stylePath);
+
+    const htmlPro = fs.readFileAsync(htmlPath, 'utf8');
+    const scriptPro = fs.readFileAsync(scriptPath, 'utf8');
+    const stylePro = fs.readFileAsync(stylePath, 'utf8');
+
+    return Promise.all([htmlPro, scriptPro, stylePro])
+        .then((result) => {
+            let data = '';
+            data += `<template>\n\n${result[0]}\n\n</template>`;
+            data += `\n\n<script>\n\n${result[1]}\n\n</script>`;
+            data += `\n\n<style module>\n\n${result[2]}\n\n</style>`;
+
+            // console.log('rm的信息', `rm -rf ${folderPath}`);
+            exec(`rm -rf ${folderPath}`);
+
+            return fs.writeFileAsync(folderPath, data)
+                .then((s) => {
+                    console.log('write to file success');
+                    return s;
+                }).catch((e) => {
+                    console.error(`write to file fail: ${e}`);
+                    throw e;
+                });
+        }).catch((e) => {
+            console.error(`dirToFile:${folderPath}:${e}`);
+            throw e;
+        });
+};
+
+// 取路径参数
+let cmdValue = '';
+program
+    .version('0.1.0')
+    .arguments('<cmd>')
+    .action((cmd) => {
+        cmdValue = cmd;
+    });
+
+program.parse(process.argv);
+
+if (!cmdValue) {
+    console.error('no path given!');
+    process.exit(1);
+}
+
+// 拼接具体文件路径
+// console.log('process.env.PWD', process.env.PWD);
+const realPath = path.join(process.env.PWD, cmdValue);
+
+const stats = fs.statSync(realPath);
+if (stats.isDirectory()) {
+    const files = fs.readdirSync(realPath).sort().join(',');
+    if (files !== '.DS_Store,index.html,index.js,module.css' && files !== 'index.html,index.js,module.css') {
+        console.error('文件夹中只能有index.html/index.js/module.css');
+        process.exit(1);
+    }
+}
+
+exec('mkdir -p ./_temp');
+exec(`cp -R ${realPath} ./_temp/`);
+
+if (stats.isFile()) { // 为文件时将其转换为文件夹
+    fileToDir(realPath).catch((e) => {
+        // 出错 先清空残留 再复制回去
+        exec(`rm -rf ./${realPath}`);
+        exec(`cp -R ./_temp/ ./`);
+    }).then(o=>{
+        exec('rm -rf ./_temp');
+    })
+} else if (stats.isDirectory()) { // 为文件夹时将其转换为单文件   
+    // console.log('dir dir dir!!!');
+    dirToFile(realPath).catch((e) => {
+        console.error('出错 先请残留 再复制回去:', e);
+        exec(`rm -rf ./${realPath}`);
+        exec(`cp -R ./_temp/ ./`);
+    }).then(o => {
+        exec('rm -rf ./_temp');
+    })
+}
