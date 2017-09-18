@@ -37,7 +37,7 @@ const vueOptions = {
     },
     extractCSS: config.extractCSS && process.env.NODE_ENV === 'production',
     preLoaders: {
-        css: 'sprite-loader!import-global-loader!',
+        css: 'import-global-loader!',
     },
     midLoaders: {
         css: 'icon-font-loader',
