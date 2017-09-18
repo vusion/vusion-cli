@@ -2621,7 +2621,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-internal-ip@^2.0.2:
+internal-ip@^2.0.2, internal-ip@^2.0.3:
   version "2.0.3"
   resolved "https://registry.npmjs.org/internal-ip/-/internal-ip-2.0.3.tgz#ed3cf9b671ac7ff23037bfacad42eb439cd9546c"
   dependencies:
@@ -2919,6 +2919,15 @@ istanbul@^0.4.0:
 js-base64@^2.1.9:
   version "2.3.2"
   resolved "https://registry.npmjs.org/js-base64/-/js-base64-2.3.2.tgz#a79a923666372b580f8e27f51845c6f7e8fbfbaf"
+
+js-beautify@1.6.14:
+  version "1.6.14"
+  resolved "https://registry.npmjs.org/js-beautify/-/js-beautify-1.6.14.tgz#d3b8f7322d02b9277d58bd238264c327e58044cd"
+  dependencies:
+    config-chain "~1.1.5"
+    editorconfig "^0.13.2"
+    mkdirp "~0.5.0"
+    nopt "~3.0.1"
 
 js-beautify@^1.6.3:
   version "1.7.0"
