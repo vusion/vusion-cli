@@ -1,8 +1,8 @@
-const fs = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const VusionDocPlugin = require('vusion-doc-loader').Plugin;
 const IconFontPlugin = require('icon-font-loader').Plugin;
+const spriteLoaderPath = require.resolve('../lib/sprite-loader');
 
 const config = global.vusionConfig;
 
@@ -37,7 +37,7 @@ const vueOptions = {
     },
     extractCSS: config.extractCSS && process.env.NODE_ENV === 'production',
     preLoaders: {
-        css: 'import-global-loader!',
+        css: spriteLoaderPath + '!import-global-loader!',
     },
     midLoaders: {
         css: 'icon-font-loader',
@@ -80,18 +80,13 @@ const webpackConfig = {
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
-            // svg in `dev.js` and `build.js`
-            { test: /\.(png|jpg|gif|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[hash:16].[ext]' } },
+            { test: /\.(png|jpg|gif|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' } },
         ],
     },
     plugins: [
         new IconFontPlugin({ fontName: 'vusion-icon-font' }),
     ],
 };
-
-// Babel
-if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) // babel-loader doesn't search babel options in package.json
-    webpackConfig.module.rules.unshift({ test: /\.js$/, exclude: (filepath) => filepath.includes('node_modules') && !(/\.(?:vue|vusion)[\\/].*\.js$/.test(filepath)), loader: 'babel-loader', enforce: 'pre' });
 
 if (config.libraryPath)
     webpackConfig.resolve.alias.library$ = config.libraryPath;
