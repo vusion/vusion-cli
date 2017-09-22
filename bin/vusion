@@ -13,6 +13,7 @@ program
     .command('init <project-type> <project-name>', 'Initialize a project')
     .command('dev', 'Run Developing Server')
     .command('build', 'Build a distribution')
-    .command('publish <directory>', 'Publish a directory to gh-pages')
+    .command('ghpages', 'Publish a directory to gh-pages')
+    .command('publish <version>', 'Publish new version')
     .command('test', 'test a project')
     .parse(process.argv);
