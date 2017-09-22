@@ -1,26 +1,63 @@
 #!/usr/bin/env node
 
+'use strict';
+
 const fs = require('fs');
-const ghpages = require('gh-pages');
+const shell = require('shelljs');
+const readline = require('readline');
+const semver = require('semver');
 
 /**
- * Parse Commands
+ * 解析命令
  */
 const program = require('commander');
-program.parse(process.argv);
+program
+    .usage('<version>')
+    .parse(process.argv);
+if (!program.args[0]) {
+    console.error('error: not add version');
+    process.exit();
+}
 
-const config = global.vusionConfig = require('../config/resolve')(program.configPath);
-const webpackConfig = require('../webpack/' + config.type);
-const directory = webpackConfig.output.path;
-if (!fs.existsSync(directory))
-    console.error(`Cannot find "${directory}" directory!`);
-if (!fs.statSync(directory).isDirectory())
-    console.error(`"${directory}" is not a directory!`);
+const version = semver.clean(program.args[0]);
+if (!semver) {
+    console.error('error: invalid version');
+    process.exit();
+}
 
-ghpages.clean();
-ghpages.publish(directory, (err) => {
-    if (err)
-        console.error(err);
-    else
-        console.info('gh-pages have been published.');
+const pkgPath = process.cwd() + '/package.json';
+if (!fs.existsSync(pkgPath)) {
+    console.error('error: Not a vusion-cli package');
+    console.error('Please `cd` into a vusion-cli package directory or use `vusion init` to create a new package.');
+}
+
+/**
+ * 接收输入
+ */
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+rl.prompt();
+
+rl.question(`
+The new version is "${version}".
+----------------------------------------
+Are you sure to continue? (yes/no) `, (answer) => {
+    rl.close();
+    if (answer !== 'yes')
+        return;
+
+    let pkgInfo = fs.readFileSync(pkgPath, 'utf-8') + '';
+    pkgInfo = pkgInfo.replace(/"version":\s*".*",/, `"version": "${version}",`);
+    fs.writeFileSync(pkgPath, pkgInfo, 'utf-8');
+    const str = [
+        `git add package.json`,
+        `git commit -m ":bookmark: v${version}"`,
+        `npm publish`,
+        `git push`,
+        `git tag v${version}`,
+        `git push origin v${version}`,
+    ];
+    shell.exec(str.join(' && '));
 });
