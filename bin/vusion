@@ -10,10 +10,13 @@ const program = require('commander');
 program
     .usage('<task> [options]')
     .version(pkg.version)
+    // Project commands
     .command('init <project-type> <project-name>', 'Initialize a project')
     .command('dev', 'Run Developing Server')
     .command('build', 'Build a distribution')
-    .command('ghpages', 'Publish a directory to gh-pages')
-    .command('publish <version>', 'Publish new version')
     .command('test', 'test a project')
+    .command('publish <version>', 'Publish a new version')
+    .command('ghpages', 'Push output directory to gh-pages')
+    // Component commands
+    .command('transform <vue-path>', 'Transform Vue component between singlefile and multifile pattern')
     .parse(process.argv);

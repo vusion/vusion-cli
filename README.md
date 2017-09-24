@@ -57,8 +57,9 @@ npm install -g vusion-cli
     - `-c, --config-path <path>`: Vusion config path
     - `-p, --port <port>`: Web Server Port
     - `-w, --watch`: Karma watch
-- `vusion publish`: Publish output path to gh-pages
-- `vusion transform <file-name|folder-name>`: Interconversion single vue file ( such as: file.vue,  contains:  <template>、<script>、<style module>) and vue folder ( such as: folder.vue,  contains:  index.html、index.css、module.css ).
+- `vusion publish <version>`: Publish a new version
+- `vusion ghpages`: Push output directory to gh-pages
+- `vusion transform <vue-path>`: Transform Vue component between singlefile and multifile pattern
 
 ## Configuration
 

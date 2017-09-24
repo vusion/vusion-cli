@@ -3,7 +3,9 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const VusionDocPlugin = require('vusion-doc-loader').Plugin;
 const IconFontPlugin = require('icon-font-loader').Plugin;
-const spriteLoaderPath = require.resolve('../lib/sprite-loader');
+
+const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
+const svgSpriteLoaderPath = require.resolve('../lib/loaders/svg-sprite-loader');
 
 const config = global.vusionConfig;
 
@@ -38,7 +40,7 @@ const vueOptions = {
     },
     extractCSS: config.extractCSS && process.env.NODE_ENV === 'production',
     preLoaders: {
-        css: spriteLoaderPath + '!import-global-loader',
+        css: svgSpriteLoaderPath + '!' + importGlobalLoaderPath,
     },
     midLoaders: {
         css: 'icon-font-loader',
@@ -50,7 +52,8 @@ let cssRule = [
     { loader: 'vusion-css-loader', options: vueOptions.cssModules },
     'icon-font-loader',
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
-    'import-global-loader',
+    svgSpriteLoaderPath,
+    importGlobalLoaderPath,
 ];
 if (vueOptions.extractCSS)
     cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
