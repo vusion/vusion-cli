@@ -1,34 +1,30 @@
 #!/usr/bin/env node
 
-'use strict';
-
 const fs = require('fs');
 const shell = require('shelljs');
 const readline = require('readline');
 const semver = require('semver');
 
+const pkgPath = process.cwd() + '/package.json';
+if (!fs.existsSync(pkgPath)) {
+    console.error('[ERROR] Not a npm package');
+    console.error('Please locate into a npm package directory.');
+    process.exit();
+}
+const pkg = require(pkgPath);
+
 /**
- * 解析命令
+ * Parse Commands
  */
 const program = require('commander');
 program
     .usage('<version>')
     .parse(process.argv);
-if (!program.args[0]) {
-    console.error('error: not add version');
-    process.exit();
-}
 
-const version = semver.clean(program.args[0]);
+const version = semver.clean(program.args[0] || pkg.version);
 if (!semver) {
-    console.error('error: invalid version');
+    console.error('[ERROR] invalid version');
     process.exit();
-}
-
-const pkgPath = process.cwd() + '/package.json';
-if (!fs.existsSync(pkgPath)) {
-    console.error('error: Not a vusion-cli package');
-    console.error('Please `cd` into a vusion-cli package directory or use `vusion init` to create a new package.');
 }
 
 /**
@@ -45,19 +41,18 @@ The new version is "${version}".
 ----------------------------------------
 Are you sure to continue? (yes/no) `, (answer) => {
     rl.close();
-    if (answer !== 'yes')
+    answer = answer.toLowerCase();
+    if (!(answer === 'yes' || answer === 'y' || answer === ''))
         return;
 
-    let pkgInfo = fs.readFileSync(pkgPath, 'utf-8') + '';
-    pkgInfo = pkgInfo.replace(/"version":\s*".*",/, `"version": "${version}",`);
-    fs.writeFileSync(pkgPath, pkgInfo, 'utf-8');
-    const str = [
+    pkg.version = version;
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
+    shell.exec([
         `git add package.json`,
-        `git commit -m ":bookmark: v${version}"`,
+        `git commit -m ":bookmark: Publish v${version}"`,
         `npm publish`,
         `git push`,
         `git tag v${version}`,
         `git push origin v${version}`,
-    ];
-    shell.exec(str.join(' && '));
+    ].join(' && '));
 });
