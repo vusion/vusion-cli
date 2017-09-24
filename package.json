@@ -9,10 +9,11 @@
   },
   "scripts": {
     "precommit": "bash node_modules/vusion-hooks/pre-commit",
-    "test": "npm run test-init && npm run test-dev && npm run test-build",
-    "test-init": "mocha test/test-init.js --timeout 60000 --require babel-register",
-    "test-dev": "cross-env TEST=true mocha test/test-dev.js --timeout 60000 --require babel-register",
-    "test-build": "mocha test/test-build.js --timeout 60000 --require babel-register"
+    "test": "npm run test-init && npm run test-dev && npm run test-build && npm run test-transform",
+    "test-init": "mocha test/init.test.js --timeout 60000 --require babel-register",
+    "test-dev": "cross-env TEST=true mocha test/dev.test.js --timeout 60000 --require babel-register",
+    "test-build": "mocha test/build.test.js --timeout 60000 --require babel-register",
+    "test-transform": "mocha test/transform.test.js --timeout 60000 --require babel-register"
   },
   "repository": "vusion/vusion-cli",
   "homepage": "http://vusion.github.io",
@@ -37,6 +38,7 @@
     "npm": ">= 3.0.0"
   },
   "dependencies": {
+    "async-file": "^2.0.2",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",

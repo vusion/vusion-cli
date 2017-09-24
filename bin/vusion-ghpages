@@ -23,4 +23,5 @@ ghpages.publish(directory, (err) => {
         console.error(err);
     else
         console.info('gh-pages have been published.');
+    process.exit(err);
 });

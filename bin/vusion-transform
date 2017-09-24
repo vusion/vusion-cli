@@ -1,156 +1,94 @@
 #!/usr/bin/env node
-const exec = (cmd) => require('child_process').execSync(cmd, {
-    cwd: process.env.PWD,
-});
+const shell = require('shelljs');
 const program = require('commander');
 const fs = require('fs');
+const afs = require('async-file');
 const path = require('path');
 
-fs.readFileAsync = function (filename, code) {
-    return new Promise(((resolve, reject) => {
-        fs.readFile(filename, code, (err, data) => {
-            if (err)
-                reject(err);
-            else
-                resolve(data);
-        });
-    }));
+const getTagContent = (content, tag) => {
+    const reg = new RegExp(`<${tag}.*?>([\\s\\S]+)<\\/${tag}>`);
+    const m = content.match(reg);
+    return m ? m[1].trim() + '\n' : '';
 };
 
-fs.writeFileAsync = function (filename, data) {
-    return new Promise(((resolve, reject) => {
-        fs.writeFile(filename, data, (err, data) => {
-            if (err)
-                reject(err);
-            else
-                resolve(data);
-        });
-    }));
-};
-fs.mkdirAsync = function (dir) {
-    return new Promise(((resolve, reject) => {
-        fs.mkdir(dir, (err) => {
-            if (err)
-                reject(err);
-            else
-                resolve();
-        });
-    }));
-};
+const fileToDir = function (vuePath) {
+    return afs.readFile(vuePath, 'utf8').then((data) => {
+        const html = getTagContent(data, 'template');
+        const script = getTagContent(data, 'script');
+        const style = getTagContent(data, 'style');
 
-const fileToDir = function (filePath) {
-    return fs.readFileAsync(filePath, 'utf8').then((data) => {
-        fs.unlinkSync(filePath); // 删除文件
-        const html = /<template>([\s\S]+)<\/template>/g.exec(data)[1].trim();
-        const script = /<script>([\s\S]+)<\/script>/g.exec(data)[1].trim();
-        const style = /<style[^>]*>([\s\S]+)<\/style>/g.exec(data)[1].trim();
-        return fs.mkdirAsync(filePath).then((o) => {
-            const htmlPath = path.join(filePath, 'index.html');
-            const scriptPath = path.join(filePath, 'index.js');
-            const stylePath = path.join(filePath, 'module.css');
+        shell.rm('-f', vuePath);
+        shell.mkdir(vuePath);
 
-            const htmlPro = fs.writeFileAsync(htmlPath, html);
-            const scriptPro = fs.writeFileAsync(scriptPath, script);
-            const stylePro = fs.writeFileAsync(stylePath, style);
-            return Promise.all([htmlPro, scriptPro, stylePro])
-                .then((result) => {
-                    console.log('wirte to dir success', result);
-                    return result;
-                }).catch((e) => {
-                    console.error(`write to file fail${e}`);
-                    return e;
-                });
-        }).catch((err) => {
-            throw err;
-        });
-    }).catch((e) => {
-        console.error(`readFileAsync:${filePath}:${e}`);
-        throw e;
+        const promises = [];
+        html && promises.push(afs.writeFile(path.resolve(vuePath, 'index.html'), html, 'utf8'));
+        script && promises.push(afs.writeFile(path.resolve(vuePath, 'index.js'), script, 'utf8'));
+        style && promises.push(afs.writeFile(path.resolve(vuePath, 'module.css'), style, 'utf8'));
+
+        return Promise.all(promises);
     });
 };
 
-const dirToFile = function (folderPath) {
-    // console.log('folderPath', folderPath);
-    const htmlPath = path.join(folderPath, 'index.html');
-    const scriptPath = path.join(folderPath, 'index.js');
-    const stylePath = path.join(folderPath, 'module.css');
-    // console.log('htmlPath,scriptPath,stylePath', htmlPath, scriptPath, stylePath);
+const dirToFile = function (vuePath) {
+    const htmlPath = path.resolve(vuePath, 'index.html');
+    const scriptPath = path.resolve(vuePath, 'index.js');
+    const stylePath = path.resolve(vuePath, 'module.css');
 
-    const htmlPro = fs.readFileAsync(htmlPath, 'utf8');
-    const scriptPro = fs.readFileAsync(scriptPath, 'utf8');
-    const stylePro = fs.readFileAsync(stylePath, 'utf8');
+    const promises = [];
+    promises.push(afs.readFile(htmlPath, 'utf8').then((s) => s.trim()).catch((e) => ''));
+    promises.push(afs.readFile(scriptPath, 'utf8').then((s) => s.trim()).catch((e) => ''));
+    promises.push(afs.readFile(stylePath, 'utf8').then((s) => s.trim()).catch((e) => ''));
 
-    return Promise.all([htmlPro, scriptPro, stylePro])
-        .then((result) => {
-            let data = '';
-            data += `<template>\n\n${result[0]}\n\n</template>`;
-            data += `\n\n<script>\n\n${result[1]}\n\n</script>`;
-            data += `\n\n<style module>\n\n${result[2]}\n\n</style>`;
+    return Promise.all(promises)
+        .then(([html, script, style]) => {
+            const data = [];
+            html && data.push(`<template>\n${html}\n</template>`);
+            script && data.push(`<script>\n${script}\n</script>`);
+            style && data.push(`<style module>\n${style}\n</style>`);
 
-            // console.log('rm的信息', `rm -rf ${folderPath}`);
-            exec(`rm -rf ${folderPath}`);
-
-            return fs.writeFileAsync(folderPath, data)
-                .then((s) => {
-                    console.log('write to file success');
-                    return s;
-                }).catch((e) => {
-                    console.error(`write to file fail: ${e}`);
-                    throw e;
-                });
-        }).catch((e) => {
-            console.error(`dirToFile:${folderPath}:${e}`);
-            throw e;
+            shell.rm('-rf', vuePath);
+            return afs.writeFile(vuePath, data.join('\n\n') + '\n', 'utf8');
         });
 };
 
-// 取路径参数
-let cmdValue = '';
+/**
+ * Parse Commands
+ */
 program
-    .version('0.1.0')
-    .arguments('<cmd>')
-    .action((cmd) => {
-        cmdValue = cmd;
-    });
+    .option('-f, --force', 'Force to transform')
+    .parse(process.argv);
 
-program.parse(process.argv);
-
-if (!cmdValue) {
-    console.error('no path given!');
+let vuePath = program.args[0];
+if (!vuePath) {
+    console.error('[ERROR] No path given!');
     process.exit(1);
 }
+vuePath = path.resolve(process.env.PWD, vuePath);
 
-// 拼接具体文件路径
-// console.log('process.env.PWD', process.env.PWD);
-const realPath = path.join(process.env.PWD, cmdValue);
-
-const stats = fs.statSync(realPath);
-if (stats.isDirectory()) {
-    const files = fs.readdirSync(realPath).sort().join(',');
-    if (files !== '.DS_Store,index.html,index.js,module.css' && files !== 'index.html,index.js,module.css') {
-        console.error('文件夹中只能有index.html/index.js/module.css');
+const tmpPath = `__vue_${Date.now()}`;
+const stats = fs.statSync(vuePath);
+if (stats.isDirectory()) { // multi -> single
+    const files = fs.readdirSync(vuePath);
+    if (files.some((file) => !(['.DS_Store', 'index.html', 'index.js', 'module.css'].includes(file)))
+        && !program.force) {
+        console.error('[ERROR] 文件夹中包含除 index.html, index.js, module.css 的其他文件，无法转换。如果要丢弃其他文件强制转换，请使用`-f, --force`');
         process.exit(1);
     }
-}
+    shell.cp('-r', vuePath, tmpPath);
 
-exec('mkdir -p ./_temp');
-exec(`cp -R ${realPath} ./_temp/`);
-
-if (stats.isFile()) { // 为文件时将其转换为文件夹
-    fileToDir(realPath).catch((e) => {
-        // 出错 先清空残留 再复制回去
-        exec(`rm -rf ./${realPath}`);
-        exec(`cp -R ./_temp/ ./`);
-    }).then(o=>{
-        exec('rm -rf ./_temp');
-    })
-} else if (stats.isDirectory()) { // 为文件夹时将其转换为单文件   
-    // console.log('dir dir dir!!!');
-    dirToFile(realPath).catch((e) => {
-        console.error('出错 先请残留 再复制回去:', e);
-        exec(`rm -rf ./${realPath}`);
-        exec(`cp -R ./_temp/ ./`);
-    }).then(o => {
-        exec('rm -rf ./_temp');
-    })
+    dirToFile(vuePath).catch((e) => {
+        console.error('[ERROR] Transform from multi-file to single-file', e);
+        shell.rm('-rf', vuePath);
+        shell.cp('-r', tmpPath, vuePath);
+    }).then(() => {
+        shell.rm('-rf', tmpPath)
+    });
+} else { // single -> multi
+    fileToDir(vuePath).catch((e) => {
+        console.error('[ERROR] Transform from single-file to multi-file', e);
+        shell.rm('-rf', vuePath);
+        shell.cp('-r', tmpPath, vuePath);
+    }).then(() => {
+        shell.rm('-rf', tmpPath)
+    });
 }
