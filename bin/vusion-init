@@ -15,11 +15,17 @@ program
  */
 const projectType = program.args[0];
 const projectName = program.args[1] || 'my-project';
-const folder = projectType;
 
 const URL = 'https://github.com/vusion/vusion-templates.git';
 shell.exec(`git clone -b master --depth 1 ${URL}`);
-shell.mv('vusion-templates/' + folder, './' + projectName);
+
+if (!shell.ls('vusion-templates').includes(projectType)) {
+    shell.rm('-rf', 'vusion-templates');
+    console.error('[ERROR] Unknown project type!');
+    process.exit(1);
+}
+
+shell.mv('vusion-templates/' + projectType, './' + projectName);
 shell.rm('-rf', 'vusion-templates');
 
-console.info(`Initialized "${projectName}".`);
+console.info(`[SUCCESS] "${projectName}" has been initialized.`);
