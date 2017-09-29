@@ -9,7 +9,7 @@
 .root {
     width: 50px;
     height: 50px;
-    background: url('./twitter.svg');
+    svg-sprite: url('./twitter.svg');
 }
 .svg {
     width: 50px;

@@ -4,3 +4,5 @@ dist/
 npm-debug.log
 __requireTest_*
 .vscode
+.nyc_output
+coverage

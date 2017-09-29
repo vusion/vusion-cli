@@ -9,11 +9,12 @@
   },
   "scripts": {
     "precommit": "bash node_modules/vusion-hooks/pre-commit",
-    "test": "npm run test-init && npm run test-dev && npm run test-build && npm run test-transform",
-    "test-init": "mocha test/init.test.js --timeout 60000 --require babel-register",
-    "test-dev": "cross-env TEST=true mocha test/dev.test.js --timeout 60000 --require babel-register",
-    "test-build": "mocha test/build.test.js --timeout 60000 --require babel-register",
-    "test-transform": "mocha test/transform.test.js --timeout 60000 --require babel-register"
+    "test": "npm-run-all test-*",
+    "test-init": "nyc --check-coverage mocha test/init.test.js --timeout 60000 --require babel-register",
+    "test-dev": "cross-env TEST=true nyc --check-coverage  mocha test/dev.test.js --timeout 60000 --require babel-register",
+    "test-build": "nyc --check-coverage mocha test/build.test.js --timeout 60000 --require babel-register",
+    "test-svg-sprite": "nyc --check-coverage mocha test/svg-sprite.test.js --timeout 60000 --require babel-register",
+    "test-transform": "nyc --check-coverage mocha test/transform.test.js --timeout 60000 --require babel-register"
   },
   "repository": "vusion/vusion-cli",
   "homepage": "http://vusion.github.io",
@@ -104,6 +105,8 @@
     "execa": "^0.8.0",
     "husky": "^0.13.3",
     "mocha": "^3.5.0",
+    "npm-run-all": "^4.1.1",
+    "nyc": "^11.2.1",
     "vusion-hooks": "^0.1.0"
   }
 }

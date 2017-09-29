@@ -1,0 +1,49 @@
+{
+  "name": "vusion",
+  "version": "0.0.1",
+  "description": "A Visual IDE for Web Frontend Development Based on Vue.js.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "precommit": "bash node_modules/vusion-hooks/pre-commit"
+  },
+  "repository": "https://github.com/vusion/vusion",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "Rainfore",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.0.0",
+    "babel-preset-flow": "^6.23.0",
+    "cross-env": "^5.0.5",
+    "electron": "^1.6.2",
+    "es6-promise": "^4.1.1",
+    "eslint": "^4.3.0",
+    "eslint-config-vusion": "^1.2.0",
+    "eslint-plugin-flowtype": "^2.34.0",
+    "eslint-plugin-html": "^3.1.1",
+    "flow-bin": "^0.47.0",
+    "husky": "^0.13.3",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-electron": "^5.2.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-safari-launcher": "^1.0.0",
+    "vusion-hooks": "^0.1.0",
+    "webpack-target-electron-renderer": "^0.4.0"
+  },
+  "dependencies": {
+    "async-file": "^2.0.2",
+    "loader-utils": "^1.1.0",
+    "mac-style.vusion": "vusion/mac-style",
+    "postcss": "^5.2.16",
+    "vuex": "^2.3.1"
+  }
+}
