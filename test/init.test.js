@@ -3,18 +3,20 @@ const { expect } = require('chai');
 const execa = require('execa');
 const fs = require('fs');
 const rm = require('rimraf').sync;
+const shell = require('shelljs');
 
 describe('command: init', () => {
     const cli = path.join(__dirname, '../bin/vusion-init');
     const originalCwd = process.cwd();
+    const mockPath = path.join(__dirname, './mock-vusion-project');
 
     const setup = () => {
-        process.chdir(path.join(__dirname, './mock-vusion-project'));
+        shell.cd(mockPath);
     };
 
     const teardown = (done) => {
+        setup();
         rm('*');
-        process.chdir(originalCwd);
         done();
     };
 
@@ -23,6 +25,7 @@ describe('command: init', () => {
         let files;
         const type = 'app';
         const projectName = 'vusion-app-project';
+        const projectPath = path.join(__dirname, './mock-vusion-project/', projectName);
 
         before((done) => {
             setup();
@@ -30,6 +33,10 @@ describe('command: init', () => {
                 .then((res) => {
                     result = res;
                     files = fs.readdirSync(projectName);
+                    shell.cd(projectPath);
+                    return execa('npm', ['i']);
+                })
+                .then((res) => {
                     done();
                 })
                 .catch(done);
@@ -38,7 +45,7 @@ describe('command: init', () => {
         after(teardown);
 
         it('should init with expected files', (done) => {
-            const config = require(path.join(process.cwd(), projectName, files.find((file) => file.endsWith('config.js'))));
+            const config = require(path.resolve(projectPath, files.find((file) => file.endsWith('config.js'))));
             expect(config.type).to.equal(type);
             expect(result.code).to.equal(0);
             done();
