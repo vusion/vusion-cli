@@ -23,12 +23,16 @@ describe('command: build', () => {
 
     describe('build app type vusion project', () => {
         let result;
+        let configPath;
         let files;
+
         before((done) => {
             setup();
             execa(initCli, ['app', 'app-project'])
                 .then((res) => {
                     projectRoot = process.cwd();
+                    configPath = path.resolve(projectRoot, './app-project/vusion.config.js');
+
                     process.chdir(path.join(projectRoot, './app-project'));
                     return execa('npm', ['i']);
                 })
@@ -44,8 +48,10 @@ describe('command: build', () => {
         after(teardown);
 
         it('should build with expected files', () => {
-            const bundleJs = files.find((file) => file.includes('bundle.js'));
-            expect(bundleJs).to.equal('bundle.js');
+            const config = require(configPath);
+            const expectedFiles = Object.keys(config.webpack.entry).reduce((acc, e) => acc.concat(['html', 'js'].map((ext) => e + '.' + ext)), []);
+
+            expect(files).to.include.members(expectedFiles);
             expect(result.code).to.equal(0);
         });
     });
