@@ -59,6 +59,8 @@ npm install -g vusion-cli
     - `-w, --watch`: Karma watch
 - `vusion publish <version>`: Publish a new version
 - `vusion ghpages`: Push output directory to gh-pages
+- `vusion dep`: List dependencies of vusion-cli
+
 - `vusion transform <vue-path>`: Transform Vue component between singlefile and multifile pattern
 
 ## Configuration

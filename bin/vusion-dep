@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const pkg = require('../package.json');
+
+for (const dep in pkg.dependencies) {
+    const depPath = require.resolve(dep);
+    const pkgPath = path.resolve(depPath.slice(0, depPath.lastIndexOf(path.sep + dep + path.sep) + dep.length + 2), 'package.json');
+
+    const version = require(pkgPath).version;
+    console.info(`├─ ${dep}@${version}`);
+}
