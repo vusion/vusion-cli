@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 const shell = require('shelljs');
 const program = require('commander');
-const fs = require('fs');
-const afs = require('async-file');
+const fs = require('fs-extra');
 const path = require('path');
 
 const getTagContent = (content, tag) => {
@@ -12,7 +11,7 @@ const getTagContent = (content, tag) => {
 };
 
 const fileToDir = function (vuePath) {
-    return afs.readFile(vuePath, 'utf8').then((data) => {
+    return fs.readFile(vuePath, 'utf8').then((data) => {
         const html = getTagContent(data, 'template');
         const script = getTagContent(data, 'script');
         const style = getTagContent(data, 'style');
@@ -21,9 +20,9 @@ const fileToDir = function (vuePath) {
         shell.mkdir(vuePath);
 
         const promises = [];
-        html && promises.push(afs.writeFile(path.resolve(vuePath, 'index.html'), html, 'utf8'));
-        script && promises.push(afs.writeFile(path.resolve(vuePath, 'index.js'), script, 'utf8'));
-        style && promises.push(afs.writeFile(path.resolve(vuePath, 'module.css'), style, 'utf8'));
+        html && promises.push(fs.writeFile(path.resolve(vuePath, 'index.html'), html, 'utf8'));
+        script && promises.push(fs.writeFile(path.resolve(vuePath, 'index.js'), script, 'utf8'));
+        style && promises.push(fs.writeFile(path.resolve(vuePath, 'module.css'), style, 'utf8'));
 
         return Promise.all(promises);
     });
@@ -35,9 +34,9 @@ const dirToFile = function (vuePath) {
     const stylePath = path.resolve(vuePath, 'module.css');
 
     const promises = [];
-    promises.push(afs.readFile(htmlPath, 'utf8').then((s) => s.trim()).catch((e) => ''));
-    promises.push(afs.readFile(scriptPath, 'utf8').then((s) => s.trim()).catch((e) => ''));
-    promises.push(afs.readFile(stylePath, 'utf8').then((s) => s.trim()).catch((e) => ''));
+    promises.push(fs.readFile(htmlPath, 'utf8').then((s) => s.trim()).catch((e) => ''));
+    promises.push(fs.readFile(scriptPath, 'utf8').then((s) => s.trim()).catch((e) => ''));
+    promises.push(fs.readFile(stylePath, 'utf8').then((s) => s.trim()).catch((e) => ''));
 
     return Promise.all(promises)
         .then(([html, script, style]) => {
@@ -47,7 +46,7 @@ const dirToFile = function (vuePath) {
             style && data.push(`<style module>\n${style}\n</style>`);
 
             shell.rm('-rf', vuePath);
-            return afs.writeFile(vuePath, data.join('\n\n') + '\n', 'utf8');
+            return fs.writeFile(vuePath, data.join('\n\n') + '\n', 'utf8');
         });
 };
 
@@ -81,7 +80,7 @@ if (stats.isDirectory()) { // multi -> single
         shell.rm('-rf', vuePath);
         shell.cp('-r', tmpPath, vuePath);
     }).then(() => {
-        shell.rm('-rf', tmpPath)
+        shell.rm('-rf', tmpPath);
     });
 } else { // single -> multi
     fileToDir(vuePath).catch((e) => {
@@ -89,6 +88,6 @@ if (stats.isDirectory()) { // multi -> single
         shell.rm('-rf', vuePath);
         shell.cp('-r', tmpPath, vuePath);
     }).then(() => {
-        shell.rm('-rf', tmpPath)
+        shell.rm('-rf', tmpPath);
     });
 }
