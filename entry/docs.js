@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import Library from 'library';
+import * as Components from 'library';
+import { installComponents } from 'vusion-utils';
 
-Vue.use(Library);
+installComponents(Components, Vue);
 window.Vue = Vue;
