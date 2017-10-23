@@ -67,7 +67,7 @@ const webpackConfig = {
     },
     resolve: {
         // @QUESTION: If not put 'node_modules' at last, there are some problem on dependencies
-        modules: [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'],
+        modules: ['node_modules', path.resolve(process.cwd(), 'node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../')],
         alias: { vue$: 'vue/dist/vue.esm.js' },
     },
     resolveLoader: {
