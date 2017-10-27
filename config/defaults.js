@@ -5,7 +5,8 @@ module.exports = {
     clean: true,                    // Clean the destination directory before `dev` or `build`
     libraryPath: '',                // Library entry path. To be `./index.js` by default if project type is `library`
     docs: false,                    // Generate docs of common components in library. Always be true if project type is `library`
-    hot: true,                      // Enable/Disable hot reload in `dev` mode
+    open: true,                     // Enable/Disable to open browser at the beginning in `dev` mode
+    hot: true,                      // Enable/Disable to hot reload in `dev` mode
     sourceMap: false,               // Generate sourceMap in `build` mode
     extractCSS: false,              // Extract CSS via ExtractTextPlugin in `build` mode
     uglifyJS: false,                // Compress JS via UglifyJSPlugin only in `build` mode

@@ -7,11 +7,12 @@ const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
-    .option('-C, --no-clean', 'Disable clean and copy')
+    .option('-C, --no-clean', 'Disable to clean and copy')
     .option('-l, --library-path <path>', 'Library entry path. To be `./index.js` by default if project type is `library`')
     .option('-d, --docs', 'Generate docs of common components in library. Always be true if project type is `library`')
     .option('-p, --port <port>', 'Web Server Port', parseInt)
-    .option('-H, --no-hot', 'Disable hot reload')
+    .option('-O, --no-open', 'Disable to open browser at the beginning')
+    .option('-H, --no-hot', 'Disable to hot reload')
     .parse(process.argv);
 
 /**
@@ -31,6 +32,8 @@ if (program.hasOwnProperty('docs'))
     config.docs = program.docs;
 if (program.port)
     config.webpackDevServer.port = program.port;
+if (program.hasOwnProperty('open'))
+    config.open = program.open;
 if (program.hasOwnProperty('hot'))
     config.hot = program.hot;
 

@@ -38,15 +38,16 @@ npm install -g vusion-cli
 - `vusion dev`: Run develop server
     - `-c, --config-path <path>`: Vusion config path
     - `-e, --entry-path <path>`: Change default entry path
-    - `-C, --no-clean`: Disable clean and copy
+    - `-C, --no-clean`: Disable to clean and copy
     - `-l, --library-path <path>`: Library entry path. To be `./index.js` by default if project type is `library`
     - `-d, --docs`: Generate docs of common components in library. Always be true if project type is `library`
     - `-p, --port <port>`: Web Server Port
-    - `-H, --no-hot`: Disable hot reload
+    - `-O, --no-open`: Disable to open browser at the beginning
+    - `-H, --no-hot`: Disable to hot reload
 - `vusion build`: Build a distribution
     - `-c, --config-path <path>`: Vusion config path
     - `-e, --entry-path <path>`: Change default entry path
-    - `-C, --no-clean`: Disable clean and copy
+    - `-C, --no-clean`: Disable to clean and copy
     - `-l, --library-path <path>`: Library entry path. To be `./index.js` by default if project type is `library`
     - `-d, --docs`: Generate docs of common components in library. Always be true if project type is `library`
     - `-s, --source-map`: Generate source map in build mode
@@ -74,7 +75,8 @@ Default `vusion.config.js` file:
     clean: true,                    // Clean the destination directory before `dev` or `build`
     libraryPath: '',                // Library entry path. To be `./index.js` by default if project type is `library`
     docs: false,                    // Generate docs of common components in library. Always be true if project type is `library`
-    hot: true,                      // Enable/Disable hot reload in `dev` mode
+    open: true,                     // Enable/Disable to open browser at the beginning in `dev` mode
+    hot: true,                      // Enable/Disable to hot reload in `dev` mode
     sourceMap: false,               // Generate sourceMap in `build` mode
     extractCSS: false,              // Extract CSS via ExtractTextPlugin in `build` mode
     uglifyJS: false,                // Compress JS via UglifyJSPlugin only in `build` mode

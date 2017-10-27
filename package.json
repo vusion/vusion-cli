@@ -5,7 +5,9 @@
   "author": "Rainfore <rainforest92@126.com>",
   "preferGlobal": true,
   "bin": {
-    "vusion": "bin/vusion"
+    "vusion": "bin/vusion",
+    "vusion-dev": "bin/vusion-dev",
+    "vusion-build": "bin/vusion-build"
   },
   "scripts": {
     "precommit": "bash node_modules/vusion-hooks/pre-commit",
@@ -54,7 +56,7 @@
     "gh-pages": "^1.0.0",
     "highlight.js": "^9.12.0",
     "html-webpack-plugin": "^2.30.1",
-    "icon-font-loader": "^0.2.4",
+    "icon-font-loader": "^0.2.5",
     "internal-ip": "^3.0.0",
     "karma": "^1.7.0",
     "karma-chai": "^0.1.0",
