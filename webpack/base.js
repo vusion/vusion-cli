@@ -1,11 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const VusionDocPlugin = require('vusion-doc-loader').Plugin;
 const IconFontPlugin = require('icon-font-loader').Plugin;
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
 const svgSpriteLoaderPath = require.resolve('../lib/loaders/svg-sprite-loader');
+
+const hljs = require('highlight.js');
+const codeActivator = require('../lib/code-activator');
+const iterator = require('markdown-it-for-inline');
 
 const config = global.vusionConfig;
 
@@ -98,11 +101,42 @@ if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) // babel-loader does
     webpackConfig.module.rules.unshift({ test: /\.js$/, exclude: (filepath) => filepath.includes('node_modules') && !(/\.(?:vue|vusion)[\\/].*\.js$/.test(filepath)), loader: 'babel-loader', enforce: 'pre' });
 
 if (config.libraryPath)
-    webpackConfig.resolve.alias.library$ = config.libraryPath;
+    webpackConfig.resolve.alias.library = config.libraryPath;
 if (config.libraryPath && config.docs) {
-    webpackConfig.entry.docs = path.resolve(__dirname, '../entry/docs.js');
-    webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
-    webpackConfig.plugins.push(new VusionDocPlugin());
+    webpackConfig.entry.docs = require.resolve('vusion-doc-loader/entry/docs.js'); // path.resolve(__dirname, '../entry/docs.js');
+    // webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
+    webpackConfig.module.rules.push({
+        test: /\.vue[\\/]README\.md$/,
+        loader: 'vue-markdown-loader',
+        options: {
+            langPrefix: 'lang-',
+            html: true,
+            wrapper: 'u-article',
+            preprocess(markdownIt, source) {
+                const result = codeActivator.activate(source);
+                return result.markdown;
+            },
+            highlight(str, rawLang) {
+                let lang = rawLang;
+                if (rawLang === 'vue')
+                    lang = 'html';
+
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        const result = hljs.highlight(lang, str).value;
+                        return `<pre class="hljs ${this.langPrefix}${rawLang}"><code>${result}</code></pre>`;
+                    } catch (e) {}
+                }
+
+                const result = this.utils.escapeHtml(str);
+                return `<pre class="hljs"><code>${result}</code></pre>`;
+            },
+            use: [
+                [iterator, 'link_converter', 'link_open', (tokens, idx) => tokens[idx].tag = 'u-link'],
+                [iterator, 'link_converter', 'link_close', (tokens, idx) => tokens[idx].tag = 'u-link'],
+            ]
+        }
+    });
 }
 
 module.exports = webpackConfig;

@@ -4,7 +4,7 @@ const path = require('path');
 const TYPES = ['library', 'app', 'html5', 'fullstack'];
 const defaults = require('./defaults');
 
-module.exports = function (configPath = 'vusion.config.js') {
+module.exports = function(configPath = 'vusion.config.js') {
     const config = defaults;
 
     const packagePath = path.resolve(process.cwd(), 'package.json');
@@ -21,7 +21,7 @@ module.exports = function (configPath = 'vusion.config.js') {
     }
 
     if (config.type === 'library') {
-        config.libraryPath = './index.js';
+        config.libraryPath = config.libraryPath || './src';
         config.docs = true;
     }
     if (config.libraryPath)
