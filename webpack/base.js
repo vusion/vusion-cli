@@ -67,12 +67,12 @@ const webpackConfig = {
     },
     resolve: {
         // @QUESTION: If not put 'node_modules' at last, there are some problem on dependencies
-        modules: ['node_modules', path.resolve(process.cwd(), 'node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../')],
+        modules: ['node_modules', path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../')],
         alias: { vue$: 'vue/dist/vue.esm.js' },
     },
     resolveLoader: {
         // Put 'node_modules' at first to allow developer to customize loader
-        modules: ['node_modules', path.resolve(process.cwd(), 'node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../')],
+        modules: ['node_modules', path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../')],
         alias: {
             'css-loader': 'vusion-css-loader',
             'vue-loader': 'vusion-vue-loader',
