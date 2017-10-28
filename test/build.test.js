@@ -80,7 +80,6 @@ describe('command: build', () => {
 
         it('should build with expected files', () => {
             expect(files).to.include.members(['bundle.js', 'docs.js', 'index.html']);
-            expect(files).to.have.lengthOf(7);
             expect(result.code).to.equal(0);
         });
     });

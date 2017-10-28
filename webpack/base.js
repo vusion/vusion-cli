@@ -106,6 +106,7 @@ if (config.libraryPath && config.docs) {
 
     webpackConfig.entry.docs = require.resolve('vusion-doc-loader/entry/docs.js');
     // webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
+
     webpackConfig.module.rules.push({
         test: /\.vue[\\/]README\.md$/,
         use: [{

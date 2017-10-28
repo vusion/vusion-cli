@@ -1,7 +1,8 @@
 /* eslint-disable no-multi-spaces */
 module.exports = {
     type: '',                       // Vusion project type. Required option. 'library', 'app'
-    assetsPath: '',                 // Path of assets, which will be copied into destination directory
+    staticPath: '',                 // Path of assets, which will be copied into destination directory
+    assetsPath: '',                 // @deprecated, alias of option `staticPath`
     clean: true,                    // Clean the destination directory before `dev` or `build`
     libraryPath: '',                // Library entry path. To be `./index.js` by default if project type is `library`
     docs: false,                    // Generate docs of common components in library. Always be true if project type is `library`
