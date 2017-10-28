@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const IconFontPlugin = require('icon-font-loader').Plugin;
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
 const svgSpriteLoaderPath = require.resolve('../lib/loaders/svg-sprite-loader');
@@ -108,10 +109,8 @@ if (config.libraryPath && config.docs) {
     webpackConfig.module.rules.push({
         test: /\.vue[\\/]README\.md$/,
         use: [{
-            loader: 'vue-loader',
-            options: {
-                preserveWhitespace: false,
-            },
+            loader: 'vusion-vue-loader',
+            options: vueOptions,
         }, {
             loader: 'vue-md-loader',
             options: {
@@ -151,6 +150,12 @@ if (config.libraryPath && config.docs) {
             },
         }],
     });
+
+    webpackConfig.plugins.push(new HTMLWebpackPlugin({
+        filename: config.type === 'library' ? 'index.html' : 'docs.html',
+        template: path.resolve(require.resolve('vusion-doc-loader/entry/docs.js'), '../index.html'),
+        chunks: ['docs'],
+    }));
 }
 
 module.exports = webpackConfig;
