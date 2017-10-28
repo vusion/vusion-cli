@@ -21,13 +21,11 @@ module.exports = function (configPath = 'vusion.config.js') {
     }
 
     if (config.type === 'library') {
-        config.libraryPath = './index.js';
+        config.libraryPath = config.libraryPath || './src';
         config.docs = true;
     }
     if (config.libraryPath)
         config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
-    if (config.docs && !config.assetsPath)
-        config.assetsPath = path.resolve(__dirname, '../assets');
 
     return config;
 };
