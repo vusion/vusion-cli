@@ -50,7 +50,7 @@ describe('test svg sprite in build mode', () => {
             files = fs.readdirSync('public');
 
             expect(result.code).to.equal(0);
-            expect(files).to.eql(['bundle.js', 'sprite.bf1651ce87190f50.svg']);
+            expect(files).to.eql(['bundle.js', 'sprite.022b3c788da41a4c.svg']);
             done();
         }).catch(done);
     });
