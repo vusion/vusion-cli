@@ -60,19 +60,30 @@ if (vueOptions.extractCSS)
 else
     cssRule.unshift('style-loader');
 
+let resolveModules;
+if (config.resolveOrder === 'cwd')
+    resolveModules = [path.resolve(process.cwd(), '../node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
+else
+    resolveModules = [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
+
 // Webpack config
 const webpackConfig = {
     entry: {
         bundle: './index.js',
     },
     resolve: {
-        // @QUESTION: If not put 'node_modules' at last, there are some problem on dependencies
-        modules: ['node_modules', path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../')],
+        /**
+         * Must use this order, otherwise there're some problem when resolving packages:
+         * 1. node_modules in current directory
+         * 2. node_modules in vusion-cli
+         * 3. node_modules outside of vusion-cli
+         * 4. node_modules recursively outside of current directory
+         */
+        modules: resolveModules,
         alias: { vue$: 'vue/dist/vue.esm.js' },
     },
     resolveLoader: {
-        // Put 'node_modules' at first to allow developer to customize loader
-        modules: ['node_modules', path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../')],
+        modules: resolveModules,
         alias: {
             'css-loader': 'vusion-css-loader',
             'vue-loader': 'vusion-vue-loader',
@@ -89,7 +100,7 @@ const webpackConfig = {
         ],
     },
     plugins: [
-        new IconFontPlugin({ fontName: 'vusion-icon-font' }),
+        new IconFontPlugin({ fontName: 'vusion-icon-font', mergeDuplicates: process.env.NODE_ENV === 'production' }),
     ],
 };
 
@@ -99,7 +110,7 @@ if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) // babel-loader does
 
 if (config.libraryPath)
     webpackConfig.resolve.alias.library$ = config.libraryPath;
-if (config.libraryPath && config.docs) {
+if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
     const hljs = require('highlight.js');
     const hashSum = require('hash-sum');
     const iterator = require('markdown-it-for-inline');
