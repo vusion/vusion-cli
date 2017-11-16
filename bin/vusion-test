@@ -8,7 +8,7 @@ program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-p, --port <port>', 'Web Server Port', parseInt)
     .option('-w, --watch', 'Karma watch')
-    .option('--resolve-order', 'Order of resolving modules or loaders, "cwd"(default) or "cli"')
+    .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
     .parse(process.argv);
 /**
  * Execute Task
@@ -21,8 +21,8 @@ if (program.port)
     config.karma.port = program.port;
 if (program.watch)
     config.karma.singleRun = false;
-if (program.hasOwnProperty('resolveOrder'))
-    config.resolveOrder = program.resolveOrder;
+if (program.hasOwnProperty('resolvePriority'))
+    config.resolvePriority = program.resolvePriority;
 
 const server = require('../lib/test')(require('../webpack/base'));
 server.start();

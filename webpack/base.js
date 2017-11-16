@@ -61,7 +61,7 @@ else
     cssRule.unshift('style-loader');
 
 let resolveModules;
-if (config.resolveOrder === 'cwd')
+if (config.resolvePriority === 'cwd')
     resolveModules = [path.resolve(process.cwd(), '../node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
 else
     resolveModules = [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];

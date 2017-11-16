@@ -13,7 +13,7 @@ program
     .option('-p, --port <port>', 'Web Server Port', parseInt)
     .option('-O, --no-open', 'Disable to open browser at the beginning')
     .option('-H, --no-hot', 'Disable to hot reload')
-    .option('--resolve-order', 'Order of resolving modules or loaders, "cwd"(default) or "cli"')
+    .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
     .parse(process.argv);
 
 /**
@@ -37,8 +37,8 @@ if (program.hasOwnProperty('open'))
     config.open = program.open;
 if (program.hasOwnProperty('hot'))
     config.hot = program.hot;
-if (program.hasOwnProperty('resolveOrder'))
-    config.resolveOrder = program.resolveOrder;
+if (program.hasOwnProperty('resolvePriority'))
+    config.resolvePriority = program.resolvePriority;
 
 const server = require('../lib/dev')(require('../webpack/' + config.type));
 server.start();

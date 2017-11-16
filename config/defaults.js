@@ -12,7 +12,7 @@ module.exports = {
     extractCSS: false,              // Extract CSS via ExtractTextPlugin in `build` mode
     uglifyJS: false,                // Compress JS via UglifyJSPlugin only in `build` mode
     experimental: false,            // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
-    resolveOrder: 'cwd',            // Order of resolving modules or loaders, "cwd"(default) or "cli"
+    resolvePriority: 'cwd',         // Priority to resolve modules or loaders, "cwd"(default) or "cli"
     webpack: {},                    // Extend webpack configuration
     webpackDevServer: {},           // Extend webpackDevServer configuration
     karma: {},                      // Extend karma configuration
