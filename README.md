@@ -44,6 +44,7 @@ npm install -g vusion-cli
     - `-p, --port <port>`: Web Server Port
     - `-O, --no-open`: Disable to open browser at the beginning
     - `-H, --no-hot`: Disable to hot reload
+    - `--resolve-order`: Order of resolving modules or loaders, "cwd"(default) or "cli"
 - `vusion build`: Build a distribution
     - `-c, --config-path <path>`: Vusion config path
     - `-e, --entry-path <path>`: Change default entry path
@@ -54,10 +55,12 @@ npm install -g vusion-cli
     - `--extract-css`: Extract CSS by ExtractTextPlugin in build mode
     - `--uglify-js`: Compress and mangle JS by UglifyJSPlugin in build mode
     - `--experimental`: Enable some experimental loaders or plugins
+    - `--resolve-order`: Order of resolving modules or loaders, "cwd"(default) or "cli"
 - `vusion test`: Run karma test
     - `-c, --config-path <path>`: Vusion config path
     - `-p, --port <port>`: Web Server Port
     - `-w, --watch`: Karma watch
+    - `--resolve-order`: Order of resolving modules or loaders, "cwd"(default) or "cli"
 - `vusion publish <version>`: Publish a new version
 - `vusion ghpages`: Push output directory to gh-pages
 - `vusion dep`: List dependencies of vusion-cli
@@ -82,6 +85,7 @@ Default `vusion.config.js` file:
     extractCSS: false,              // Extract CSS via ExtractTextPlugin in `build` mode
     uglifyJS: false,                // Compress JS via UglifyJSPlugin only in `build` mode
     experimental: false,            // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
+    resolveOrder: 'cwd',            // Order of resolving modules or loaders, "cwd"(default) or "cli"
     webpack: {},                    // Extend webpack configuration
     webpackDevServer: {},           // Extend webpackDevServer configuration
     karma: {},                      // Extend karma configuration
