@@ -11,13 +11,21 @@ module.exports = function (configPath = 'vusion.config.js') {
     configPath = path.resolve(process.cwd(), configPath);
     if (fs.existsSync(configPath))
         Object.assign(config, require(configPath));
-    else if (fs.existsSync(packagePath))
-        Object.assign(config, require(packagePath).vusion);
+    else if (fs.existsSync(packagePath)) {
+        const packageVusion = require(packagePath).vusion;
+        if (packageVusion)
+            Object.assign(config, packageVusion);
+        else {
+            console.error('Cannot find vusion config! This is not a vusion project.\n');
+            console.error('processCwd:', process.cwd());
+            console.error('configPath:', configPath);
+            process.exit(1);
+        }
+    }
 
     if (!TYPES.includes(config.type)) {
-        console.error('process.cwd:', process.cwd());
-        console.error('configPath:', configPath);
-        throw new Error('Unknown project type!');
+        console.error('Unknown project type!');
+        process.exit(1);
     }
 
     if (config.type === 'library') {

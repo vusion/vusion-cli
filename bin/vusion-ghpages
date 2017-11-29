@@ -1,17 +1,22 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const path = require('path');
 const ghpages = require('gh-pages');
 
 /**
  * Parse Commands
  */
 const program = require('commander');
-program.parse(process.argv);
+program
+    .option('-c, --config-path <path>', 'Vusion config path')
+    .option('-p, --path <path>', 'Path to publish. Default is webpack output path.')
+    .parse(process.argv);
 
 const config = global.vusionConfig = require('../config/resolve')(program.configPath);
 const webpackConfig = require('../webpack/' + config.type);
-const directory = webpackConfig.output.path;
+
+const directory = program.path ? path.resolve(process.cwd(), program.path) : webpackConfig.output.path;
 if (!fs.existsSync(directory))
     console.error(`Cannot find "${directory}" directory!`);
 if (!fs.statSync(directory).isDirectory())
