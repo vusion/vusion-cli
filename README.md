@@ -29,6 +29,12 @@ npm install -g vusion-cli
 
 ## Quick Start
 
+``` shell
+vusion init app my-app
+npm install
+vusion dev
+```
+
 ## Commands
 
 - `vusion help`: Show help of all commands
