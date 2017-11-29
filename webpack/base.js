@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const merge = require('../lib/merge');
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const IconFontPlugin = require('icon-font-loader').Plugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
@@ -28,10 +30,10 @@ const postcssPlugins = [
     require('autoprefixer')({
         browsers: ['last 4 versions', 'ie >= 9'],
     }),
-];
+].concat(config.postcss);
 
 // Vue loader options
-const vueOptions = {
+const vueOptions = merge({
     preserveWhitespace: false,
     postcss: postcssPlugins,
     cssModules: {
@@ -45,7 +47,7 @@ const vueOptions = {
     midLoaders: {
         css: 'icon-font-loader',
     },
-};
+}, config.vue);
 
 // CSS loaders options
 let cssRule = [
