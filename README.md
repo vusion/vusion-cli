@@ -69,6 +69,8 @@ vusion dev
     - `--resolve-priority`: Priority to resolve modules or loaders, "cwd"(default) or "cli"
 - `vusion publish <version>`: Publish a new version
 - `vusion ghpages`: Push output directory to gh-pages
+    - `-c, --config-path <path>`: Vusion config path
+    - `-p, --path <path>`: Path to publish. Default is webpack output path
 - `vusion dep`: List dependencies of vusion-cli
 
 - `vusion transform <vue-path>`: Transform Vue component between singlefile and multifile pattern

@@ -10,7 +10,7 @@ const ghpages = require('gh-pages');
 const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
-    .option('-p, --path <path>', 'Path to publish. Default is webpack output path.')
+    .option('-p, --path <path>', 'Path to publish. Default is webpack output path')
     .parse(process.argv);
 
 const config = global.vusionConfig = require('../config/resolve')(program.configPath);
