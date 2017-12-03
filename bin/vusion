@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 
 require('../lib/checkVersions')();
+const updateNotifier = require('update-notifier');
 const pkg = require('../package.json');
+
+// notify package upgrade, notify once one day
+updateNotifier({ pkg }).notify();
 
 /**
  * Parse Commands
