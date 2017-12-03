@@ -1,9 +1,14 @@
 #!/usr/bin/env node
+const program = require('commander');
+const updateNotifier = require('update-notifier');
+const pkg = require('../package.json');
+
+// notify package upgrade, notify once one day
+updateNotifier({ pkg }).notify();
 
 /**
  * Parse Commands
  */
-const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
