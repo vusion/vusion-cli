@@ -64,7 +64,7 @@ else
 
 let resolveModules;
 if (config.resolvePriority === 'cwd')
-    resolveModules = [path.resolve(process.cwd(), '../node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
+    resolveModules = [path.resolve(process.cwd(), 'node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
 else
     resolveModules = [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
 
@@ -107,14 +107,19 @@ const webpackConfig = {
 };
 
 // Babel
-if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) // babel-loader doesn't search babel options in package.json
-    webpackConfig.module.rules.unshift({ test: /\.js$/, exclude: (filepath) => filepath.includes('node_modules') && !(/\.(?:vue|vusion)[\\/].*\.js$/.test(filepath)), loader: 'babel-loader', enforce: 'pre' });
+if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) {
+    webpackConfig.module.rules.unshift({
+        test: /\.js$/,
+        exclude: (filepath) => filepath.includes('node_modules') && !(/\.(?:vue|vusion|vusion-utils)[\\/].*\.js$/.test(filepath)),
+        loader: 'babel-loader',
+        enforce: 'pre',
+    });
+}
 
 if (config.libraryPath)
     webpackConfig.resolve.alias.library$ = config.libraryPath;
 if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
     const hljs = require('highlight.js');
-    const hashSum = require('hash-sum');
     const iterator = require('markdown-it-for-inline');
 
     webpackConfig.entry.docs = require.resolve('vusion-doc-loader/entry/docs.js');
