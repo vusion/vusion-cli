@@ -110,7 +110,24 @@ const webpackConfig = {
 if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) {
     webpackConfig.module.rules.unshift({
         test: /\.js$/,
-        exclude: (filepath) => filepath.includes('node_modules') && !(/\.(?:vue|vusion|vusion-utils)[\\/].*\.js$/.test(filepath)),
+        exclude: (filepath) => {
+            const babelIncludes = Array.isArray(config.babelIncludes) ? config.babelIncludes : [config.babelIncludes];
+            const reincludes = [
+                /\.(?:vue|vusion)[\\/].*\.js$/,
+                /\.es6\.js$/,
+            ].concat(babelIncludes);
+
+            return filepath.includes('node_modules') && !reincludes.some((reinclude) => {
+                if (typeof reinclude === 'string')
+                    return filepath.startsWith(reinclude);
+                else if (reinclude instanceof RegExp)
+                    return reinclude.test(filepath);
+                else if (typeof reinclude === 'function')
+                    return reinclude(filepath);
+                else
+                    return false;
+            });
+        },
         loader: 'babel-loader',
         enforce: 'pre',
     });

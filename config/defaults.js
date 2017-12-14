@@ -18,6 +18,7 @@ module.exports = {
     resolvePriority: 'cwd',                // Priority to resolve modules or loaders, "cwd"(default) or "cli"
     webpack: {},                           // Extend webpack configuration
     webpackDevServer: {},                  // Extend webpackDevServer configuration
+    babelIncludes: [],                     // Reinclude some files excluded in node_modules
     postcss: [],                           // Extend postcss plugins
     vue: {},                               // Extend vue-loader options
     karma: {},                             // Extend karma configuration
