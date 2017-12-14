@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
-const checkVersions = require('../lib/checkVersions');
-const updateNotifier = require('update-notifier');
+const checker = require('../lib/checker');
 const pkg = require('../package.json');
 
-// notify package upgrade, notify once one day
-updateNotifier({ pkg }).notify();
+if (!checker.checkNode())
+    process.exit(1);
+checker.checkUpgrade();
 
-checkVersions();
 /**
  * Parse Commands
  */
