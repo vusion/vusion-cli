@@ -60,6 +60,7 @@ vusion dev
     - `-s, --source-map`: Generate source map in build mode
     - `--extract-css`: Extract CSS by ExtractTextPlugin in build mode
     - `--uglify-js`: Compress and mangle JS by UglifyJSPlugin in build mode
+    - `--minify-js`: Minify JS only in `build` mode. `true` or `babel-minify` means using BabelMinifyPlugin, `uglify-js` means using UglifyJSPlugin as same as `--uglify`
     - `--experimental`: Enable some experimental loaders or plugins
     - `--resolve-priority`: Priority to resolve modules or loaders, "cwd"(default) or "cli"
 - `vusion test`: Run karma test
@@ -92,8 +93,9 @@ Default `vusion.config.js` file:
     open: true,                            // Enable/Disable to open browser at the beginning in `dev` mode
     hot: true,                             // Enable/Disable to hot reload in `dev` mode
     sourceMap: false,                      // Generate sourceMap in `build` mode
-    extractCSS: false,                     // Extract CSS via ExtractTextPlugin in `build` mode
+    extractCSS: false,                     // Extract CSS via ExtractTextPlugin only in `build` mode
     uglifyJS: false,                       // Compress JS via UglifyJSPlugin only in `build` mode
+    minifyJS: false,                       // Minify JS only in `build` mode. `true` or 'babel-minify' means BabelMinifyPlugin, 'uglify-js' means UglifyJSPlugin as same as `uglifyJS: true`
     experimental: false,                   // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     resolvePriority: 'cwd',                // Priority to resolve modules or loaders, "cwd"(default) or "cli"
     webpack: {},                           // Extend webpack configuration
@@ -102,7 +104,6 @@ Default `vusion.config.js` file:
     vue: {},                               // Extend vue-loader options
     karma: {},                             // Extend karma configuration
 };
-
 ```
 
 ## Development

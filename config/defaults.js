@@ -11,8 +11,9 @@ module.exports = {
     open: true,                            // Enable/Disable to open browser at the beginning in `dev` mode
     hot: true,                             // Enable/Disable to hot reload in `dev` mode
     sourceMap: false,                      // Generate sourceMap in `build` mode
-    extractCSS: false,                     // Extract CSS via ExtractTextPlugin in `build` mode
+    extractCSS: false,                     // Extract CSS via ExtractTextPlugin only in `build` mode
     uglifyJS: false,                       // Compress JS via UglifyJSPlugin only in `build` mode
+    minifyJS: false,                       // Minify JS only in `build` mode. `true` or 'babel-minify' means BabelMinifyPlugin, 'uglify-js' means UglifyJSPlugin as same as `uglifyJS: true`
     experimental: false,                   // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     resolvePriority: 'cwd',                // Priority to resolve modules or loaders, "cwd"(default) or "cli"
     webpack: {},                           // Extend webpack configuration
