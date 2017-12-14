@@ -22,7 +22,6 @@
   "bugs": {
     "url": "http://github.com/vusion/vusion-cli/issues"
   },
-  "license": "MIT",
   "keywords": [
     "vusion",
     "cli",
@@ -86,7 +85,7 @@
     "style-loader": "^0.19.0",
     "svg-sprite-loader": "^3.4.1",
     "tcp-port-used": "^0.1.2",
-    "uglifyjs-webpack-plugin": "^0.4.6",
+    "uglifyjs-webpack-plugin": "^1.1.4",
     "update-notifier": "^2.3.0",
     "vue": "^2.5.3",
     "vue-hot-reload-api": "^2.1.0",
