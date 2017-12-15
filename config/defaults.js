@@ -13,7 +13,7 @@ module.exports = {
     sourceMap: false,                      // Generate sourceMap in `build` mode
     extractCSS: false,                     // Extract CSS via ExtractTextPlugin only in `build` mode
     uglifyJS: false,                       // Compress JS via UglifyJSPlugin only in `build` mode
-    minifyJS: false,                       // Minify JS only in `build` mode. `true` or 'babel-minify' means BabelMinifyPlugin, 'uglify-js' means UglifyJSPlugin as same as `uglifyJS: true`
+    minifyJS: false,                       // Minify JS only in `build` mode. Set `true` or 'babel-minify' to use BabelMinifyPlugin, set 'uglify-js' to use UglifyJSPlugin as same as `uglifyJS: true`
     experimental: false,                   // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     resolvePriority: 'cwd',                // Priority to resolve modules or loaders, "cwd"(default) or "cli"
     webpack: {},                           // Extend webpack configuration
