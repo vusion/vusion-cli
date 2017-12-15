@@ -8,6 +8,8 @@ const checker = require('../lib/checker');
 const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
+    .option('-e, --entry-path <path>', 'Change default entry path')
+    .option('-t, --theme <theme>', 'Choose theme')
     .option('-p, --port <port>', 'Web Server Port', parseInt)
     .option('-w, --watch', 'Karma watch')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
@@ -23,6 +25,10 @@ if (!checker.checkNode() || !checker.checkVersion(config.version))
     process.exit(1);
 checker.checkUpgrade();
 
+if (program.entryPath)
+    config.webpack.entry = { bundle: program.entryPath };
+if (program.hasOwnProperty('theme'))
+    config.theme = program.theme;
 if (program.port)
     config.karma.port = program.port;
 if (program.watch)
