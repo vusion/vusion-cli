@@ -107,11 +107,7 @@ const webpackConfig = {
 };
 
 // Babel
-const babelrcPath = path.resolve(process.cwd(), '.babelrc');
-if (fs.existsSync(babelrcPath)) {
-    const babelOptions = JSON.parse(fs.readFileSync(babelrcPath, 'utf8'));
-    babelOptions.babelrc = false;
-
+if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) {
     webpackConfig.module.rules.unshift({
         test: /\.js$/,
         exclude: (filepath) => {
@@ -134,7 +130,6 @@ if (fs.existsSync(babelrcPath)) {
         },
         loader: 'babel-loader',
         enforce: 'pre',
-        options: babelOptions,
     });
 }
 
