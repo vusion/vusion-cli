@@ -94,6 +94,29 @@ const webpackConfig = {
     devtool: '#eval-source-map',
     module: {
         rules: [
+            {
+                test: /\.js$/,
+                exclude: (filepath) => {
+                    const babelIncludes = Array.isArray(config.babelIncludes) ? config.babelIncludes : [config.babelIncludes];
+                    const reincludes = [
+                        /\.(?:vue|vusion)[\\/].*\.js$/,
+                        /\.es6\.js$/,
+                    ].concat(babelIncludes);
+
+                    return filepath.includes('node_modules') && !reincludes.some((reinclude) => {
+                        if (typeof reinclude === 'string')
+                            return filepath.startsWith(reinclude);
+                        else if (reinclude instanceof RegExp)
+                            return reinclude.test(filepath);
+                        else if (typeof reinclude === 'function')
+                            return reinclude(filepath);
+                        else
+                            return false;
+                    });
+                },
+                loader: 'babel-loader',
+                enforce: 'pre',
+            },
             { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
@@ -105,33 +128,6 @@ const webpackConfig = {
         new IconFontPlugin({ fontName: 'vusion-icon-font', mergeDuplicates: process.env.NODE_ENV === 'production' }),
     ],
 };
-
-// Babel
-if (fs.existsSync(path.resolve(process.cwd(), '.babelrc'))) {
-    webpackConfig.module.rules.unshift({
-        test: /\.js$/,
-        exclude: (filepath) => {
-            const babelIncludes = Array.isArray(config.babelIncludes) ? config.babelIncludes : [config.babelIncludes];
-            const reincludes = [
-                /\.(?:vue|vusion)[\\/].*\.js$/,
-                /\.es6\.js$/,
-            ].concat(babelIncludes);
-
-            return filepath.includes('node_modules') && !reincludes.some((reinclude) => {
-                if (typeof reinclude === 'string')
-                    return filepath.startsWith(reinclude);
-                else if (reinclude instanceof RegExp)
-                    return reinclude.test(filepath);
-                else if (typeof reinclude === 'function')
-                    return reinclude(filepath);
-                else
-                    return false;
-            });
-        },
-        loader: 'babel-loader',
-        enforce: 'pre',
-    });
-}
 
 if (config.libraryPath)
     webpackConfig.resolve.alias.library$ = config.libraryPath;
