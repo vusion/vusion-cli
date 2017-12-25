@@ -42,7 +42,7 @@ The new version is "${version}".
 Are you sure to continue? (yes/no) `, (answer) => {
     rl.close();
     answer = answer.toLowerCase();
-    if (!(answer === 'yes' || answer === 'y' || answer === ''))
+    if (!(answer === 'yes' || answer === 'y'))
         return;
 
     pkg.version = version;
