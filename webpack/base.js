@@ -4,6 +4,7 @@ const merge = require('../lib/merge');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const IconFontPlugin = require('icon-font-loader').Plugin;
+const CssSpritePlugin = require('css-sprite-loader').Plugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
@@ -45,18 +46,23 @@ const vueOptions = merge({
         css: svgSpriteLoaderPath + '!' + importGlobalLoaderPath,
     },
     midLoaders: {
-        css: 'icon-font-loader',
+        css: process.env.NODE_ENV === 'production' ? 'css-sprite-loader!icon-font-loader' : 'icon-font-loader',
     },
 }, config.vue);
 
 // CSS loaders options
 let cssRule = [
     { loader: 'vusion-css-loader', options: vueOptions.cssModules },
+    'css-sprite-loader',
     'icon-font-loader',
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
     svgSpriteLoaderPath,
     importGlobalLoaderPath,
 ];
+// only generate sprite image in production
+if (process.env.NODE_ENV === 'production')
+    cssRule.splice(cssRule.indexOf('css-sprite-loader'), 1);
+
 if (vueOptions.extractCSS)
     cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
 else
@@ -67,6 +73,12 @@ if (config.resolvePriority === 'cwd')
     resolveModules = [path.resolve(process.cwd(), 'node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
 else
     resolveModules = [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
+
+const pluginRules = [
+    new IconFontPlugin({ fontName: 'vusion-icon-font', mergeDuplicates: process.env.NODE_ENV === 'production' }),
+];
+if (process.env.NODE_ENV === 'production')
+    pluginRules.push(new CssSpritePlugin());
 
 // Webpack config
 const webpackConfig = {
@@ -124,9 +136,7 @@ const webpackConfig = {
             { test: /\.(png|jpg|gif|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[hash:16].[ext]' } },
         ],
     },
-    plugins: [
-        new IconFontPlugin({ fontName: 'vusion-icon-font', mergeDuplicates: process.env.NODE_ENV === 'production' }),
-    ],
+    plugins: pluginRules,
 };
 
 if (config.libraryPath)
