@@ -44,7 +44,7 @@ const vueOptions = merge({
         css: importGlobalLoaderPath,
     },
     midLoaders: {
-        css: process.env.NODE_ENV === 'production' ? 'css-sprite-loader!svg-classic-sprite-loader!icon-font-loader' : 'icon-font-loader',
+        css: process.env.NODE_ENV === 'production' ? ['css-sprite-loader', 'svg-classic-sprite-loader', 'icon-font-loader'].join('!') : 'icon-font-loader',
     },
 }, config.vue);
 
@@ -143,7 +143,7 @@ if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
     const iterator = require('markdown-it-for-inline');
 
     webpackConfig.entry.docs = require.resolve('vusion-doc-loader/entry/docs.js');
-    // webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
+    webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
 
     webpackConfig.module.rules.push({
         test: /\.vue[\\/]README\.md$/,
