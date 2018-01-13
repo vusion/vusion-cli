@@ -4,7 +4,7 @@ module.exports = {
     staticPath: '',                        // Path of assets, which will be copied into destination directory
     assetsPath: '',                        // @deprecated, alias of option `staticPath`
     libraryPath: '',                       // Library entry path. To be `./index.js` by default if project type is `library`
-    baseCSSPath: './src/base/index.css',   // Path of base CSS
+    baseCSSPath: './src/base/base.css',    // Path of base CSS
     globalCSSPath: './global.css',         // Path of global CSS
     clean: true,                           // Clean the destination directory before `dev` or `build`
     docs: false,                           // Generate docs of common components in library. Always be true if project type is `library`
