@@ -79,9 +79,7 @@ if (process.env.NODE_ENV === 'production')
 
 // Webpack config
 const webpackConfig = {
-    entry: {
-        bundle: './index.js',
-    },
+    entry: {}, // Required in vusion.config.js or --entry-path
     resolve: {
         /**
          * Must use this order, otherwise there're some problem when resolving packages:
