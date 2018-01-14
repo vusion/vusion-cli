@@ -14,6 +14,6 @@
 .svg {
     width: 50px;
     height: 50px;
-    svg-sprite: url('./react.svg');
+    background: url('./react.svg?sprite');
 }
 </style>

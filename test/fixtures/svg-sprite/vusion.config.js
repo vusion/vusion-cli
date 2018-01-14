@@ -1,6 +1,3 @@
-const path = require('path');
-const port = 10086;
-
 module.exports = {
     type: 'app',
     webpack: {

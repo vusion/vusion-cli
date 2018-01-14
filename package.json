@@ -84,7 +84,7 @@
     "semver": "^5.3.0",
     "shelljs": "^0.7.8",
     "style-loader": "^0.19.0",
-    "svg-classic-sprite-loader": "^0.1.0",
+    "svg-classic-sprite-loader": "^0.1.1",
     "tcp-port-used": "^0.1.2",
     "uglifyjs-webpack-plugin": "^1.1.4",
     "update-notifier": "^2.3.0",
