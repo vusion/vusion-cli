@@ -31,9 +31,18 @@ module.exports = function (configPath = 'vusion.config.js') {
     if (config.type === 'library') {
         config.libraryPath = config.libraryPath || './src';
         config.docs = true;
-    }
-    if (config.libraryPath)
+    } else
+        config.libraryPath = config.libraryPath || './src/components';
+
+    if (config.libraryPath) {
         config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
+
+        if (!config.globalCSSPath)
+            config.globalCSSPath = path.resolve(config.libraryPath, './base/global.css');
+        if (!config.baseCSSPath)
+            config.baseCSSPath = path.resolve(config.libraryPath, './base/base.css');
+    } else // For Compatiblity
+        config.globalCSSPath = './global.css';
 
     return config;
 };

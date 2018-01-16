@@ -1,11 +1,11 @@
 /* eslint-disable no-multi-spaces */
 module.exports = {
     type: '',                              // Vusion project type. Required option. 'library', 'app'
-    staticPath: '',                        // Path of assets, which will be copied into destination directory
+    staticPath: '',                        // Path of static files, which will be copied into destination directory
     assetsPath: '',                        // @deprecated, alias of option `staticPath`
-    libraryPath: '',                       // Library entry path. To be `./index.js` by default if project type is `library`
-    baseCSSPath: './src/base/base.css',    // Path of base CSS
-    globalCSSPath: './global.css',         // Path of global CSS
+    libraryPath: '',                       // Library entry path. To be `./src` by default if project type is `library`
+    baseCSSPath: '',                       // Path of base CSS. If not set, it will be `library/base/base.css`
+    globalCSSPath: '',                     // Path of global CSS. If not set, it will be `library/base/global.css`
     clean: true,                           // Clean the destination directory before `dev` or `build`
     docs: false,                           // Generate docs of common components in library. Always be true if project type is `library`
     open: true,                            // Enable/Disable to open browser at the beginning in `dev` mode
