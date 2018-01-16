@@ -24,7 +24,7 @@ describe('test svg sprite in build mode', () => {
             files = fs.readdirSync('public');
 
             expect(result.code).to.equal(0);
-            expect(files).to.eql(['index.js', 'sprite.8b1043c7e9dd0844.svg']);
+            expect(files).to.eql(['index.js', 'twitter.033973a5fceca510.svg', 'sprite.49f7249a74a8a464.svg']);
             done();
         }).catch(done);
     });
@@ -37,7 +37,7 @@ describe('test svg sprite in build mode', () => {
             files = fs.readdirSync('public');
 
             expect(result.code).to.equal(0);
-            expect(files).to.eql(['bundle.js', 'logo.8b1043c7e9dd0844.svg']);
+            expect(files).to.eql(['bundle.js', 'logo.aae500e1cbb8fa3e.svg']);
             done();
         }).catch(done);
     });

@@ -44,7 +44,7 @@ const vueOptions = merge({
         css: importGlobalLoaderPath,
     },
     midLoaders: {
-        css: process.env.NODE_ENV === 'production' ? ['css-sprite-loader', 'svg-classic-sprite-loader', 'icon-font-loader'].join('!') : 'icon-font-loader',
+        css: process.env.NODE_ENV === 'production' ? ['css-sprite-loader', 'svg-classic-sprite-loader?filter=query', 'icon-font-loader'].join('!') : 'icon-font-loader',
     },
 }, config.vue);
 
@@ -57,7 +57,7 @@ let cssRule = [
 ];
 // Only generate sprites in production mode
 if (process.env.NODE_ENV === 'production')
-    cssRule.splice(1, 0, 'css-sprite-loader', 'svg-classic-sprite-loader');
+    cssRule.splice(1, 0, 'css-sprite-loader', 'svg-classic-sprite-loader?filter=query');
 
 if (vueOptions.extractCSS)
     cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
