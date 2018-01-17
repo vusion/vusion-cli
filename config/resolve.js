@@ -32,7 +32,7 @@ module.exports = function (configPath = 'vusion.config.js') {
         config.libraryPath = config.libraryPath || './src';
         config.docs = true;
     } else
-        config.libraryPath = config.libraryPath || './src/components';
+        config.libraryPath = config.libraryPath;
 
     if (config.libraryPath) {
         config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
