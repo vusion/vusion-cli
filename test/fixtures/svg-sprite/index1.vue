@@ -9,11 +9,11 @@
 .root {
     width: 50px;
     height: 50px;
-    svg-sprite: url('./twitter.svg');
+    background: url('./assets/twitter.svg?sprite=logo');
 }
 .svg {
     width: 50px;
     height: 50px;
-    svg-sprite: url('./react.svg');
+    background: url('./assets/react.svg?sprite=logo');
 }
 </style>

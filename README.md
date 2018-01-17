@@ -83,18 +83,18 @@ Default `vusion.config.js` file:
 ``` js
 {
     type: '',                              // Vusion project type. Required option. 'library', 'app'
-    staticPath: '',                        // Path of assets, which will be copied into destination directory
+    staticPath: '',                        // Path of static files, which will be copied into destination directory
     assetsPath: '',                        // @deprecated, alias of option `staticPath`
-    libraryPath: '',                       // Library entry path. To be `./index.js` by default if project type is `library`
-    baseCSSPath: './src/base/index.css',   // Path of base CSS
-    globalCSSPath: './global.css',         // Path of global CSS
+    libraryPath: '',                       // Library entry path. To be `./src` by default if project type is `library`
+    baseCSSPath: '',                       // Path of base CSS. If not set, it will be `library/base/base.css`
+    globalCSSPath: '',                     // Path of global CSS. If not set, it will be `library/base/global.css`
     clean: true,                           // Clean the destination directory before `dev` or `build`
     docs: false,                           // Generate docs of common components in library. Always be true if project type is `library`
     open: true,                            // Enable/Disable to open browser at the beginning in `dev` mode
     hot: true,                             // Enable/Disable to hot reload in `dev` mode
     sourceMap: false,                      // Generate sourceMap in `build` mode
     extractCSS: false,                     // Extract CSS via ExtractTextPlugin only in `build` mode
-    uglifyJS: false,                       // Compress JS via UglifyJSPlugin only in `build` mode
+    uglifyJS: true,                        // Compress JS via UglifyJSPlugin only in `build` mode
     minifyJS: false,                       // Minify JS only in `build` mode. Set `true` or 'babel-minify' to use BabelMinifyPlugin, set 'uglify-js' to use UglifyJSPlugin as same as `uglifyJS: true`
     experimental: false,                   // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     resolvePriority: 'cwd',                // Priority to resolve modules or loaders, "cwd"(default) or "cli"
@@ -116,6 +116,8 @@ Default `vusion.config.js` file:
 - [vusion-css-loader][vusion-css-loader-url] ![vusion-css-loader][vusion-css-loader-img]
 - [vusion-doc-loader][vusion-doc-loader-url] ![vusion-doc-loader][vusion-doc-loader-img]
 - [icon-font-loader][icon-font-loader-url] ![icon-font-loader][icon-font-loader-img]
+- [css-sprite-loader][css-sprite-loader-url] ![css-sprite-loader][css-sprite-loader-img]
+- [svg-classic-sprite-loader][svg-classic-sprite-loader-url] ![svg-classic-sprite-loader][svg-classic-sprite-loader-img]
 
 [vue-multifile-loader-img]: http://img.shields.io/npm/v/vue-multifile-loader.svg?style=flat-square
 [vue-multifile-loader-url]: http://npmjs.org/package/vue-multifile-loader
@@ -127,3 +129,7 @@ Default `vusion.config.js` file:
 [vusion-doc-loader-url]: http://npmjs.org/package/vusion-doc-loader
 [icon-font-loader-img]: http://img.shields.io/npm/v/icon-font-loader.svg?style=flat-square
 [icon-font-loader-url]: http://npmjs.org/package/icon-font-loader
+[css-sprite-loader-img]: http://img.shields.io/npm/v/css-sprite-loader.svg?style=flat-square
+[css-sprite-loader-url]: http://npmjs.org/package/css-sprite-loader
+[svg-classic-sprite-loader-img]: http://img.shields.io/npm/v/svg-classic-sprite-loader.svg?style=flat-square
+[svg-classic-sprite-loader-url]: http://npmjs.org/package/svg-classic-sprite-loader

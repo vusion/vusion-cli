@@ -1,7 +1,7 @@
 <template>
     <div>
         <div :class="$style.root"></div>
-        <div :class="$style.svg"></div>
+        <div :class="$style.png"></div>
     </div>
 </template>
 
@@ -9,11 +9,11 @@
 .root {
     width: 50px;
     height: 50px;
-    background: url('./assets/twitter.svg');
+    background: url('./assets/rank.png?sprite=icon');
 }
-.svg {
+.png {
     width: 50px;
     height: 50px;
-    background: url('./assets/react.svg?sprite');
+    background: url('./assets/schema.png?sprite=icon');
 }
 </style>

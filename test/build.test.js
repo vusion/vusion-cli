@@ -49,7 +49,7 @@ describe('command: build', () => {
 
         it('should build with expected files', () => {
             const config = require(configPath);
-            const expectedFiles = Object.keys(config.webpack.entry).reduce((acc, e) => acc.concat(['html', 'js'].map((ext) => e + '.' + ext)), []);
+            const expectedFiles = Object.keys(config.webpack.entry).map((key) => key + '.js');
 
             expect(files).to.include.members(expectedFiles);
             expect(result.code).to.equal(0);

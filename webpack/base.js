@@ -1,13 +1,12 @@
-const fs = require('fs');
 const path = require('path');
 const merge = require('../lib/merge');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const IconFontPlugin = require('icon-font-loader').Plugin;
+const CSSSpritePlugin = require('css-sprite-loader').Plugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
-const svgSpriteLoaderPath = require.resolve('../lib/loaders/svg-sprite-loader');
 
 const config = global.vusionConfig;
 
@@ -37,15 +36,15 @@ const vueOptions = merge({
     preserveWhitespace: false,
     postcss: postcssPlugins,
     cssModules: {
-        importLoaders: 3,
+        importLoaders: process.env.NODE_ENV === 'production' ? 5 : 3,
         localIdentName: process.env.NODE_ENV === 'production' ? '[hash:base64:16]' : '[name]_[local]_[hash:base64:8]',
     },
     extractCSS: config.extractCSS && process.env.NODE_ENV === 'production',
     preLoaders: {
-        css: svgSpriteLoaderPath + '!' + importGlobalLoaderPath,
+        css: importGlobalLoaderPath,
     },
     midLoaders: {
-        css: 'icon-font-loader',
+        css: process.env.NODE_ENV === 'production' ? ['css-sprite-loader', 'svg-classic-sprite-loader?filter=query', 'icon-font-loader'].join('!') : 'icon-font-loader',
     },
 }, config.vue);
 
@@ -54,9 +53,12 @@ let cssRule = [
     { loader: 'vusion-css-loader', options: vueOptions.cssModules },
     'icon-font-loader',
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
-    svgSpriteLoaderPath,
     importGlobalLoaderPath,
 ];
+// Only generate sprites in production mode
+if (process.env.NODE_ENV === 'production')
+    cssRule.splice(1, 0, 'css-sprite-loader', 'svg-classic-sprite-loader?filter=query');
+
 if (vueOptions.extractCSS)
     cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
 else
@@ -68,11 +70,16 @@ if (config.resolvePriority === 'cwd')
 else
     resolveModules = [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
 
+const plugins = [
+    new IconFontPlugin({ fontName: 'vusion-icon-font', mergeDuplicates: process.env.NODE_ENV === 'production' }),
+];
+// Only generate sprites in production mode
+if (process.env.NODE_ENV === 'production')
+    plugins.push(new CSSSpritePlugin());
+
 // Webpack config
 const webpackConfig = {
-    entry: {
-        bundle: './index.js',
-    },
+    entry: {}, // Required in vusion.config.js or --entry-path
     resolve: {
         /**
          * Must use this order, otherwise there're some problem when resolving packages:
@@ -121,12 +128,10 @@ const webpackConfig = {
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
             // svg in `dev.js` and `build.js`
-            { test: /\.(png|jpg|gif|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[hash:16].[ext]' } },
+            { test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[hash:16].[ext]' } },
         ],
     },
-    plugins: [
-        new IconFontPlugin({ fontName: 'vusion-icon-font', mergeDuplicates: process.env.NODE_ENV === 'production' }),
-    ],
+    plugins,
 };
 
 if (config.libraryPath)
@@ -136,7 +141,7 @@ if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
     const iterator = require('markdown-it-for-inline');
 
     webpackConfig.entry.docs = require.resolve('vusion-doc-loader/entry/docs.js');
-    // webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
+    webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
 
     webpackConfig.module.rules.push({
         test: /\.vue[\\/]README\.md$/,
