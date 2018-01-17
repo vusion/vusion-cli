@@ -12,8 +12,8 @@
     "precommit": "bash node_modules/vusion-hooks/pre-commit",
     "test": "npm-run-all test-*",
     "test-init": "nyc --check-coverage mocha test/init.test.js --timeout 60000 --require babel-register",
-    "test-dev": "cross-env TEST=true nyc --check-coverage  mocha test/dev.test.js --timeout 120000 --require babel-register",
-    "test-build": "nyc --check-coverage mocha test/build.test.js --timeout 120000 --require babel-register",
+    "test-dev": "cross-env TEST=true nyc --check-coverage  mocha test/dev.test.js --timeout 200000 --require babel-register",
+    "test-build": "nyc --check-coverage mocha test/build.test.js --timeout 200000 --require babel-register",
     "test-svg-sprite": "nyc --check-coverage mocha test/svg-sprite.test.js --timeout 60000 --require babel-register",
     "test-transform": "nyc --check-coverage mocha test/transform.test.js --timeout 60000 --require babel-register"
   },
