@@ -36,5 +36,5 @@ if (program.watch)
 if (program.hasOwnProperty('resolvePriority'))
     config.resolvePriority = program.resolvePriority;
 
-const server = require('../lib/test')(require('../webpack/base'));
+const server = require('../lib/test')(require('../webpack/' + config.type));
 server.start();
