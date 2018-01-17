@@ -5,7 +5,6 @@ module.exports = {
             index: './index.js',
         },
         output: {
-            EXTENDS: true,
             publicPath: `/public/`,
         },
     },
