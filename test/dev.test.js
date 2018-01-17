@@ -48,7 +48,7 @@ describe('command: dev', () => {
                 done();
             });
 
-            childProcess.on('exit', (code) => done(code));
+            childProcess.on('exit', (code) => code ? done(code) : done());
         });
 
         it('should run with local config', (done) => {
@@ -68,7 +68,7 @@ describe('command: dev', () => {
                 done();
             });
 
-            childProcess.on('exit', (code) => done(code));
+            childProcess.on('exit', (code) => code ? done(code) : done());
         });
     });
 
@@ -100,7 +100,7 @@ describe('command: dev', () => {
                 done();
             });
 
-            childProcess.on('exit', (code) => done(code));
+            childProcess.on('exit', (code) => code ? done(code) : done());
         });
 
         // it('should run with local config', (done) => {
@@ -114,7 +114,7 @@ describe('command: dev', () => {
         //         done();
         //     });
 
-        //     childProcess.on('exit', (code) => done(code));
+        //     childProcess.on('exit', (code) => code ? done(code) : done());
         // });
     });
 });
