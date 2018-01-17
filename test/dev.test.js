@@ -47,6 +47,8 @@ describe('command: dev', () => {
                 expect(vusionConfig.type).to.equal('app');
                 done();
             });
+
+            childProcess.on('exit', (code) => done(code));
         });
 
         it('should run with local config', (done) => {
@@ -65,6 +67,8 @@ describe('command: dev', () => {
                 /* eslint-enable no-unused-expressions */
                 done();
             });
+
+            childProcess.on('exit', (code) => done(code));
         });
     });
 
@@ -95,6 +99,8 @@ describe('command: dev', () => {
                 expect(vusionConfig.type).to.equal('library');
                 done();
             });
+
+            childProcess.on('exit', (code) => done(code));
         });
 
         // it('should run with local config', (done) => {
@@ -107,6 +113,8 @@ describe('command: dev', () => {
         //         expect(libraryPath).to.equal('./index.js');
         //         done();
         //     });
+
+        //     childProcess.on('exit', (code) => done(code));
         // });
     });
 });
