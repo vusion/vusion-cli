@@ -16,12 +16,15 @@ if (config.resolvePriority === 'cwd')
     resolveModules = [path.resolve(process.cwd(), 'node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
 else
     resolveModules = [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
+
+const postcssImportAlias = Object.assign({}, config.webpack.resolve ? config.webpack.resolve.alias : {});
+delete postcssImportAlias.EXTENDS;
 // Postcss plugins
 const postcssPlugins = [
     require('postcss-import')({
         resolve: postcssImportResolver({
-            alias: config.webpack.resolve.alias,
-            modules: resolveModules,
+            alias: postcssImportAlias,
+            modules: Array.from(resolveModules),
         }),
     }),
     require('postcss-url')({
