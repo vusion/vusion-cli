@@ -5,14 +5,25 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const IconFontPlugin = require('icon-font-loader').Plugin;
 const CSSSpritePlugin = require('css-sprite-loader').Plugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const postcssImportResolver = require('postcss-import-resolver');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
 
 const config = global.vusionConfig;
 
+let resolveModules;
+if (config.resolvePriority === 'cwd')
+    resolveModules = [path.resolve(process.cwd(), 'node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
+else
+    resolveModules = [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
 // Postcss plugins
 const postcssPlugins = [
-    require('postcss-import'),
+    require('postcss-import')({
+        resolve: postcssImportResolver({
+            alias: config.webpack.resolve.alias,
+            modules: resolveModules,
+        }),
+    }),
     require('postcss-url')({
         // Must start with `./`
         // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
@@ -63,12 +74,6 @@ if (vueOptions.extractCSS)
     cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
 else
     cssRule.unshift('style-loader');
-
-let resolveModules;
-if (config.resolvePriority === 'cwd')
-    resolveModules = [path.resolve(process.cwd(), 'node_modules'), path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
-else
-    resolveModules = [path.resolve(__dirname, '../node_modules'), path.resolve(__dirname, '../../'), 'node_modules'];
 
 const plugins = [
     new IconFontPlugin({ fontName: 'vusion-icon-font', mergeDuplicates: process.env.NODE_ENV === 'production' }),
