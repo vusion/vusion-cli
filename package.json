@@ -35,7 +35,7 @@
     "webapp"
   ],
   "engines": {
-    "node": ">= 6.0.0"
+    "node": ">=6.11.5"
   },
   "dependencies": {
     "app-module-path": "^2.2.0",
