@@ -19,12 +19,13 @@ else
 
 const postcssImportAlias = Object.assign({}, config.webpack.resolve ? config.webpack.resolve.alias : {});
 delete postcssImportAlias.EXTENDS;
+
 // Postcss plugins
 const postcssPlugins = [
     require('postcss-import')({
         resolve: postcssImportResolver({
             alias: postcssImportAlias,
-            modules: Array.from(resolveModules),
+            modules: resolveModules,
         }),
     }),
     require('postcss-url')({
