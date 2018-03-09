@@ -43,6 +43,9 @@ const postcssPlugins = [
     }),
     require('precss')({
         path: ['node_modules'],
+        lookup: {
+            disable: true,
+        },
     }),
     require('postcss-calc'),
     require('autoprefixer')({
