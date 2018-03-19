@@ -72,7 +72,10 @@ const vueOptions = merge({
 
 // CSS loaders options
 let cssRule = [
-    { loader: 'vusion-css-loader', options: vueOptions.cssModules },
+    { loader: 'vusion-css-loader', options: Object.assign({
+        minimize: config.uglifyJS || config.minifyJS,
+        sourceMap: config.sourceMap,
+    }, vueOptions.cssModules) },
     'icon-font-loader',
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
     importGlobalLoaderPath,
