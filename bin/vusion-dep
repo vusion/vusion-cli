@@ -2,11 +2,19 @@
 
 const path = require('path');
 const pkg = require('../package.json');
+const pathRegStr = '@?${name}/';
 
 for (const dep in pkg.dependencies) {
     const depPath = require.resolve(dep);
-    const pkgPath = path.resolve(depPath.slice(0, depPath.lastIndexOf(path.sep + dep + path.sep) + dep.length + 2), 'package.json');
-
-    const version = require(pkgPath).version;
-    console.info(`├─ ${dep}@${version}`);
+    const pathReg = new RegExp(pathRegStr.replace('${name}', dep), 'g');
+    if (pathReg.test(depPath)) {
+        const lastIndex = pathReg.lastIndex;
+        const pkgPath = path.resolve(depPath.slice(0, lastIndex) + '/package.json');
+        const version = require(pkgPath).version;
+        console.info(`├─ ${dep}@${version}`);
+    } else {
+        console.info(`├─ ${dep}@unknow`);
+    }
+    
 }
+
