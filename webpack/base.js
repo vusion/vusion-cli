@@ -49,7 +49,7 @@ const postcssPlugins = [
     }),
     require('postcss-calc'),
     require('autoprefixer')({
-        browsers: ['last 4 versions', 'ie >= 9'],
+        browsers: config.browsers,
     }),
 ].concat(config.postcss);
 
@@ -73,6 +73,7 @@ const vueOptions = merge({
 // CSS loaders options
 let cssRule = [
     { loader: 'vusion-css-loader', options: Object.assign({
+        // modules: true, // CSS Modules 是关闭的
         minimize: config.uglifyJS || config.minifyJS,
         sourceMap: config.sourceMap,
     }, vueOptions.cssModules) },

@@ -20,9 +20,10 @@ module.exports = {
     minifyJS: false,                       // Minify JS only in `build` mode. Set `true` or 'babel-minify' to use BabelMinifyPlugin, set 'uglify-js' to use UglifyJSPlugin as same as `uglifyJS: true`
     experimental: false,                   // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     resolvePriority: 'cwd',                // Priority to resolve modules or loaders, "cwd"(default) or "cli"
+    browsers: ['> 1%', 'last 2 versions', 'ie >= 9'],    // Browers Compatibility referred in autoprefixer. See browserslist for more details
+    babelIncludes: [],                     // Reinclude some files excluded in node_modules
     webpack: {},                           // Extend webpack configuration
     webpackDevServer: {},                  // Extend webpackDevServer configuration
-    babelIncludes: [],                     // Reinclude some files excluded in node_modules
     postcss: [],                           // Extend postcss plugins
     vue: {},                               // Extend vue-loader options
     karma: {},                             // Extend karma configuration
