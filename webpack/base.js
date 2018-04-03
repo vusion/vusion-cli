@@ -47,6 +47,7 @@ const postcssPlugins = [
             disable: true,
         },
     }),
+    require('../lib/loaders/postcss-merge/index.js'),
     require('postcss-calc'),
     require('autoprefixer')({
         browsers: config.browsers,
