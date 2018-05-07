@@ -41,13 +41,14 @@ const postcssPlugins = [
             return `./${rebasedUrl}${asset.search}${asset.hash}`;
         },
     }),
-    require('precss')({
-        path: ['node_modules'],
-        lookup: {
-            disable: true,
-        },
+    // precss removed
+    require('postcss-variables'),
+    require('postcss-preset-env')({
+        browsers: config.browsers,
     }),
-    require('../lib/loaders/postcss-merge/index.js'),
+    require('postcss-nested'),
+    // precss removed
+    require('../lib/loaders/postcss-extends'),
     require('postcss-calc'),
     require('autoprefixer')({
         browsers: config.browsers,
