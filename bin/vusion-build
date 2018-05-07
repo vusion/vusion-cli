@@ -17,6 +17,7 @@ program
     .option('--extract-css', 'Extract CSS by ExtractTextPlugin in build mode')
     .option('--uglify-js', 'Compress and mangle JS by UglifyJSPlugin in build mode')
     .option('--minify-js', 'Minify JS only in `build` mode. Set `true` or `babel-minify` to use BabelMinifyPlugin, set `uglify-js` to use UglifyJSPlugin as same as `--uglify`')
+    .option('--force-shaking', 'Force to enable tree shaking under this path without care of side effects. It\'s different from default tree shaking of webpack.')
     .option('--experimental', 'Enable some experimental loaders or plugins')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
     .parse(process.argv);
@@ -50,6 +51,8 @@ if (program.hasOwnProperty('uglifyJs'))
     config.uglifyJS = program.uglifyJs;
 if (program.hasOwnProperty('minifyJs'))
     config.minifyJS = program.minifyJs;
+if (program.hasOwnProperty('forceShaking'))
+    config.forceShaking = program.forceShaking;
 if (program.hasOwnProperty('experimental'))
     config.experimental = program.experimental;
 if (program.hasOwnProperty('resolvePriority'))

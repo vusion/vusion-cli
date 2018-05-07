@@ -61,6 +61,7 @@ vusion dev
     - `--extract-css`: Extract CSS by ExtractTextPlugin in build mode
     - `--uglify-js`: Compress and mangle JS by UglifyJSPlugin in build mode
     - `--minify-js`: Minify JS only in `build` mode. Set `true` or `'babel-minify'` to use BabelMinifyPlugin, set `'uglify-js'` to use UglifyJSPlugin as same as `--uglify`
+    - `--force-shaking`: Force to enable tree shaking under this path without care of side effects. It\'s different from default tree shaking of webpack
     - `--experimental`: Enable some experimental loaders or plugins
     - `--resolve-priority`: Priority to resolve modules or loaders, "cwd"(default) or "cli"
 - `vusion test`: Run karma test
@@ -100,6 +101,7 @@ Default `vusion.config.js` file:
     extractCSS: false,                     // Extract CSS via ExtractTextPlugin only in `build` mode
     uglifyJS: true,                        // Compress JS via UglifyJSPlugin only in `build` mode
     minifyJS: false,                       // Minify JS only in `build` mode. Set `true` or 'babel-minify' to use BabelMinifyPlugin, set 'uglify-js' to use UglifyJSPlugin as same as `uglifyJS: true`
+    forceShaking: false,                   // Force to enable tree shaking under this path without care of side effects. It's different from default tree shaking of webpack.
     experimental: false,                   // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     resolvePriority: 'cwd',                // Priority to resolve modules or loaders, "cwd"(default) or "cli"
     browsers: ['> 1%', 'last 2 versions', 'ie >= 9'],    // Browers Compatibility referred in autoprefixer. See browserslist for more details
