@@ -44,7 +44,7 @@ vusion dev
 - `vusion dev`: Run develop server
     - `-c, --config-path <path>`: Vusion config path
     - `-e, --entry-path <path>`: Change default entry path
-    - `-C, --no-clean`: Disable to clean and copy
+    - `-C, --clean`: Clean the output directory at start
     - `-l, --library-path <path>`: Library entry path. To be `./index.js` by default if project type is `library`
     - `-d, --docs`: Generate docs of common components in library. Always be true if project type is `library`
     - `-p, --port <port>`: Web Server Port
@@ -54,7 +54,7 @@ vusion dev
 - `vusion build`: Build a distribution
     - `-c, --config-path <path>`: Vusion config path
     - `-e, --entry-path <path>`: Change default entry path
-    - `-C, --no-clean`: Disable to clean and copy
+    - `-C, --clean`: Clean the output directory at start
     - `-l, --library-path <path>`: Library entry path. To be `./index.js` by default if project type is `library`
     - `-d, --docs`: Generate docs of common components in library. Always be true if project type is `library`
     - `-s, --source-map`: Generate source map in build mode
