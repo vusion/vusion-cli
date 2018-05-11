@@ -28,12 +28,19 @@ const postcssPlugins = [
             modules: resolveModules,
         }),
     }),
+    // @TODO
+    // require('../lib/loaders/postcss-extends')({
+    //     resolve: postcssImportResolver({
+    //         alias: postcssImportAlias,
+    //         modules: resolveModules,
+    //     }),
+    // }),
     require('postcss-url')({
         // Must start with `./`
         // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
         url(asset, dir) {
             // base64编码的图片直接返回
-            if (asset.url.startsWith('data:image'))
+            if (asset.url.startsWith('data:image') || asset.url.startsWith('/'))
                 return asset.url;
 
             let rebasedUrl = path.normalize(path.relative(dir.to, asset.absolutePath));
@@ -46,9 +53,7 @@ const postcssPlugins = [
     require('postcss-preset-env')({
         browsers: config.browsers,
     }),
-    require('postcss-nested'),
     // precss removed
-    require('../lib/loaders/postcss-extends'),
     require('postcss-calc'),
     require('autoprefixer')({
         browsers: config.browsers,
@@ -99,7 +104,9 @@ const plugins = [
 ];
 // Only generate sprites in production mode
 if (process.env.NODE_ENV === 'production')
-    plugins.push(new CSSSpritePlugin());
+    plugins.push(new CSSSpritePlugin({
+        plugins: postcssPlugins,
+    }));
 
 // Webpack config
 const webpackConfig = {
