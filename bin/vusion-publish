@@ -47,10 +47,12 @@ Are you sure to continue? (yes/no) `, (answer) => {
 
     pkg.version = version;
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
+
+    const tagm = version.match(/-(\w+)\.?/);
     process.exit(shell.exec([
         `git add package.json`,
         `git commit -m ":bookmark: Publish v${version}"`,
-        `npm publish`,
+        `npm publish` + (tagm ? ' --tag ' + tagm[1] : ''),
         `git push`,
         `git tag v${version}`,
         `git push origin v${version}`,
