@@ -19,6 +19,7 @@ const pkg = require(pkgPath);
 const program = require('commander');
 program
     .usage('<version>')
+    .option('-n, --npm <npm>', 'Use other npm to publish like cnpm', 'npm')
     .parse(process.argv);
 
 const version = semver.clean(program.args[0] || pkg.version);
@@ -52,7 +53,7 @@ Are you sure to continue? (yes/no) `, (answer) => {
     process.exit(shell.exec([
         `git add package.json`,
         `git commit -m ":bookmark: Publish v${version}"`,
-        `npm publish` + (tagm ? ' --tag ' + tagm[1] : ''),
+        `${program.npm} publish` + (tagm ? ' --tag ' + tagm[1] : ''),
         `git push`,
         `git tag v${version}`,
         `git push origin v${version}`,
