@@ -40,7 +40,6 @@
   },
   "dependencies": {
     "app-module-path": "^2.2.0",
-    "autoprefixer": "^8.3.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-minify-webpack-plugin": "^0.3.1",
@@ -81,7 +80,7 @@
     "postcss-import-resolver": "^1.1.0",
     "postcss-loader": "^2.1.4",
     "postcss-nested": "^3.0.0",
-    "postcss-preset-env": "^4.1.0",
+    "postcss-preset-env": "^5.0.0",
     "postcss-url": "^7.3.2",
     "postcss-variables": "^1.1.1",
     "read-cache": "^1.0.0",

@@ -55,9 +55,6 @@ const postcssPlugins = [
     }),
     // precss removed
     require('postcss-calc'),
-    require('autoprefixer')({
-        browsers: config.browsers,
-    }),
 ].concat(config.postcss);
 
 // Vue loader options
