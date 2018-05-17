@@ -51,6 +51,7 @@ const postcssPlugins = [
     // precss removed
     require('postcss-variables'),
     require('postcss-preset-env')({
+        stage: 0,
         browsers: config.browsers,
     }),
     // precss removed
