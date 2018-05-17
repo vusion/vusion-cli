@@ -141,7 +141,7 @@ const webpackConfig = {
 
                     return filepath.includes('node_modules') && !reincludes.some((reinclude) => {
                         if (typeof reinclude === 'string')
-                            return filepath.startsWith(reinclude);
+                            return filepath.includes(reinclude) || filepath.includes(reinclude.replace(/\//g, '\\'));
                         else if (reinclude instanceof RegExp)
                             return reinclude.test(filepath);
                         else if (typeof reinclude === 'function')
