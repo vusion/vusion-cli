@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const checker = require('../lib/checker');
+const parseCommanderExtra = require('../lib/extra');
 
 /**
  * Parse Commands
@@ -21,6 +22,8 @@ program
     .option('--experimental', 'Enable some experimental loaders or plugins')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
     .parse(process.argv);
+
+parseCommanderExtra(program);
 
 /**
  * Execute Task
@@ -57,6 +60,12 @@ if (program.hasOwnProperty('experimental'))
     config.experimental = program.experimental;
 if (program.hasOwnProperty('resolvePriority'))
     config.resolvePriority = program.resolvePriority;
+
+if (program.extraObj) {
+    for (const key in program.extraObj) {
+        config[key] = program.extraObj[key];
+    }
+}
 
 const compiler = require('../lib/build')(require('../webpack/' + config.type));
 compiler.run();

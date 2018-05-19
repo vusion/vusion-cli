@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const checker = require('../lib/checker');
-
+const parseCommanderExtra = require('../lib/extra');
 /**
  * Parse Commands
  */
@@ -18,6 +18,8 @@ program
     .option('-H, --no-hot', 'Disable to hot reload')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
     .parse(process.argv);
+
+parseCommanderExtra(program);
 
 /**
  * Execute Task
@@ -48,6 +50,12 @@ if (program.hasOwnProperty('hot'))
     config.hot = program.hot;
 if (program.hasOwnProperty('resolvePriority'))
     config.resolvePriority = program.resolvePriority;
+
+if (program.extraObj) {
+    for (const key in program.extraObj) {
+        config[key] = program.extraObj[key];
+    }
+}
 
 const server = require('../lib/dev')(require('../webpack/' + config.type));
 server.start();
