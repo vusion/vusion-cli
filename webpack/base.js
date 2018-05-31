@@ -1,7 +1,7 @@
 const path = require('path');
 const merge = require('../lib/merge');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const IconFontPlugin = require('icon-font-loader').Plugin;
 const CSSSpritePlugin = require('css-sprite-loader').Plugin;
 const HTMLWebpackPlugin = require('html-webpack-plugin');
@@ -93,18 +93,22 @@ if (process.env.NODE_ENV === 'production')
     cssRule.splice(1, 0, 'css-sprite-loader', 'svg-classic-sprite-loader?filter=query');
 
 if (vueOptions.extractCSS)
-    cssRule = ExtractTextPlugin.extract({ use: cssRule, fallback: 'style-loader' });
+    cssRule = ExtractTextWebpackPlugin.extract({ use: cssRule, fallback: 'style-loader' });
 else
     cssRule.unshift('style-loader');
 
 const plugins = [
-    new IconFontPlugin({ fontName: 'vusion-icon-font', mergeDuplicates: process.env.NODE_ENV === 'production' }),
+    new IconFontPlugin(Object.assign({
+        fontName: 'vusion-icon-font',
+        mergeDuplicates: process.env.NODE_ENV === 'production',
+    }, config.options.IconFontPlugin)),
 ];
 // Only generate sprites in production mode
-if (process.env.NODE_ENV === 'production')
-    plugins.push(new CSSSpritePlugin({
+if (process.env.NODE_ENV === 'production') {
+    plugins.push(new CSSSpritePlugin(Object.assign({
         plugins: postcssPlugins,
-    }));
+    }, config.options.CSSSpritePlugin)));
+}
 
 // Webpack config
 const webpackConfig = {
