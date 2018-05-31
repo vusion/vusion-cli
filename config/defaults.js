@@ -10,7 +10,7 @@ module.exports = {
         src: './src',
         unit: './test/unit',
     },
-    clean: true,                           // Clean the destination directory before `dev` or `build`
+    clean: false,                          // Clean the destination directory before `dev` or `build`
     docs: false,                           // Generate docs of common components in library. Always be true if project type is `library`
     open: true,                            // Enable/Disable to open browser at the beginning in `dev` mode
     hot: true,                             // Enable/Disable to hot reload in `dev` mode
