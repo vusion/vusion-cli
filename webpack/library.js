@@ -10,7 +10,7 @@ module.exports = merge(config, {
     output: {
         path: path.join(process.cwd(), 'public'),
         // Use relative public path by default
-        // publicPath: '',
+        publicPath: '',
         filename: '[name].js',
         chunkFilename: 'chunk.[name].[chunkhash:16].js',
         library: 'Library',
