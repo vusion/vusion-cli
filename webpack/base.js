@@ -40,7 +40,9 @@ const postcssPlugins = [
         // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
         url(asset, dir) {
             // base64编码的图片直接返回
-            if (asset.url.startsWith('data:image') || asset.url.startsWith('/'))
+            // if (asset.url.startsWith('data:image') || asset.url.startsWith('http') || asset.url.startsWith('/'))
+            // return asset.url;
+            if (asset.url[0] !== '.')
                 return asset.url;
 
             let rebasedUrl = path.normalize(path.relative(dir.to, asset.absolutePath));
