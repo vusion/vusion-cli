@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const checker = require('../lib/checker');
-const parseCommanderExtra = require('../lib/extra');
+const parseCommander = require('../lib/parseCommander');
 /**
  * Parse Commands
  */
@@ -17,9 +17,11 @@ program
     .option('-O, --no-open', 'Disable to open browser at the beginning')
     .option('-H, --no-hot', 'Disable to hot reload')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
+    .allowUnknownOption()
     .parse(process.argv);
 
-parseCommanderExtra(program);
+parseCommander(program);
+global.extraArgs = program.extraArgs;
 
 /**
  * Execute Task
@@ -50,12 +52,6 @@ if (program.hasOwnProperty('hot'))
     config.hot = program.hot;
 if (program.hasOwnProperty('resolvePriority'))
     config.resolvePriority = program.resolvePriority;
-
-if (program.extraObj) {
-    for (const key in program.extraObj) {
-        config[key] = program.extraObj[key];
-    }
-}
 
 const server = require('../lib/dev')(require('../webpack/' + config.type));
 server.start();

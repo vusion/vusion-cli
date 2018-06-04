@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const checker = require('../lib/checker');
-const parseCommanderExtra = require('../lib/extra');
+const parseCommander = require('../lib/parseCommander');
 
 /**
  * Parse Commands
@@ -21,9 +21,11 @@ program
     .option('--force-shaking', 'Force to enable tree shaking under this path without care of side effects. It\'s different from default tree shaking of webpack.')
     .option('--experimental', 'Enable some experimental loaders or plugins')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
+    .allowUnknownOption()
     .parse(process.argv);
 
-parseCommanderExtra(program);
+parseCommander(program);
+global.extraArgs = program.extraArgs;
 
 /**
  * Execute Task
@@ -60,12 +62,6 @@ if (program.hasOwnProperty('experimental'))
     config.experimental = program.experimental;
 if (program.hasOwnProperty('resolvePriority'))
     config.resolvePriority = program.resolvePriority;
-
-if (program.extraObj) {
-    for (const key in program.extraObj) {
-        config[key] = program.extraObj[key];
-    }
-}
 
 const compiler = require('../lib/build')(require('../webpack/' + config.type));
 compiler.run();
