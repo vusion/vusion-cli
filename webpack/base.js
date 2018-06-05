@@ -81,7 +81,7 @@ const vueOptions = merge({
 
 // CSS loaders options
 let cssRule = [
-    { loader: 'vusion-css-loader', options: Object.assign({
+    { loader: '@vusion/css-loader', options: Object.assign({
         // modules: true, // CSS Modules 是关闭的
         minimize: config.uglifyJS || config.minifyJS,
         sourceMap: config.sourceMap,
@@ -129,8 +129,8 @@ const webpackConfig = {
     resolveLoader: {
         modules: resolveModules,
         alias: {
-            'css-loader': 'vusion-css-loader',
-            'vue-loader': 'vusion-vue-loader',
+            'css-loader': '@vusion/css-loader',
+            'vue-loader': '@vusion/vue-loader',
         },
     },
     devtool: '#eval-source-map',
@@ -159,7 +159,7 @@ const webpackConfig = {
                 loader: 'babel-loader',
                 enforce: 'pre',
             },
-            { test: /\.vue$/, loader: 'vusion-vue-loader', options: vueOptions },
+            { test: /\.vue$/, loader: '@vusion/vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
             // svg in `dev.js` and `build.js`
