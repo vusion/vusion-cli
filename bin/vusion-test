@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const checker = require('../lib/checker');
-const parseExtra = require('../lib/parseExtra');
 /**
  * Parse Commands
  */
@@ -15,8 +14,8 @@ program
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
     .allowUnknownOption()
     .parse(process.argv);
-parseExtra(program);
-global.extraArgs = program.extraArgs;
+
+global.extraArgs = program.args;
 
 /**
  * Execute Task
