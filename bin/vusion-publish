@@ -20,6 +20,8 @@ const program = require('commander');
 program
     .usage('<version>')
     .option('-n, --npm <npm>', 'Use other npm to publish like cnpm', 'npm')
+    .option('--tag <tag>', 'Registers the published package with the given tag')
+    .option('--access <public|restricted>', 'Tells the registry whether this package should be published as public or restricted.')
     .parse(process.argv);
 
 const version = semver.clean(program.args[0] || pkg.version);
@@ -49,11 +51,16 @@ Are you sure to continue? (yes/no) `, (answer) => {
     pkg.version = version;
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
 
-    const tagm = version.match(/-(\w+)\.?/);
+    const npmCmds = [`${program.npm} publish`];
+    if (program.tag)
+        npmCmds.push(`--tag ${program.tag}`);
+    if (program.access)
+        npmCmds.push(`--access ${program.access}`);
+
     process.exit(shell.exec([
         `git add package.json`,
         `git commit -m ":bookmark: Publish v${version}"`,
-        `${program.npm} publish` + (tagm ? ' --tag ' + tagm[1] : ''),
+        npmCmds.join(' '),
         `git push`,
         `git tag v${version}`,
         `git push origin v${version}`,
