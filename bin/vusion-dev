@@ -9,7 +9,6 @@ program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
     .option('-t, --theme <theme>', 'Choose theme')
-    .option('-C, --clean', 'Clean the output directory at start')
     .option('-l, --library-path <path>', 'Library entry path. To be `./index.js` by default if project type is `library`')
     .option('-d, --docs', 'Generate docs of common components in library. Always be true if project type is `library`')
     .option('-p, --port <port>', 'Web Server Port', parseInt)
@@ -35,8 +34,6 @@ if (program.entryPath)
     config.webpack.entry = { bundle: program.entryPath };
 if (program.hasOwnProperty('theme'))
     config.theme = program.theme;
-if (program.hasOwnProperty('clean'))
-    config.clean = program.clean;
 if (program.hasOwnProperty('libraryPath'))
     config.libraryPath = program.libraryPath;
 if (program.hasOwnProperty('docs'))
