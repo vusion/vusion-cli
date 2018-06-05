@@ -16,7 +16,6 @@ program
     .option('-O, --no-open', 'Disable to open browser at the beginning')
     .option('-H, --no-hot', 'Disable to hot reload')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
-    .allowUnknownOption()
     .parse(process.argv);
 
 global.extraArgs = program.args;

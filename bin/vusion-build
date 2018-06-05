@@ -20,7 +20,6 @@ program
     .option('--force-shaking', 'Force to enable tree shaking under this path without care of side effects. It\'s different from default tree shaking of webpack.')
     .option('--experimental', 'Enable some experimental loaders or plugins')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
-    .allowUnknownOption()
     .parse(process.argv);
 
 global.extraArgs = program.args;

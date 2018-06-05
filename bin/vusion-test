@@ -12,7 +12,6 @@ program
     .option('-p, --port <port>', 'Web Server Port', parseInt)
     .option('-w, --watch', 'Karma watch')
     .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
-    .allowUnknownOption()
     .parse(process.argv);
 
 global.extraArgs = program.args;
