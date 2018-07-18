@@ -6,7 +6,8 @@
   "bin": {
     "vusion": "bin/vusion",
     "vusion-dev": "bin/vusion-dev",
-    "vusion-build": "bin/vusion-build"
+    "vusion-build": "bin/vusion-build",
+    "vusion-serve": "bin/vusion-serve"
   },
   "scripts": {
     "precommit": "bash node_modules/vusion-hooks/pre-commit",
@@ -39,6 +40,8 @@
     "node": ">=6.11.5"
   },
   "dependencies": {
+    "@vusion/css-loader": "^0.3.3",
+    "@vusion/vue-loader": "~14.2.1",
     "app-module-path": "^2.2.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -68,6 +71,8 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "0.0.32",
     "karma-webpack": "^3.0.0",
+    "koa": "^2.5.2",
+    "koa-static": "^5.0.0",
     "loader-utils": "^1.1.0",
     "markdown-it": "^8.3.1",
     "markdown-it-for-inline": "^0.1.1",
@@ -97,10 +102,8 @@
     "vue-multifile-loader": "~14.2.2",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.16",
-    "@vusion/css-loader": "^0.3.3",
     "vusion-doc-loader": "^0.6.0",
     "vusion-utils": "^0.2.1",
-    "@vusion/vue-loader": "~14.2.1",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
     "webpack-hot-middleware": "^2.21.1"

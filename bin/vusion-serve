@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+const checker = require('../lib/checker');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .option('-c, --config-path <path>', 'Vusion config path')
+    .option('-p, --port <port>', 'Web Server Port', parseInt)
+    .option('-O, --no-open', 'Disable to open browser at the beginning')
+    .parse(process.argv);
+
+global.extraArgs = program.args;
+
+process.env.NODE_ENV = 'production';
+const config = global.vusionConfig = require('../config/resolve')(program.configPath);
+
+if (!checker.checkNode() || !checker.checkVersion(config.version))
+    process.exit(1);
+checker.checkUpgrade();
+
+if (program.port)
+    config.webpackDevServer.port = program.port;
+if (program.hasOwnProperty('open'))
+    config.open = program.open;
+
+const server = require('../lib/serve')(require('../webpack/' + config.type));
+server.start();

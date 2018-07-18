@@ -16,8 +16,9 @@ program
     .version(pkg.version)
     // Project commands
     .command('init <project-type> <project-name>', 'Initialize a project')
-    .command('dev', 'Run Developing Server')
+    .command('dev', 'Run webpack develop server')
     .command('build', 'Build a distribution')
+    .command('serve', 'Run a static server')
     .command('test', 'test a project')
     .command('publish <version>', 'Publish a new version')
     .command('ghpages', 'Push output directory to gh-pages')

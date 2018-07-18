@@ -41,7 +41,7 @@ vusion dev
 - `vusion -V, --version`: Show the version of current CLI
 
 - `vusion init <project-type> <project-name>`: Initalize a vusion project
-- `vusion dev`: Run develop server
+- `vusion dev`: Run webpack develop server
     - `-c, --config-path <path>`: Vusion config path
     - `-e, --entry-path <path>`: Change default entry path
     - `-l, --library-path <path>`: Library entry path. To be `./index.js` by default if project type is `library`
@@ -51,6 +51,7 @@ vusion dev
     - `-H, --no-hot`: Disable to hot reload
     - `--resolve-priority`: Priority to resolve modules or loaders, "cwd"(default) or "cli"
 - `vusion build`: Build a distribution
+- `vusion serve`: Run a static server
     - `-c, --config-path <path>`: Vusion config path
     - `-e, --entry-path <path>`: Change default entry path
     - `-C, --no-clean`: Not clean the output directory at start
