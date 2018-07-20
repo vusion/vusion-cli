@@ -30,7 +30,7 @@ module.exports = function (configPath = 'vusion.config.js') {
 
     if (config.type === 'library') {
         config.libraryPath = config.libraryPath || './src';
-        config.docs = true;
+        config.docs = config.docs || true;
     } else
         config.libraryPath = config.libraryPath;
 

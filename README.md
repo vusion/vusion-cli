@@ -123,7 +123,7 @@ Default `vusion.config.js` file:
 - [vue-multifile-loader][vue-multifile-loader-url] ![vue-multifile-loader][vue-multifile-loader-img]
 - [@vusion/vue-loader][vusion-vue-loader-url] ![@vusion/vue-loader][vusion-vue-loader-img]
 - [@vusion/css-loader][vusion-css-loader-url] ![@vusion/css-loader][vusion-css-loader-img]
-- [vusion-doc-loader][vusion-doc-loader-url] ![vusion-doc-loader][vusion-doc-loader-img]
+- [@vusion/doc-loader][vusion-doc-loader-url] ![@vusion/doc-loader][vusion-doc-loader-img]
 - [icon-font-loader][icon-font-loader-url] ![icon-font-loader][icon-font-loader-img]
 - [css-sprite-loader][css-sprite-loader-url] ![css-sprite-loader][css-sprite-loader-img]
 - [svg-classic-sprite-loader][svg-classic-sprite-loader-url] ![svg-classic-sprite-loader][svg-classic-sprite-loader-img]
@@ -134,8 +134,8 @@ Default `vusion.config.js` file:
 [vusion-vue-loader-url]: http://npmjs.org/package/@vusion/vue-loader
 [vusion-css-loader-img]: http://img.shields.io/npm/v/@vusion/css-loader.svg?style=flat-square
 [vusion-css-loader-url]: http://npmjs.org/package/@vusion/css-loader
-[vusion-doc-loader-img]: http://img.shields.io/npm/v/vusion-doc-loader.svg?style=flat-square
-[vusion-doc-loader-url]: http://npmjs.org/package/vusion-doc-loader
+[vusion-doc-loader-img]: http://img.shields.io/npm/v/@vusion/doc-loader.svg?style=flat-square
+[vusion-doc-loader-url]: http://npmjs.org/package/@vusion/doc-loader
 [icon-font-loader-img]: http://img.shields.io/npm/v/icon-font-loader.svg?style=flat-square
 [icon-font-loader-url]: http://npmjs.org/package/icon-font-loader
 [css-sprite-loader-img]: http://img.shields.io/npm/v/css-sprite-loader.svg?style=flat-square

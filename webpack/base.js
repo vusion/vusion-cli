@@ -179,11 +179,10 @@ const webpackConfig = {
 if (config.libraryPath)
     webpackConfig.resolve.alias.library$ = config.libraryPath;
 if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
-    const hljs = require('highlight.js');
     const iterator = require('markdown-it-for-inline');
 
-    webpackConfig.entry.docs = require.resolve('vusion-doc-loader/entry/docs.js');
-    webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: 'vusion-doc-loader' }); // Position below so processing before `vue-multifile-loader`
+    webpackConfig.entry.docs = require.resolve('@vusion/doc-loader/entry/docs.js');
+    webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: '@vusion/doc-loader' }); // Position below so processing before `vue-multifile-loader`
 
     webpackConfig.module.rules.push({
         test: /\.vue[\\/]README\.md$/,
@@ -193,38 +192,18 @@ if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
                 preserveWhitespace: false,
             },
         }, {
-            loader: 'vue-markdown-html-loader',
+            loader: '@vusion/md-vue-loader',
             options: {
                 wrapper: 'u-article',
-                // livePattern: {
-                //     exec: (content) => [content, 'anonymous-' + hashSum(content)],
-                // },
-                // liveTemplateProcessor(template) {
-                //     // Remove whitespace between tags
-                //     template = template.trim().replace(/>\s+</g, '><');
-                //     return `<div class="u-example">${template}</div>`;
-                // },
-                markdownIt: {
-                    langPrefix: 'lang-',
-                    html: true,
-                    highlight(str, rawLang) {
-                        let lang = rawLang;
-                        if (rawLang === 'vue')
-                            lang = 'html';
-
-                        if (lang && hljs.getLanguage(lang)) {
-                            try {
-                                const result = hljs.highlight(lang, str).value;
-                                return `<pre class="hljs ${this.langPrefix}${rawLang}"><code>${result}</code></pre>`;
-                            } catch (e) {}
-                        }
-
-                        return '';
-                        // const result = this.utils.escapeHtml(str);
-                        // return `<pre class="hljs"><code>${result}</code></pre>`;
-                    },
+                liveProcess(live, code) {
+                    // 不好直接用自定义标签，容易出问题
+                    return `<div class="u-example"><div>${live}</div><div slot="code"></div></div>\n\n${code}`;
                 },
-                markdownItPlugins: [
+                postprocess(result) {
+                    const re = /<div class="u-example"><div>([\s\S]+?)<\/div><div slot="code"><\/div><\/div>\s+(<pre[\s\S]+?<\/pre>)/g;
+                    return result.replace(re, (m, live, code) => `<u-example><div>${live}</div><div slot="code">${code}</div></u-example>\n\n`);
+                },
+                plugins: [
                     [iterator, 'link_converter', 'link_open', (tokens, idx) => tokens[idx].tag = 'u-link'],
                     [iterator, 'link_converter', 'link_close', (tokens, idx) => tokens[idx].tag = 'u-link'],
                 ],
@@ -234,7 +213,7 @@ if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
 
     webpackConfig.plugins.push(new HTMLWebpackPlugin({
         filename: config.type === 'library' ? 'index.html' : 'docs.html',
-        template: path.resolve(require.resolve('vusion-doc-loader/entry/docs.js'), '../index.html'),
+        template: path.resolve(require.resolve('@vusion/doc-loader/entry/docs.js'), '../index.html'),
         chunks: ['docs'],
     }));
 }
