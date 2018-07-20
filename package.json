@@ -10,7 +10,7 @@
     "vusion-serve": "bin/vusion-serve"
   },
   "scripts": {
-    "precommit": "bash node_modules/vusion-hooks/precommit",
+    "precommit": "node node_modules/vusion-hooks/precommit",
     "test": "npm-run-all test-*",
     "test-init": "nyc --check-coverage mocha test/init.test.js --timeout 60000 --require babel-register",
     "test-dev": "cross-env TEST=true nyc --check-coverage  mocha test/dev.test.js --timeout 120000 --require babel-register",
