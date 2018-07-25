@@ -36,18 +36,20 @@ const postcssPlugins = [
     //     }),
     // }),
     require('postcss-url')({
-        // Must start with `./`
         // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
+        // 只需将相对路径变基，其它让 Webpack 处理即可
         url(asset, dir) {
-            // base64编码的图片直接返回
-            // if (asset.url.startsWith('data:image') || asset.url.startsWith('http') || asset.url.startsWith('/'))
-            // return asset.url;
             if (asset.url[0] !== '.')
                 return asset.url;
 
             let rebasedUrl = path.normalize(path.relative(dir.to, asset.absolutePath));
             rebasedUrl = path.sep === '\\' ? rebasedUrl.replace(/\\/g, '/') : rebasedUrl;
-            return `./${rebasedUrl}${asset.search}${asset.hash}`;
+            rebasedUrl = `${rebasedUrl}${asset.search}${asset.hash}`;
+
+            if (asset.url.startsWith('..'))
+                return rebasedUrl;
+            else
+                return './' + rebasedUrl;
         },
     }),
     // precss removed
