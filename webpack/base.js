@@ -22,19 +22,13 @@ delete postcssImportAlias.EXTENDS;
 
 // Postcss plugins
 const postcssPlugins = [
+    require('../lib/loaders/postcss-mark.js'),
     require('postcss-import')({
         resolve: postcssImportResolver({
             alias: postcssImportAlias,
             modules: resolveModules,
         }),
     }),
-    // @TODO
-    // require('../lib/loaders/postcss-extends')({
-    //     resolve: postcssImportResolver({
-    //         alias: postcssImportAlias,
-    //         modules: resolveModules,
-    //     }),
-    // }),
     require('postcss-url')({
         // Must start with `./`
         // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
@@ -58,6 +52,7 @@ const postcssPlugins = [
     }),
     // precss removed
     require('postcss-calc'),
+    require('../lib/loaders/postcss-merge.js'),
 ].concat(config.postcss);
 
 // Vue loader options
