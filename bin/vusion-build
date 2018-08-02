@@ -14,6 +14,7 @@ program
     .option('-l, --library-path <path>', 'Library entry path. To be `./index.js` by default if project type is `library`')
     .option('-d, --docs', 'Generate docs of common components in library. Always be true if project type is `library`')
     .option('-s, --source-map', 'Generate source map in build mode')
+    .option('-v, --verbose', 'Show more information')
     .option('--extract-css', 'Extract CSS by ExtractTextWebpackPlugin in build mode')
     .option('--uglify-js', 'Compress and mangle JS by UglifyjsWebpackPlugin in build mode')
     .option('--minify-js', 'Minify JS only in `build` mode. Set `true` or `babel-minify` to use BabelBabelMinifyWebpackPlugin, set `uglify-js` to use UglifyjsWebpackPlugin as same as `--uglify`')
@@ -46,6 +47,8 @@ if (program.hasOwnProperty('docs'))
     config.docs = program.docs;
 if (program.hasOwnProperty('sourceMap'))
     config.sourceMap = program.sourceMap;
+if (program.hasOwnProperty('verbose'))
+    config.verbose = program.verbose;
 if (program.hasOwnProperty('extractCss'))
     config.extractCSS = program.extractCss;
 if (program.hasOwnProperty('uglifyJs'))

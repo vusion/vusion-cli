@@ -15,6 +15,8 @@ module.exports = {
     open: true,                            // Enable/Disable to open browser at the beginning in `dev` mode
     hot: true,                             // Enable/Disable to hot reload in `dev` mode
     sourceMap: false,                      // Generate sourceMap in `build` mode
+    verbose: false,                        // Show more information
+    friendly: true,                        // Use FriendlyErrorsPlugin in `dev` mode
     extractCSS: false,                     // Extract CSS via ExtractTextWebpackPlugin only in `build` mode
     uglifyJS: true,                        // Compress JS via UglifyjsWebpackPlugin only in `build` mode
     minifyJS: false,                       // Minify JS only in `build` mode. Set `true` or 'babel-minify' to use BabelBabelMinifyWebpackPlugin, set 'uglify-js' to use UglifyjsWebpackPlugin as same as `uglifyJS: true`
