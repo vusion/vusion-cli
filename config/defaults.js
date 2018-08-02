@@ -16,7 +16,8 @@ module.exports = {
     hot: true,                             // Enable/Disable to hot reload in `dev` mode
     sourceMap: false,                      // Generate sourceMap in `build` mode
     verbose: false,                        // Show more information
-    friendly: true,                        // Use FriendlyErrorsPlugin in `dev` mode
+    friendly: true,                        // Show errors friendly via FriendlyErrorsPlugin in `dev` mode
+    lint: false,                           // Lint codes when compiling via eslint-loader
     extractCSS: false,                     // Extract CSS via ExtractTextWebpackPlugin only in `build` mode
     uglifyJS: true,                        // Compress JS via UglifyjsWebpackPlugin only in `build` mode
     minifyJS: false,                       // Minify JS only in `build` mode. Set `true` or 'babel-minify' to use BabelBabelMinifyWebpackPlugin, set 'uglify-js' to use UglifyjsWebpackPlugin as same as `uglifyJS: true`

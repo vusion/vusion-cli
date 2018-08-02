@@ -178,6 +178,18 @@ const webpackConfig = {
     },
 };
 
+if (config.lint) {
+    webpackConfig.module.rules.push({
+        test: /\.(js|vue)$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        options: {
+            formatter: require('eslint-friendly-formatter'),
+        },
+    });
+}
+
 if (config.libraryPath)
     webpackConfig.resolve.alias.library$ = config.libraryPath;
 if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
