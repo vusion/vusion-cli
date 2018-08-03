@@ -8,6 +8,8 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const postcssImportResolver = require('postcss-import-resolver');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
+const postcssVusionExtendsMark = require('../lib/postcss/plugins/postcss-vusion-extends-mark.js');
+const postcssVusionExtendsMerge = require('../lib/postcss/plugins/postcss-vusion-extends-merge.js');
 
 const config = global.vusionConfig;
 
@@ -22,12 +24,14 @@ delete postcssImportAlias.EXTENDS;
 
 // Postcss plugins
 const postcssPlugins = [
-    require('../lib/loaders/postcss-mark.js'),
+    postcssVusionExtendsMark,
     require('postcss-import')({
         resolve: postcssImportResolver({
             alias: postcssImportAlias,
             modules: resolveModules,
         }),
+        skipDuplicates: false,
+        plugins: [postcssVusionExtendsMark]
     }),
     require('postcss-url')({
         // Must start with `./`
@@ -52,7 +56,7 @@ const postcssPlugins = [
     }),
     // precss removed
     require('postcss-calc'),
-    require('../lib/loaders/postcss-merge.js'),
+    postcssVusionExtendsMerge,
 ].concat(config.postcss);
 
 // Vue loader options
