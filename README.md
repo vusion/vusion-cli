@@ -49,21 +49,26 @@ vusion dev
     - `-p, --port <port>`: Web Server Port
     - `-O, --no-open`: Disable to open browser at the beginning
     - `-H, --no-hot`: Disable to hot reload
+    - `-v, --verbose`: Show more information
     - `--resolve-priority`: Priority to resolve modules or loaders, "cwd"(default) or "cli"
 - `vusion build`: Build a distribution
-- `vusion serve`: Run a static server
     - `-c, --config-path <path>`: Vusion config path
     - `-e, --entry-path <path>`: Change default entry path
     - `-C, --no-clean`: Not clean the output directory at start
     - `-l, --library-path <path>`: Library entry path. To be `./index.js` by default if project type is `library`
     - `-d, --docs`: Generate docs of common components in library. Always be true if project type is `library`
     - `-s, --source-map`: Generate source map in build mode
+    - `-v, --verbose`: Show more information
     - `--extract-css`: Extract CSS by ExtractTextWebpackPlugin in build mode
     - `--uglify-js`: Compress and mangle JS by UglifyjsWebpackPlugin in build mode
     - `--minify-js`: Minify JS only in `build` mode. Set `true` or `'babel-minify'` to use BabelBabelMinifyWebpackPlugin, set `'uglify-js'` to use UglifyjsWebpackPlugin as same as `--uglify`
     - `--force-shaking`: Force to enable tree shaking under this path without care of side effects. It\'s different from default tree shaking of webpack
     - `--experimental`: Enable some experimental loaders or plugins
     - `--resolve-priority`: Priority to resolve modules or loaders, "cwd"(default) or "cli"
+- `vusion serve`: Run a static server
+    - `-c, --config-path <path>`: Vusion config path
+    - `-p, --port <port>`: Web Server Port
+    - `-O, --no-open`: Disable to open browser at the beginning
 - `vusion test`: Run karma test
     - `-c, --config-path <path>`: Vusion config path
     - `-p, --port <port>`: Web Server Port
@@ -98,6 +103,9 @@ Default `vusion.config.js` file:
     open: true,                            // Enable/Disable to open browser at the beginning in `dev` mode
     hot: true,                             // Enable/Disable to hot reload in `dev` mode
     sourceMap: false,                      // Generate sourceMap in `build` mode
+    verbose: false,                        // Show more information
+    friendly: true,                        // Show errors friendly via FriendlyErrorsPlugin in `dev` mode
+    lint: false,                           // Lint codes when compiling via eslint-loader
     extractCSS: false,                     // Extract CSS via ExtractTextWebpackPlugin only in `build` mode
     uglifyJS: true,                        // Compress JS via UglifyjsWebpackPlugin only in `build` mode
     minifyJS: false,                       // Minify JS only in `build` mode. Set `true` or 'babel-minify' to use BabelBabelMinifyWebpackPlugin, set 'uglify-js' to use UglifyjsWebpackPlugin as same as `uglifyJS: true`
@@ -114,6 +122,7 @@ Default `vusion.config.js` file:
     options: {},                           // Extra options for loaders or plugins,
     // such as IconFontPlugin, CSSSpritePlugin, ExtractTextWebpackPlugin, UglifyjsWebpackPlugin, EnvironmentPlugin, BabelMinifyWebpackPlugin, CopyWebpackPlugin, ForceShakingPlugin
 };
+
 ```
 
 ## Development
