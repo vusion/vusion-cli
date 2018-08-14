@@ -8,8 +8,8 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const postcssImportResolver = require('postcss-import-resolver');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
-const postcssVusionExtendsMark = require('../lib/postcss/plugins/postcss-vusion-extends-mark.js');
-const postcssVusionExtendsMerge = require('../lib/postcss/plugins/postcss-vusion-extends-merge.js');
+const postcssVusionExtendsMark = require('../lib/postcss/extends-mark');
+const postcssVusionExtendsMerge = require('../lib/postcss/extends-merge');
 
 const config = global.vusionConfig;
 
@@ -31,7 +31,7 @@ const postcssPlugins = [
             modules: resolveModules,
         }),
         skipDuplicates: false,
-        plugins: [postcssVusionExtendsMark]
+        plugins: [postcssVusionExtendsMark],
     }),
     require('postcss-url')({
         // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
