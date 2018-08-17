@@ -1,5 +1,8 @@
-import './simple.css';
-import './multiple.css';
+// import './simple.css';
+// import './multiple.css';
+import Vue from 'vue';
+import Button from './u-extended-button.vue';
 
-import App from './app.vue';
-new App();
+Vue.component('u-extended-button', Button);
+
+new Vue(Button);
