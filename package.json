@@ -35,7 +35,7 @@
     "webapp"
   ],
   "engines": {
-    "node": ">=6.11.5"
+    "node": ">=8"
   },
   "dependencies": {
     "@vusion/css-loader": "^0.3.3",
