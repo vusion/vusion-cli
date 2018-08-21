@@ -15,9 +15,7 @@
     "test-init": "nyc --check-coverage mocha test/init.test.js --timeout 60000 --require babel-register",
     "test-dev": "cross-env TEST=true nyc --check-coverage  mocha test/dev.test.js --timeout 120000 --require babel-register",
     "test-build": "nyc --check-coverage mocha test/build.test.js --timeout 120000 --require babel-register",
-    "test-svg-sprite": "nyc --check-coverage mocha test/svg-sprite.test.js --timeout 60000 --require babel-register",
-    "test-transform": "nyc --check-coverage mocha test/transform.test.js --timeout 60000 --require babel-register",
-    "test-merge": "nyc --check-coverage mocha test/post-merge.test.js --timeout 120000 --require babel-register"
+    "test-transform": "nyc --check-coverage mocha test/transform.test.js --timeout 60000 --require babel-register"
   },
   "repository": "vusion/vusion-cli",
   "homepage": "http://vusion.github.io",
@@ -96,7 +94,7 @@
     "semver": "^5.5.0",
     "shelljs": "^0.8.2",
     "style-loader": "^0.21.0",
-    "svg-classic-sprite-loader": "^0.2.0",
+    "svg-classic-sprite-loader": "^0.2.2",
     "tcp-port-used": "^0.1.2",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "update-notifier": "^2.5.0",
