@@ -8,6 +8,8 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const postcssImportResolver = require('postcss-import-resolver');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
+const postcssVusionExtendMark = require('../lib/postcss/extend-mark');
+const postcssVusionExtendMerge = require('../lib/postcss/extend-merge');
 
 const config = global.vusionConfig;
 
@@ -22,19 +24,15 @@ delete postcssImportAlias.EXTENDS;
 
 // Postcss plugins
 const postcssPlugins = [
+    postcssVusionExtendMark,
     require('postcss-import')({
         resolve: postcssImportResolver({
             alias: postcssImportAlias,
             modules: resolveModules,
         }),
+        skipDuplicates: false,
+        plugins: [postcssVusionExtendMark],
     }),
-    // @TODO
-    // require('../lib/loaders/postcss-extends')({
-    //     resolve: postcssImportResolver({
-    //         alias: postcssImportAlias,
-    //         modules: resolveModules,
-    //     }),
-    // }),
     require('postcss-url')({
         // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
         // 只需将相对路径变基，其它让 Webpack 处理即可
@@ -60,6 +58,7 @@ const postcssPlugins = [
     }),
     // precss removed
     require('postcss-calc'),
+    postcssVusionExtendMerge,
 ].concat(config.postcss);
 
 // Vue loader options
