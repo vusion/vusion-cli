@@ -4,7 +4,6 @@ const merge = require('../lib/merge');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const IconFontPlugin = require('icon-font-loader').Plugin;
 const CSSSpritePlugin = require('css-sprite-loader').Plugin;
-const HTMLWebpackPlugin = require('html-webpack-plugin');
 const postcssImportResolver = require('postcss-import-resolver');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
@@ -192,44 +191,5 @@ if (config.lint) {
 
 if (config.libraryPath)
     webpackConfig.resolve.alias.library$ = config.libraryPath;
-if (config.libraryPath && config.docs && process.env.NODE_ENV !== 'test') {
-    const iterator = require('markdown-it-for-inline');
-
-    webpackConfig.entry.docs = require.resolve('@vusion/doc-loader/entry/docs.js');
-    webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: '@vusion/doc-loader' }); // Position below so processing before `vue-multifile-loader`
-
-    webpackConfig.module.rules.push({
-        test: /\.vue[\\/]README\.md$/,
-        use: [{
-            loader: 'vue-loader',
-            options: {
-                preserveWhitespace: false,
-            },
-        }, {
-            loader: '@vusion/md-vue-loader',
-            options: {
-                wrapper: 'u-article',
-                liveProcess(live, code) {
-                    // 不好直接用自定义标签，容易出问题
-                    return `<div class="u-example"><div>${live}</div><div slot="code"></div></div>\n\n${code}`;
-                },
-                postprocess(result) {
-                    const re = /<div class="u-example"><div>([\s\S]+?)<\/div><div slot="code"><\/div><\/div>\s+(<pre[\s\S]+?<\/pre>)/g;
-                    return result.replace(re, (m, live, code) => `<u-example><div>${live}</div><div slot="code">${code}</div></u-example>\n\n`);
-                },
-                plugins: [
-                    [iterator, 'link_converter', 'link_open', (tokens, idx) => tokens[idx].tag = 'u-link'],
-                    [iterator, 'link_converter', 'link_close', (tokens, idx) => tokens[idx].tag = 'u-link'],
-                ],
-            },
-        }],
-    });
-
-    webpackConfig.plugins.push(new HTMLWebpackPlugin({
-        filename: config.type === 'library' ? 'index.html' : 'docs.html',
-        template: path.resolve(require.resolve('@vusion/doc-loader/entry/docs.js'), '../index.html'),
-        chunks: ['docs'],
-    }));
-}
 
 module.exports = webpackConfig;
