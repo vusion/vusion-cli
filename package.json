@@ -13,8 +13,9 @@
     "precommit": "node node_modules/vusion-hooks/precommit",
     "test": "npm-run-all test-*",
     "test-init": "nyc --check-coverage mocha test/init.test.js --timeout 60000 --require babel-register",
-    "test-dev": "cross-env TEST=true nyc --check-coverage  mocha test/dev.test.js --timeout 120000 --require babel-register",
-    "test-build": "nyc --check-coverage mocha test/build.test.js --timeout 120000 --require babel-register",
+    "test-dev": "cross-env TEST=true nyc --check-coverage --exclude lib/postcss/extend-merge.js mocha test/dev.test.js --timeout 120000 --require babel-register",
+    "test-build": "nyc --check-coverage  --exclude lib/plugins/vusion-tree-shaking.js --exclude lib/postcss/extend-merge.js mocha test/build.test.js --timeout 240000 --require babel-register",
+    "test-extend": "nyc --check-coverage --exclude lib/plugins/vusion-tree-shaking.js mocha test/post-extend.test.js  --timeout 120000 --require babel-register",
     "test-transform": "nyc --check-coverage mocha test/transform.test.js --timeout 60000 --require babel-register"
   },
   "repository": "vusion/vusion-cli",
