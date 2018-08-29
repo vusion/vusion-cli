@@ -125,7 +125,11 @@ const webpackConfig = {
          * 4. node_modules recursively outside of current directory
          */
         modules: resolveModules,
-        alias: { vue$: 'vue/dist/vue.esm.js' },
+        alias: {
+            vue$: 'vue/dist/vue.esm.js',
+            globalCSS: config.globalCSSPath,
+            baseCSS: config.baseCSSPath,
+        },
     },
     resolveLoader: {
         modules: resolveModules,

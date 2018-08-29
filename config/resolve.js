@@ -39,22 +39,29 @@ module.exports = function resolve(configPath = 'vusion.config.js') {
         config.libraryPath = config.libraryPath || './src';
         config.docs = config.docs || {};
 
-        // 更新 docs 对象
-        chokidar.watch([configPath, packagePath]).on('change', (path) => {
-            const newConfig = getConfig(configPath, packagePath);
-            config.docs = newConfig.docs || {};
-            console.log('resolve watch');
-        });
+        if (process.env.NODE_ENV === 'development') {
+            // 更新 docs 对象
+            chokidar.watch([configPath, packagePath]).on('change', (path) => {
+                const newConfig = getConfig(configPath, packagePath);
+                config.docs = newConfig.docs || {};
+            });
+        }
     } else
         config.libraryPath = config.libraryPath;
 
     if (config.libraryPath) {
         config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
 
-        if (!config.globalCSSPath)
+        if (!config.globalCSSPath) {
             config.globalCSSPath = path.resolve(config.libraryPath, './base/global.css');
-        if (!config.baseCSSPath)
+            if (!fs.existsSync(config.globalCSSPath))
+                config.globalCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/global.css');
+        }
+        if (!config.baseCSSPath) {
             config.baseCSSPath = path.resolve(config.libraryPath, './base/base.css');
+            if (!fs.existsSync(config.baseCSSPath))
+                config.baseCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/base.css');
+        }
     } else // For Compatiblity
         config.globalCSSPath = './global.css';
 

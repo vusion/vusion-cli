@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "@vusion/css-loader": "^0.3.3",
-    "@vusion/doc-loader": "^0.7.0",
-    "@vusion/md-vue-loader": "^0.1.2",
+    "@vusion/doc-loader": "^0.8.0",
+    "@vusion/md-vue-loader": "^0.2.0",
     "@vusion/vue-loader": "~14.2.1",
     "app-module-path": "^2.2.0",
     "babel-core": "^6.26.3",

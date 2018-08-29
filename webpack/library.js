@@ -22,7 +22,6 @@ const webpackConfig = merge(config, {
 });
 
 const iterator = require('markdown-it-for-inline');
-
 // webpackConfig.module.rules.push({ test: /\.vue[\\/]index\.js$/, loader: '@vusion/doc-loader' }); // Position below so processing before `vue-multifile-loader`
 webpackConfig.module.rules.push({
     test: /\.md$/,
@@ -35,14 +34,6 @@ webpackConfig.module.rules.push({
         loader: '@vusion/md-vue-loader',
         options: {
             wrapper: 'u-article',
-            liveProcess(live, code) {
-                // 不好直接用自定义标签，容易出问题
-                return `<div class="u-code-example"><div>${live}</div><div slot="code"></div></div>\n\n${code}`;
-            },
-            postprocess(result) {
-                const re = /<div class="u-code-example"><div>([\s\S]+?)<\/div><div slot="code"><\/div><\/div>\s+(<pre[\s\S]+?<\/pre>)/g;
-                return result.replace(re, (m, live, code) => `<u-code-example><div>${live}</div><div slot="code">${code}</div></u-code-example>\n\n`);
-            },
             plugins: [
                 [iterator, 'link_converter', 'link_open', (tokens, idx) => tokens[idx].tag = 'u-link'],
                 [iterator, 'link_converter', 'link_close', (tokens, idx) => tokens[idx].tag = 'u-link'],
@@ -55,6 +46,14 @@ webpackConfig.plugins.push(new HTMLWebpackPlugin({
     filename: 'index.html',
     template: path.resolve(require.resolve('@vusion/doc-loader/views/index.js'), '../index.html'),
     chunks: ['docs'],
+    hash: true,
+}));
+// For history mode 404 on GitHub
+webpackConfig.plugins.push(new HTMLWebpackPlugin({
+    filename: '404.html',
+    template: path.resolve(require.resolve('@vusion/doc-loader/views/index.js'), '../index.html'),
+    chunks: ['docs'],
+    hash: true,
 }));
 
 const docsPath = path.resolve(process.cwd(), 'docs');
