@@ -52,16 +52,15 @@ describe('command: dev', () => {
         });
 
         it('should run with local config', (done) => {
-            const childProcess = execa(devCli, ['-e', 'index.js', '-d', 'true', '-p', '4430', '-H'], {
+            const childProcess = execa(devCli, ['-e', 'index.js', '-p', '4430', '-H'], {
                 stdio: ['ipc'],
             });
 
             childProcess.on('message', (vusionConfig) => {
-                const { webpack: { entry: { bundle: entryPath } }, clean, docs, webpackDevServer: { port }, hot } = vusionConfig;
+                const { webpack: { entry: { bundle: entryPath } }, webpackDevServer: { port }, hot } = vusionConfig;
                 expect(entryPath).to.equal('index.js');
                 expect(port).to.equal(4430);
                 /* eslint-disable no-unused-expressions */
-                expect(docs).to.be.true;
                 expect(hot).to.be.false;
                 /* eslint-enable no-unused-expressions */
                 done();
