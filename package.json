@@ -1,7 +1,7 @@
 {
   "name": "vusion-cli",
   "description": "CLI for Vusion Projects, including Application and UI Library.",
-  "version": "0.7.8",
+  "version": "0.7.9",
   "author": "Rainfore <rainforest92@126.com>",
   "bin": {
     "vusion": "bin/vusion",
