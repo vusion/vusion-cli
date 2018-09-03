@@ -54,6 +54,9 @@ const postcssPlugins = [
     require('postcss-preset-env')({
         stage: 0,
         browsers: config.browsers,
+        features: {
+            'color-mod-function': true, // stage is -1, https://github.com/csstools/cssdb/blob/master/cssdb.json
+        },
     }),
     // precss removed
     require('postcss-calc'),
