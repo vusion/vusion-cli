@@ -69,7 +69,7 @@ const vueOptions = merge({
     postcss: postcssPlugins,
     cssModules: {
         importLoaders: process.env.NODE_ENV === 'production' ? 5 : 3,
-        localIdentName: process.env.NODE_ENV === 'production' ? '[hash:base64:16]' : '[name]_[local]_[hash:base64:8]',
+        localIdentName: '[name]_[local]_[hash:base64:8]',
         minimize: process.env.NODE_ENV === 'production' && !!(config.uglifyJS || config.minifyJS),
     },
     cssSourceMap: config.sourceMap,
