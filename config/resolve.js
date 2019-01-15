@@ -49,16 +49,22 @@ module.exports = function resolve(configPath = 'vusion.config.js') {
     } else
         config.libraryPath = config.libraryPath;
 
+    config.srcPath = config.srcPath || './src';
+
     if (config.libraryPath) {
         config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
 
         if (!config.globalCSSPath) {
             config.globalCSSPath = path.resolve(config.libraryPath, './base/global.css');
             if (!fs.existsSync(config.globalCSSPath))
+                config.globalCSSPath = path.resolve(config.srcPath, './base/global.css');
+            if (!fs.existsSync(config.globalCSSPath))
                 config.globalCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/global.css');
         }
         if (!config.baseCSSPath) {
             config.baseCSSPath = path.resolve(config.libraryPath, './base/base.css');
+            if (!fs.existsSync(config.baseCSSPath))
+                config.baseCSSPath = path.resolve(config.srcPath, './base/global.css');
             if (!fs.existsSync(config.baseCSSPath))
                 config.baseCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/base.css');
         }

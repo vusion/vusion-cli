@@ -55,6 +55,7 @@ const postcssPlugins = [
         stage: 0,
         browsers: config.browsers,
         features: {
+            'image-set-function': false, // handle by css-sprite-loader
             'color-mod-function': true, // stage is -1, https://github.com/csstools/cssdb/blob/master/cssdb.json
         },
     }),
@@ -112,6 +113,7 @@ const plugins = [
 // Only generate sprites in production mode
 if (process.env.NODE_ENV === 'production') {
     plugins.push(new CSSSpritePlugin(Object.assign({
+        imageSetFallback: true,
         plugins: postcssPlugins,
     }, config.options.CSSSpritePlugin)));
 }
