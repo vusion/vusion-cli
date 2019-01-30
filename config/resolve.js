@@ -15,10 +15,10 @@ function getConfig(configPath, packagePath) {
         if (packageVusion)
             return packageVusion;
         else {
-            console.error('Cannot find vusion config! This is not a vusion project.\n');
-            console.error('processCwd:', process.cwd());
-            console.error('configPath:', configPath);
-            process.exit(1);
+            throw new Error(`Cannot find vusion config! This is not a vusion project.
+    processCwd: ${process.cwd()}
+    configPath: ${configPath}
+`);
         }
     }
 }
@@ -31,8 +31,7 @@ module.exports = function resolve(configPath = 'vusion.config.js') {
     Object.assign(config, getConfig(configPath, packagePath));
 
     if (!TYPES.includes(config.type)) {
-        console.error('Unknown project type!');
-        process.exit(1);
+        throw new TypeError('Unknown project type!');
     }
 
     if (config.type === 'library') {
