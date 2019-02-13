@@ -52,7 +52,7 @@ describe('command: dev', () => {
         });
 
         it('should run with local config', (done) => {
-            const childProcess = execa(devCli, ['-e', 'index.js', '-C', '-d', 'true', '-p', '4430', '-H'], {
+            const childProcess = execa(devCli, ['-e', 'index.js', '-d', 'true', '-p', '4430', '-H'], {
                 stdio: ['ipc'],
             });
 
