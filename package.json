@@ -1,7 +1,7 @@
 {
   "name": "vusion-cli",
   "description": "CLI for Vusion Projects, including Application and UI Library.",
-  "version": "0.7.6",
+  "version": "0.7.10",
   "author": "Rainfore <rainforest92@126.com>",
   "bin": {
     "vusion": "bin/vusion",
@@ -13,11 +13,10 @@
     "precommit": "node node_modules/vusion-hooks/precommit",
     "test": "npm-run-all test-*",
     "test-init": "nyc --check-coverage mocha test/init.test.js --timeout 60000 --require babel-register",
-    "test-dev": "cross-env TEST=true nyc --check-coverage  mocha test/dev.test.js --timeout 120000 --require babel-register",
-    "test-build": "nyc --check-coverage mocha test/build.test.js --timeout 120000 --require babel-register",
-    "test-svg-sprite": "nyc --check-coverage mocha test/svg-sprite.test.js --timeout 60000 --require babel-register",
-    "test-transform": "nyc --check-coverage mocha test/transform.test.js --timeout 60000 --require babel-register",
-    "test-merge": "nyc --check-coverage mocha test/post-merge.test.js --timeout 120000 --require babel-register"
+    "test-dev": "cross-env TEST=true nyc --check-coverage --exclude lib/postcss/extend-merge.js mocha test/dev.test.js --timeout 120000 --require babel-register",
+    "test-build": "nyc --check-coverage  --exclude lib/plugins/vusion-tree-shaking.js --exclude lib/postcss/extend-merge.js mocha test/build.test.js --timeout 240000 --require babel-register",
+    "test-extend": "nyc --check-coverage --exclude lib/plugins/vusion-tree-shaking.js mocha test/post-extend.test.js  --timeout 120000 --require babel-register",
+    "test-transform": "nyc --check-coverage mocha test/transform.test.js --timeout 60000 --require babel-register"
   },
   "repository": "vusion/vusion-cli",
   "homepage": "http://vusion.github.io",
@@ -37,25 +36,28 @@
     "webapp"
   ],
   "engines": {
-    "node": ">=6.11.5"
+    "node": ">=8"
   },
   "dependencies": {
     "@vusion/css-loader": "^0.3.3",
-    "@vusion/doc-loader": "^0.7.0",
-    "@vusion/md-vue-loader": "^0.1.2",
+    "@vusion/doc-loader": "^0.8.0",
+    "@vusion/md-vue-loader": "^0.2.0",
     "@vusion/vue-loader": "~14.2.1",
     "app-module-path": "^2.2.0",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^9.0.0",
     "babel-loader": "^7.1.5",
     "babel-minify-webpack-plugin": "^0.3.1",
     "chalk": "^2.4.1",
+    "chokidar": "^2.0.4",
     "commander": "^2.16.0",
     "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^0.28.11",
-    "css-sprite-loader": "^0.2.2",
+    "css-sprite-loader": "^0.3.1",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.1.0",
+    "eslint-plugin-vue": "^4.7.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.11",
     "friendly-errors-webpack-plugin": "^1.7.0",
@@ -63,7 +65,7 @@
     "gh-pages": "^1.2.0",
     "highlight.js": "^9.12.0",
     "html-webpack-plugin": "^3.2.0",
-    "icon-font-loader": "^1.5.0",
+    "icon-font-loader": "^1.6.3",
     "internal-ip": "^3.0.1",
     "karma": "^2.0.2",
     "karma-chai": "^0.1.0",
@@ -96,7 +98,7 @@
     "semver": "^5.5.0",
     "shelljs": "^0.8.2",
     "style-loader": "^0.21.0",
-    "svg-classic-sprite-loader": "^0.2.0",
+    "svg-classic-sprite-loader": "^0.2.4",
     "tcp-port-used": "^0.1.2",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "update-notifier": "^2.5.0",
@@ -114,13 +116,13 @@
     "babel-register": "^6.24.1",
     "chai": "^4.1.1",
     "cross-env": "^5.0.5",
-    "eslint": "^4.19.1",
-    "eslint-config-vusion": "^2.1.1",
+    "eslint": "^5.14.1",
+    "eslint-config-vusion": "^3.0.1",
     "execa": "^0.8.0",
     "husky": "^0.13.3",
     "mocha": "^3.5.0",
     "npm-run-all": "^4.1.1",
     "nyc": "^11.2.1",
-    "vusion-hooks": "^0.2.0"
+    "vusion-hooks": "^0.2.2"
   }
 }

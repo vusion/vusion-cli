@@ -57,12 +57,10 @@ describe('command: dev', () => {
             });
 
             childProcess.on('message', (vusionConfig) => {
-                const { webpack: { entry: { bundle: entryPath } }, clean, docs, webpackDevServer: { port }, hot } = vusionConfig;
+                const { webpack: { entry: { bundle: entryPath } }, webpackDevServer: { port }, hot } = vusionConfig;
                 expect(entryPath).to.equal('index.js');
                 expect(port).to.equal(4430);
                 /* eslint-disable no-unused-expressions */
-                expect(clean).to.be.false;
-                expect(docs).to.be.true;
                 expect(hot).to.be.false;
                 /* eslint-enable no-unused-expressions */
                 done();
@@ -103,18 +101,18 @@ describe('command: dev', () => {
             childProcess.on('exit', (code) => code ? done(code) : done());
         });
 
-        // it('should run with local config', (done) => {
-        //     const childProcess = execa(devCli, ['-l', './index.js'], {
-        //         stdio: ['ipc'],
-        //     });
+        it('should run with local config', (done) => {
+            const childProcess = execa(devCli, ['-l', './index.js'], {
+                stdio: ['ipc'],
+            });
 
-        //     childProcess.on('message', (vusionConfig) => {
-        //         const { libraryPath } = vusionConfig;
-        //         expect(libraryPath).to.equal('./index.js');
-        //         done();
-        //     });
+            childProcess.on('message', (vusionConfig) => {
+                const { libraryPath } = vusionConfig;
+                expect(libraryPath).to.equal('./index.js');
+                done();
+            });
 
-        //     childProcess.on('exit', (code) => code ? done(code) : done());
-        // });
+            childProcess.on('exit', (code) => code ? done(code) : done());
+        });
     });
 });

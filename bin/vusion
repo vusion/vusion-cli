@@ -19,6 +19,7 @@ program
     .command('dev', 'Run webpack develop server')
     .command('build', 'Build a distribution')
     .command('serve', 'Run a static server')
+    .command('doc', 'Run a documents server')
     .command('test', 'test a project')
     .command('publish <version>', 'Publish a new version')
     .command('ghpages', 'Push output directory to gh-pages')

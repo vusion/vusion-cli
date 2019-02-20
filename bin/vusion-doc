@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+/**
+ * vusion-doc 和 library 下的 dev 没有区别
+ * 主要是考虑在 app dev 时生成文档速度会很慢
+ */
+
 const checker = require('../lib/checker');
 /**
  * Parse Commands
@@ -10,7 +15,7 @@ program
     .option('-e, --entry-path <path>', 'Change default entry path')
     .option('-t, --theme <theme>', 'Choose theme')
     .option('-l, --library-path <path>', 'Library entry path. To be `./index.js` by default if project type is `library`')
-    .option('-p, --port <port>', 'Web Server Port', parseInt)
+    .option('-p, --port <port>', 'Web Server Port', parseInt, 9090)
     .option('-O, --no-open', 'Disable to open browser at the beginning')
     .option('-H, --no-hot', 'Disable to hot reload')
     .option('-v, --verbose', 'Show more information')
@@ -47,5 +52,6 @@ if (program.hasOwnProperty('verbose'))
 if (program.hasOwnProperty('resolvePriority'))
     config.resolvePriority = program.resolvePriority;
 
-const server = require('../lib/dev')(require('../webpack/' + config.type));
+config.type = 'library';
+const server = require('../lib/dev')(require('../webpack/library'));
 server.start();

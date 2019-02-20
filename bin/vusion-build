@@ -12,7 +12,6 @@ program
     .option('-t, --theme <theme>', 'Choose theme')
     .option('-C, --no-clean', 'Not clean output files at start')
     .option('-l, --library-path <path>', 'Library entry path. To be `./index.js` by default if project type is `library`')
-    .option('-d, --docs', 'Generate docs of common components in library. Always be true if project type is `library`')
     .option('-s, --source-map', 'Generate source map in build mode')
     .option('-v, --verbose', 'Show more information')
     .option('--extract-css', 'Extract CSS by ExtractTextWebpackPlugin in build mode')
@@ -43,8 +42,6 @@ if (program.hasOwnProperty('clean'))
     config.clean = program.clean;
 if (program.hasOwnProperty('libraryPath'))
     config.libraryPath = program.libraryPath;
-if (program.hasOwnProperty('docs'))
-    config.docs = program.docs;
 if (program.hasOwnProperty('sourceMap'))
     config.sourceMap = program.sourceMap;
 if (program.hasOwnProperty('verbose'))

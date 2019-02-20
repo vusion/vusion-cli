@@ -1,0 +1,5 @@
+@extend './base.css';
+
+.root:hover {
+    color: purple;
+}
