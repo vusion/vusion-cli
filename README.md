@@ -75,11 +75,10 @@ vusion dev
     - `-w, --watch`: Karma watch
     - `--resolve-priority`: Priority to resolve modules or loaders, "cwd"(default) or "cli"
 - `vusion publish <version>`: Publish a new version
-- `vusion ghpages`: Push output directory to gh-pages
+- `vusion ghpages [directory]`: Push output directory to gh-pages. If the directory is not specfied, it will be webpack output path
     - `-c, --config-path <path>`: Vusion config path
-    - `-p, --path <path>`: Path to publish. Default is webpack output path
 - `vusion dep`: List dependencies of vusion-cli
-
+- `vusion list [directory]`: List all components in a directory. If the directory is not specfied, it will be process.cwd()
 - `vusion transform <vue-path>`: Transform Vue component between singlefile and multifile pattern
 
 ## Configuration
