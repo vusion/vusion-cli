@@ -54,7 +54,7 @@
     "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^0.28.11",
-    "css-sprite-loader": "^0.2.2",
+    "css-sprite-loader": "^0.3.1",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-vue": "^4.7.1",
@@ -65,7 +65,7 @@
     "gh-pages": "^1.2.0",
     "highlight.js": "^9.12.0",
     "html-webpack-plugin": "^3.2.0",
-    "icon-font-loader": "^1.5.3",
+    "icon-font-loader": "^1.6.3",
     "internal-ip": "^3.0.1",
     "karma": "^2.0.2",
     "karma-chai": "^0.1.0",
@@ -98,7 +98,7 @@
     "semver": "^5.5.0",
     "shelljs": "^0.8.2",
     "style-loader": "^0.21.0",
-    "svg-classic-sprite-loader": "^0.2.2",
+    "svg-classic-sprite-loader": "^0.2.4",
     "tcp-port-used": "^0.1.2",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "update-notifier": "^2.5.0",
@@ -116,13 +116,13 @@
     "babel-register": "^6.24.1",
     "chai": "^4.1.1",
     "cross-env": "^5.0.5",
-    "eslint": "^4.19.1",
-    "eslint-config-vusion": "^2.1.1",
+    "eslint": "^5.14.1",
+    "eslint-config-vusion": "^3.0.1",
     "execa": "^0.8.0",
     "husky": "^0.13.3",
     "mocha": "^3.5.0",
     "npm-run-all": "^4.1.1",
     "nyc": "^11.2.1",
-    "vusion-hooks": "^0.2.0"
+    "vusion-hooks": "^0.2.2"
   }
 }
