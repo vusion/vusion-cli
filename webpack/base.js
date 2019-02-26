@@ -193,6 +193,7 @@ if (config.lint) {
         loader: 'eslint-loader',
         enforce: 'pre',
         options: {
+            eslintPath: path.resolve(process.cwd(), 'node_modules/eslint'),
             formatter: require('eslint-friendly-formatter'),
         },
     });
