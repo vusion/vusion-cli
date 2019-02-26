@@ -1,4 +1,4 @@
-@extend './base.css';
+@import './base-simple.css';
 
 .root:hover {
     color: purple;

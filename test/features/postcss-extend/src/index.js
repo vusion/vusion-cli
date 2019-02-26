@@ -1,8 +1,14 @@
-// import './simple.css';
-// import './multiple.css';
-import Vue from 'vue';
-import Button from './u-extended-button.vue';
+import './case-simple.css';
+import './case-simple-import.css';
+import './case-multiple.css';
+import './case-multiple-import.css';
+import './case-mixed.css';
+import './case-complex.css';
+import './case-complex-import.css';
 
-Vue.component('u-extended-button', Button);
+// import Vue from 'vue';
+// import Button from './u-extended-button.vue';
 
-new Vue(Button);
+// Vue.component('u-extended-button', Button);
+
+// new Vue(Button);
