@@ -1,12 +1,4 @@
 .root {
-    color: orange;
-}
-
-.root:hover {
-    color: burlywood;
-}
-
-.root {
     color: blue;
 }
 
@@ -20,10 +12,6 @@
 
 .other {
     background: blue;
-}
-
-.root:hover {
-    color: yellow;
 }
 
 .root[color="primary"] {
@@ -40,4 +28,8 @@
 
 .other {
     background: green;
+}
+
+.root:hover {
+    color: yellow;
 }

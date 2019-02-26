@@ -1,13 +1,4 @@
 .root {
-    color: orange;
-}
-
-.root:hover {
-    color: burlywood;
-}
-
-/* ============ VUSION_EXTEND_START ============ */
-.root {
     color: blue;
 }
 
@@ -22,13 +13,7 @@
 .other {
     background: blue;
 }
-/* ============ VUSION_EXTEND_END ============ */
 
-.root:hover {
-    color: yellow;
-}
-
-/* ============ VUSION_EXTEND_START ============ */
 .root[color="primary"] {
     color: green;
 }
@@ -44,7 +29,10 @@
 .other {
     background: green;
 }
-/* ============ VUSION_EXTEND_END ============ */
+
+.root:hover {
+    color: yellow;
+}
 
 .root[color="primary"]:hover {
     color: red;

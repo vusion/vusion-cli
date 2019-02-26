@@ -1,12 +1,4 @@
 .root {
-    color: orange;
-}
-
-.root:hover {
-    color: burlywood;
-}
-
-.root {
     color: blue;
 }
 

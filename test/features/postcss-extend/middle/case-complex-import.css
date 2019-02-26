@@ -1,11 +1,3 @@
-.root {
-    color: orange;
-}
-
-.root:hover {
-    color: burlywood;
-}
-
 /* ============ VUSION_IMPORT_START ============ */
 /* ============ VUSION_EXTEND_START ============ */
 .root {
@@ -24,12 +16,10 @@
     background: blue;
 }
 /* ============ VUSION_EXTEND_END ============ */
-
 .root:hover {
     color: purple;
 }
 /* ============ VUSION_IMPORT_END ============ */
-
 .root:hover {
     color: red;
 }

@@ -1,6 +1,5 @@
+@import './base-simple.css';
 
 .root:hover {
     color: purple;
 }
-
-@import './base-simple.css';
