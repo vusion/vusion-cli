@@ -6,7 +6,12 @@ import './case-complex.css';
 import './case-complex-import.css';
 
 import Vue from 'vue';
-import Button from './u-extended-button.vue';
+import ExtendedButton from './u-extended-button.vue';
+import AutoButton from './u-auto-button.vue';
+// import AutoButton2 from './u-auto-button-2.vue';
 
-Vue.component('u-extended-button', Button);
-new Vue(Button);
+Vue.component('u-extended-button', ExtendedButton);
+Vue.component('u-auto-button', AutoButton);
+// Vue.component('u-auto-button-2', AutoButton2);
+
+new Vue(ExtendedButton);

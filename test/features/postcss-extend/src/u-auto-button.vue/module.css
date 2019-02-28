@@ -1,0 +1,5 @@
+@extend;
+
+.root:hover {
+    color: purple;
+}

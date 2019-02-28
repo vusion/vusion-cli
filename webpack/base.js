@@ -7,6 +7,7 @@ const CSSSpritePlugin = require('css-sprite-loader').Plugin;
 const postcssImportResolver = require('postcss-import-resolver');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
+const autoExtendLoaderPath = require.resolve('../lib/loaders/auto-extend-loader');
 const postcssVusionExtendMark = require('../lib/postcss/extend-mark');
 const postcssVusionExtendMerge = require('../lib/postcss/extend-merge');
 
@@ -69,14 +70,14 @@ const vueOptions = merge({
     preserveWhitespace: false,
     postcss: postcssPlugins,
     cssModules: {
-        importLoaders: process.env.NODE_ENV === 'production' ? 5 : 3,
+        importLoaders: process.env.NODE_ENV === 'production' ? 6 : 4,
         localIdentName: '[name]_[local]_[hash:base64:8]',
         minimize: process.env.NODE_ENV === 'production' && !!(config.uglifyJS || config.minifyJS),
     },
     cssSourceMap: config.sourceMap,
     extractCSS: process.env.NODE_ENV === 'production' && config.extractCSS,
     preLoaders: {
-        css: importGlobalLoaderPath,
+        css: [importGlobalLoaderPath, autoExtendLoaderPath].join('!'),
     },
     midLoaders: {
         css: process.env.NODE_ENV === 'production' ? ['css-sprite-loader', 'svg-classic-sprite-loader?filter=query', 'icon-font-loader'].join('!') : 'icon-font-loader',

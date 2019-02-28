@@ -3,9 +3,9 @@ export default {};
 </script>
 
 <style module>
-@extend './base.css';
+@extend './base-simple.css';
 
 .root:hover {
-    color: royalblue;
+    color: red;
 }
 </style>
