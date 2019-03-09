@@ -13,25 +13,12 @@ program
     // .option('-d, --directory <directory>', 'Optional to choose directory')
     .option('-r, --recursive', 'Recursive to resolve directory')
     .option('-v, --verbose', 'Show full path')
+    .option('-p, --commonpath <path>', 'Show common components path') // 项目中的通用组件根目录
     .parse(process.argv);
 global.extraArgs = program.args;
 
 const directory = path.resolve(process.cwd(), program.args[0] || '');
 
-// const type = program.args[0];
-// if (!type) {
-//     console.error('Input which type do you want to list!');
-//     process.exit(1);
-// }
-
-// let directory;
-// try {
-//     const config = global.vusionConfig = require('../config/resolve')(program.configPath);
-//     directory = config.libraryPath;
-// } catch (e) {
-//     console.log(e);
-// }
-// if (program.directory)
 
 /*
 * 统计指标：
@@ -39,22 +26,8 @@ const directory = path.resolve(process.cwd(), program.args[0] || '');
 *    组件利用率 = 库中被使用的组件数 / (库中被使用的组件数 + 项目级别的通用组件数)
 *    根组件利用率 = 库中被使用的根组件数 / (库中被使用的 根组件数 + 项目级别的通用 根组件数)
 */
-// const protoUIPath = 'node_modules/proto-ui.vusion/src';
-// const cloudUIPath = 'node_modules/'
-// 全部组件统计
-function mkUI(...params){
-    const UI = {};
-    params.forEach((ui) => {
-        ui.forEach((p) => {
-            if(!/0/.test(p))
-                UI[p] = true;
-        })
-    });
-    return Object.keys(UI);
-}
 
-function mkRegExp(ui){
-    const tag = ui.substring(0, ui.length - 3);
+function mkRegExp(tag){
     return {
         regexp: new RegExp(`<${tag}\\s`),
         tag
@@ -69,344 +42,93 @@ function mkstatics(repo, content){
         }
     }
 }
-const cloudUI =[
-'u-bar-chart.vue',
-'u-block.vue',
-'u-button.vue',
-'u-calendar.vue',
-'u-capsule-group.vue',
-'u-capsule.vue',
-'u-capsules.vue',
-'u-cascade-capsules.vue',
-'u-chart-tooltip.vue',
-'u-chart.vue',
-'u-checkboxes.vue',
-'u-circular-progress.vue',
-'u-color-select.vue',
-'u-combo-slider.vue',
-'u-countup.vue',
-'u-create-element.vue',
-'u-date-picker.vue',
-'u-date-time-picker.vue',
-'u-desc-list-group.vue',
-'u-desc-list-item.vue',
-'u-desc-list.vue',
-'u-form-item.vue',
-'u-form.vue',
-'u-icon.vue',
-'u-info-list-group.vue',
-'u-info-list-item.vue',
-'u-info-list.vue',
-'u-input.vue',
-'u-label.vue',
-'u-lightbox-item.vue',
-'u-lightbox.vue',
-'u-line-chart.vue',
-'u-linear-layout.vue',
-'u-linear-progress.vue',
-'u-link-list-item.vue',
-'u-link-list.vue',
-'u-link.vue',
-'u-loading.vue',
-'u-logo.vue',
-'u-menu-item.vue',
-'u-menu.vue',
-'u-modal.vue',
-'u-multi-select.vue',
-'u-navbar-divider.vue',
-'u-navbar-item.vue',
-'u-navbar.vue',
-'u-number-input.vue',
-'u-pagination.vue',
-'u-pie-chart.vue',
-'u-pill.vue',
-'u-pills.vue',
-'u-popover.vue',
-'u-popup.vue',
-'u-radios.vue',
-'u-resize-table-column.vue',
-'u-resize-table.vue',
-'u-select-divider.vue',
-'u-select-group.vue',
-'u-select-item.vue',
-'u-select.vue',
-'u-sidebar-divider.vue',
-'u-sidebar-group.vue',
-'u-sidebar-item.vue',
-'u-sidebar.vue',
-'u-slider.vue',
-'u-spinner.vue',
-'u-status-icon.vue',
-'u-step.vue',
-'u-steps.vue',
-'u-subnav-divider.vue',
-'u-subnav-item.vue',
-'u-subnav.vue',
-'u-subtab.vue',
-'u-subtabs.vue',
-'u-suggest-item.vue',
-'u-suggest.vue',
-'u-switch.vue',
-'u-table-cell.vue',
-'u-table-select-item.vue',
-'u-table-select.vue',
-'u-table-view-cell.vue',
-'u-table-view-column.vue',
-'u-table-view.vue',
-'u-table.vue',
-'u-tablet.vue',
-'u-tablets.vue',
-'u-tabs.vue',
-'u-tag.vue',
-'u-text.vue',
-'u-textarea.vue',
-'u-time-picker.vue',
-'u-toast.vue',
-'u-tooltip.vue',
-'u-xbar-chart.vue' ];
-const protoUI = [ 'u-badge.vue',
-'u-bar-chart.vue',
-'u-block.vue',
-'u-button.vue',
-'u-carousel-item.vue',
-'u-carousel.vue',
-'u-cascade-select.vue',
-'u-chart.vue',
-'u-checkbox--0.vue',
-'u-checkbox.vue',
-'u-checkboxes.vue',
-'u-circular-progress.vue',
-'u-class-style-transfer.vue',
-'u-collapse-item.vue',
-'u-collapse-transition.vue',
-'u-collapse.vue',
-'u-combo-slider.vue',
-'u-crumb-item.vue',
-'u-crumb.vue',
-'u-draggable.vue',
-'u-dragger.vue',
-'u-drawer.vue',
-'u-droppable.vue',
-'u-emitter.vue',
-'u-field.vue',
-'u-forbidden.vue',
-'u-form-item.vue',
-'u-form.vue',
-'u-grid-layout-column.vue',
-'u-grid-layout-row.vue',
-'u-grid-layout.vue',
-'u-icon.vue',
-'u-input.vue',
-'u-label.vue',
-'u-linear-layout.vue',
-'u-linear-progress.vue',
-'u-link.vue',
-'u-list-view-divider.vue',
-'u-list-view-group.vue',
-'u-list-view-item.vue',
-'u-list-view.vue',
-'u-loading.vue',
-'u-logo.vue',
-'u-menu-divider.vue',
-'u-menu-group.vue',
-'u-menu-item.vue',
-'u-menu.vue',
-'u-modal.vue',
-'u-navbar-divider.vue',
-'u-navbar-item.vue',
-'u-navbar.vue',
-'u-number-input.vue',
-'u-pagination.vue',
-'u-pie-chart.vue',
-'u-popper.vue',
-'u-popup.vue',
-'u-radio--0.vue',
-'u-radio.vue',
-'u-radios.vue',
-'u-region-select.vue',
-'u-render.vue',
-'u-router-item.vue',
-'u-sample.vue',
-'u-select--0-divider.vue',
-'u-select--0-group.vue',
-'u-select--0-item.vue',
-'u-select--0.vue',
-'u-select-divider.vue',
-'u-select-group.vue',
-'u-select-item.vue',
-'u-select.vue',
-'u-sidebar-divider.vue',
-'u-sidebar-group.vue',
-'u-sidebar-item.vue',
-'u-sidebar.vue',
-'u-single-choice-divider.vue',
-'u-single-choice-group.vue',
-'u-single-choice.vue',
-'u-single-choices.vue',
-'u-slider.vue',
-'u-spinner.vue',
-'u-step.vue',
-'u-steps.vue',
-'u-suggest-item.vue',
-'u-suggest.vue',
-'u-switch.vue',
-'u-tab.vue',
-'u-tabs.vue',
-'u-text.vue',
-'u-textarea.vue',
-'u-toast.vue',
-'u-tooltip.vue',
-'u-transfer.vue',
-'u-tree-view-node.vue',
-'u-tree-view-text.vue',
-'u-tree-view.vue',
-'u-uploader.vue',
-'u-watermark.vue' ];
+const commonPath = program.commonpath || 'src/common';
+const packageJson = path.resolve(process.env.PWD, 'package.json');
+const cloudUIPath = path.resolve(process.env.PWD, 'node_modules/cloud-ui.vusion/src');
+const protoUIPath = path.resolve(process.env.PWD, 'node_modules/proto-ui.vusion/src');
+const componentPath = path.resolve(process.env.PWD, commonPath);
 
-const AllUIRegexp = mkUI(protoUI, cloudUI).map(mkRegExp);
-const AllUIUsed = {};
 
-const cloudRootUI =[
-    'u-bar-chart.vue',
-    'u-block.vue',
-    'u-button.vue',
-    'u-calendar.vue',
-    'u-capsules.vue',
-    'u-cascade-capsules.vue',
-    'u-chart-tooltip.vue',
-    'u-chart.vue',
-    'u-checkboxes.vue',
-    'u-circular-progress.vue',
-    'u-color-select.vue',
-    'u-combo-slider.vue',
-    'u-countup.vue',
-    'u-create-element.vue',
-    'u-date-picker.vue',
-    'u-date-time-picker.vue',
-    'u-desc-list.vue',
-    'u-form.vue',
-    'u-icon.vue',
-    'u-info-list.vue',
-    'u-input.vue',
-    'u-label.vue',
-    'u-lightbox.vue',
-    'u-line-chart.vue',
-    'u-linear-layout.vue',
-    'u-linear-progress.vue',
-    'u-link-list.vue',
-    'u-link.vue',
-    'u-loading.vue',
-    'u-logo.vue',
-    'u-menu.vue',
-    'u-modal.vue',
-    'u-multi-select.vue',
-    'u-navbar.vue',
-    'u-number-input.vue',
-    'u-pagination.vue',
-    'u-pie-chart.vue',
-    'u-pill.vue',
-    'u-pills.vue',
-    'u-popover.vue',
-    'u-popup.vue',
-    'u-radios.vue',
-    'u-resize-table.vue',
-    'u-select.vue',
-    'u-sidebar.vue',
-    'u-slider.vue',
-    'u-spinner.vue',
-    'u-status-icon.vue',
-    'u-steps.vue',
-    'u-subnav.vue',
-    'u-subtabs.vue',
-    'u-suggest.vue',
-    'u-switch.vue',
-    'u-table-select.vue',
-    'u-table-view.vue',
-    'u-table.vue',
-    'u-tablets.vue',
-    'u-tabs.vue',
-    'u-tag.vue',
-    'u-text.vue',
-    'u-textarea.vue',
-    'u-time-picker.vue',
-    'u-toast.vue',
-    'u-tooltip.vue',
-    'u-xbar-chart.vue' ];
-const protoRootUI = [
-    'u-badge.vue',
-    'u-bar-chart.vue',
-    'u-block.vue',
-    'u-button.vue',
-    'u-carousel.vue',
-    'u-cascade-select.vue',
-    'u-chart.vue',
-    'u-checkbox.vue',
-    'u-checkboxes.vue',
-    'u-circular-progress.vue',
-    'u-class-style-transfer.vue',
-    'u-collapse-transition.vue',
-    'u-collapse.vue',
-    'u-combo-slider.vue',
-    'u-crumb.vue',
-    'u-draggable.vue',
-    'u-dragger.vue',
-    'u-drawer.vue',
-    'u-droppable.vue',
-    'u-emitter.vue',
-    'u-forbidden.vue',
-    'u-form.vue',
-    'u-grid-layout.vue',
-    'u-icon.vue',
-    'u-input.vue',
-    'u-label.vue',
-    'u-linear-layout.vue',
-    'u-linear-progress.vue',
-    'u-link.vue',
-    'u-list-view.vue',
-    'u-loading.vue',
-    'u-logo.vue',
-    'u-menu.vue',
-    'u-modal.vue',
-    'u-navbar.vue',
-    'u-number-input.vue',
-    'u-pagination.vue',
-    'u-pie-chart.vue',
-    'u-popper.vue',
-    'u-popup.vue',
-    'u-radio.vue',
-    'u-radios.vue',
-    'u-region-select.vue',
-    'u-render.vue',
-    'u-router-item.vue',
-    'u-sample.vue',
-    'u-select.vue',
-    'u-sidebar.vue',
-    'u-single-choices.vue',
-    'u-slider.vue',
-    'u-spinner.vue',
-    'u-step.vue',
-    'u-steps.vue',
-    'u-suggest.vue',
-    'u-switch.vue',
-    'u-tabs.vue',
-    'u-text.vue',
-    'u-textarea.vue',
-    'u-toast.vue',
-    'u-tooltip.vue',
-    'u-transfer.vue',
-    'u-tree-view.vue',
-    'u-uploader.vue',
-    'u-watermark.vue' ];
-    // 根组件统计
-const AllRootUIRegexp =  mkUI(cloudRootUI, protoRootUI).map(mkRegExp);
-const AllRootUIUsed = {};
-
-console.log(AllUIRegexp.length, AllRootUIRegexp.length)
-
+const list = {};
+const rootlist = {};
+function sort(a, b) {
+    let r = new RegExp(a);
+    if(r.test(b)){
+        return 1;
+    }
+    r = new RegExp(b);
+    if(r.test(a)){
+        return -1;
+    }
+    return 0;
+}
 function readFile(path){
     const content = fs.readFileSync(path, "utf8");
-    AllUIRegexp.forEach(mkstatics(AllUIUsed, content));
-    AllRootUIRegexp.forEach(mkstatics(AllRootUIUsed, content));
+    const rexp = /name:\s*'([\w-]+)'/;
+    if(rexp.test(content)){
+        const name = rexp.exec(content)[1];
+        list[name] = true;
+        // 暂时用名称来区分根组件和子组件
+        for(let key in list){
+            const rslt = sort(name, key);
+            switch (rslt) {
+                case 1:
+                    rootlist[key] = null
+                    rootlist[name] = true;
+                    break;
+                case -1:
+                    rootlist[name] = null
+                    break;
+                default:
+                    rootlist[name] = true;
+                    break;
+            }
+        }
+    }
+
+}
+
+
+function walkThroughFile(p){
+    const files = fs.readdirSync(p);
+    files.forEach((file) => {
+        const dir = path.resolve(p, file);
+        const stats = fs.statSync(dir);
+        if(stats.isDirectory()){
+            walkThroughFile(dir);
+        }else{
+            if(file.endsWith('.js') || file.endsWith('.vue'))
+                readFile(dir);
+        }
+    })
+}
+walkThroughFile(cloudUIPath);
+walkThroughFile(protoUIPath);
+// const VusionUI = Object.keys(list);
+// const vusionUIexp = VusionUI.map(mkRegExp);
+walkThroughFile(componentPath);
+const AllUI = Object.keys(list);
+const AllRootUI = Object.keys(rootlist).filter(k => !!rootlist[k]);
+
+const allUIexp = AllUI.map(mkRegExp);
+const allrootUIexp = AllRootUI.map(mkRegExp);
+
+const AllUIUsed = {};
+const AllRootUIUsed = {}
+function filestatistic(p){
+    const stats = fs.statSync(p);
+    if(stats.isDirectory()){
+        const files = fs.readdirSync(p);
+        files.forEach((file) => {
+            const dir = path.resolve(p, file);
+            filestatistic(dir);
+        })
+    }else{
+        const content = fs.readFileSync(p, "utf8");
+        allUIexp.forEach(mkstatics(AllUIUsed, content));
+        allrootUIexp.forEach(mkstatics(AllRootUIUsed, content));
+    }
+
 }
 let comps = 0;
 let nocomps = 0
@@ -419,7 +141,7 @@ function shake(component){
             nocomps+=1;
         }
     }else{
-        readFile(directory + '/' + component);
+        filestatistic(directory + '/' + component);
         comps += 1;
     }
 }
@@ -447,7 +169,7 @@ function listComponents(rootPath, relativePath) {
         components.forEach((component) => {
             const path = path.join(rootPath, relativePath + component);
             shake(path);
-            console.info();
+            console.info(path)
         });
     }else
         components.forEach((component) => {
@@ -456,11 +178,13 @@ function listComponents(rootPath, relativePath) {
             console.info(path)
         });
 }
-
+console.log(directory)
 listComponents(directory, '');
 // 组件，页面
-console.log(comps, nocomps);
+console.log(`组件数：${comps}`, `页面数：${nocomps}`);
 // 使用到的库组件
-console.log(Object.keys(AllUIUsed), Object.keys(AllUIUsed).length)
-// 使用到的跟组件
-console.log(Object.keys(AllRootUIUsed), Object.keys(AllRootUIUsed).length)
+console.log(`使用到的库组件：`)
+console.log(Object.keys(AllUIUsed), Object.keys(AllUIUsed).length, AllUI.length)
+// 使用到的根组件
+console.log(`使用到的库根组件：`)
+console.log(Object.keys(AllRootUIUsed), Object.keys(AllRootUIUsed).length, AllRootUI.length)
