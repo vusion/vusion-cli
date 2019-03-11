@@ -39,8 +39,8 @@
     "node": ">=8"
   },
   "dependencies": {
-    "@vusion/css-loader": "^0.3.3",
-    "@vusion/doc-loader": "^0.8.0",
+    "@vusion/css-loader": "^0.4.0",
+    "@vusion/doc-loader": "^0.9.0",
     "@vusion/md-vue-loader": "^1.0.0",
     "@vusion/vue-loader": "~14.2.1",
     "app-module-path": "^2.2.0",
