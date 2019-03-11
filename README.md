@@ -88,7 +88,7 @@ Default `vusion.config.js` file:
 ``` js
 {
     type: '',                              // [Required] Vusion project type. 'library', 'app'
-    staticPath: '',                        // Path of static files, which will be copied into destination directory
+    staticPath: '',                        // Path of static files, which will be copied into destination directory. It accepts a String or Array.
     assetsPath: '',                        // @deprecated, alias of option `staticPath`
     libraryPath: '',                       // [Required] Library entry path. To be `./src` by default if project type is `library`
     baseCSSPath: '',                       // Path of base CSS. If not set, it will be `library/base/base.css`
