@@ -11,6 +11,13 @@ module.exports = {
         src: './src',
         unit: './test/unit',
     },
+    entry: {                               // Generate entry and HTMLWebpackPlugin automatically
+        pages: undefined,
+        prepend: [],
+        append: [],
+        commons: false,
+        template: undefined,
+    },
     clean: true,                           // Clean the output directory in `build` mode
     docs: false,                           // Generate docs of common components in library. Always be true if project type is `library`
     open: true,                            // Enable/Disable to open browser at the beginning in `dev` mode

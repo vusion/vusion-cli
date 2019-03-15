@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
 const chokidar = require('chokidar');
 
 const TYPES = ['library', 'app', 'html5', 'fullstack'];
@@ -15,10 +16,11 @@ function getConfig(configPath, packagePath) {
         if (packageVusion)
             return packageVusion;
         else {
-            throw new Error(`Cannot find vusion config! This is not a vusion project.
+            console.error(chalk.bgRed(' ERROR '), `Cannot find vusion config! This is not a vusion project.
     processCwd: ${process.cwd()}
     configPath: ${configPath}
 `);
+            process.exit(1);
         }
     }
 }
@@ -31,11 +33,13 @@ module.exports = function resolve(configPath = 'vusion.config.js') {
     Object.assign(config, getConfig(configPath, packagePath));
 
     if (!TYPES.includes(config.type)) {
-        throw new TypeError('Unknown project type!');
+        console.error(chalk.bgRed(' ERROR '), 'Unknown project type!');
+        process.exit(1);
     }
 
+    config.srcPath = config.srcPath || './src';
+    config.libraryPath = config.libraryPath || config.srcPath;
     if (config.type === 'library') {
-        config.libraryPath = config.libraryPath || './src';
         config.docs = config.docs || {};
 
         if (process.env.NODE_ENV === 'development') {
@@ -45,30 +49,24 @@ module.exports = function resolve(configPath = 'vusion.config.js') {
                 config.docs = newConfig.docs || {};
             });
         }
-    } else
-        config.libraryPath = config.libraryPath;
+    }
 
-    config.srcPath = config.srcPath || './src';
+    config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
 
-    if (config.libraryPath) {
-        config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
-
-        if (!config.globalCSSPath) {
-            config.globalCSSPath = path.resolve(config.libraryPath, './base/global.css');
-            if (!fs.existsSync(config.globalCSSPath))
-                config.globalCSSPath = path.resolve(config.srcPath, './base/global.css');
-            if (!fs.existsSync(config.globalCSSPath))
-                config.globalCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/global.css');
-        }
-        if (!config.baseCSSPath) {
-            config.baseCSSPath = path.resolve(config.libraryPath, './base/base.css');
-            if (!fs.existsSync(config.baseCSSPath))
-                config.baseCSSPath = path.resolve(config.srcPath, './base/global.css');
-            if (!fs.existsSync(config.baseCSSPath))
-                config.baseCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/base.css');
-        }
-    } else // For Compatiblity
-        config.globalCSSPath = './global.css';
+    if (!config.globalCSSPath) {
+        config.globalCSSPath = path.resolve(config.libraryPath, './base/global.css');
+        if (!fs.existsSync(config.globalCSSPath))
+            config.globalCSSPath = path.resolve(config.srcPath, './base/global.css');
+        if (!fs.existsSync(config.globalCSSPath))
+            config.globalCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/global.css');
+    }
+    if (!config.baseCSSPath) {
+        config.baseCSSPath = path.resolve(config.libraryPath, './base/base.css');
+        if (!fs.existsSync(config.baseCSSPath))
+            config.baseCSSPath = path.resolve(config.srcPath, './base/global.css');
+        if (!fs.existsSync(config.baseCSSPath))
+            config.baseCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/base.css');
+    }
 
     return config;
 };

@@ -101,18 +101,18 @@ describe('command: dev', () => {
             childProcess.on('exit', (code) => code ? done(code) : done());
         });
 
-        it('should run with local config', (done) => {
-            const childProcess = execa(devCli, ['-l', './index.js'], {
-                stdio: ['ipc'],
-            });
+        // it('should run with local config', (done) => {
+        //     const childProcess = execa(devCli, ['-l', './index.js'], {
+        //         stdio: ['ipc'],
+        //     });
 
-            childProcess.on('message', (vusionConfig) => {
-                const { libraryPath } = vusionConfig;
-                expect(libraryPath).to.equal('./index.js');
-                done();
-            });
+        //     childProcess.on('message', (vusionConfig) => {
+        //         const { libraryPath } = vusionConfig;
+        //         expect(libraryPath).to.equal('./index.js');
+        //         done();
+        //     });
 
-            childProcess.on('exit', (code) => code ? done(code) : done());
-        });
+        //     childProcess.on('exit', (code) => code ? done(code) : done());
+        // });
     });
 });
