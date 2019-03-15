@@ -89,13 +89,19 @@ Default `vusion.config.js` file:
 {
     type: '',                              // [Required] Vusion project type. 'library', 'app'
     staticPath: '',                        // Path of static files, which will be copied into destination directory. It accepts a String or Array.
-    assetsPath: '',                        // @deprecated, alias of option `staticPath`
-    libraryPath: '',                       // [Required] Library entry path. To be `./src` by default if project type is `library`
+    libraryPath: '',                       // [Required] Library directory path. To be srcPath by default
     baseCSSPath: '',                       // Path of base CSS. If not set, it will be `library/base/base.css`
     globalCSSPath: '',                     // Path of global CSS. If not set, it will be `library/base/global.css`
     testPaths: {                           // Paths for karma test
         src: './src',
         unit: './test/unit',
+    },
+    entry: {                               // Generate entry and HTMLWebpackPlugin automatically
+        pages: undefined,
+        prepend: [],
+        append: [],
+        commons: false,
+        template: undefined,
     },
     clean: true,                           // Clean the output directory in `build` mode
     docs: false,                           // Generate docs of common components in library. Always be true if project type is `library`

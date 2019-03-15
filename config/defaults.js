@@ -2,9 +2,8 @@
 module.exports = {
     type: '',                              // [Required] Vusion project type. 'library', 'app'
     staticPath: '',                        // Path of static files, which will be copied into destination directory. It accepts a String or Array.
-    assetsPath: '',                        // @deprecated, alias of option `staticPath`
-    srcPath: '',                           // To be `./src` by default
-    libraryPath: '',                       // [Required] Library entry path. To be `./src` by default if project type is `library`
+    srcPath: './src',                      // To be `./src` by default
+    libraryPath: '',                       // [Required] Library entry path. To be srcPath by default
     baseCSSPath: '',                       // Path of base CSS. If not set, it will be `library/base/base.css`
     globalCSSPath: '',                     // Path of global CSS. If not set, it will be `library/base/global.css`
     testPaths: {                           // Paths for karma test
