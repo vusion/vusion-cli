@@ -51,6 +51,7 @@ module.exports = function resolve(configPath = 'vusion.config.js') {
         }
     }
 
+    config.srcPath = path.resolve(process.cwd(), config.srcPath);
     config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
 
     if (!config.globalCSSPath) {

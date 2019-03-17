@@ -135,6 +135,9 @@ const webpackConfig = {
             vue$: 'vue/dist/vue.esm.js',
             globalCSS: config.globalCSSPath,
             baseCSS: config.baseCSSPath,
+            library$: config.libraryPath, // @deprecated
+            '@': config.srcPath,
+            '@@': config.libraryPath,
         },
     },
     resolveLoader: {
@@ -199,8 +202,5 @@ if (config.lint) {
         },
     });
 }
-
-if (config.libraryPath)
-    webpackConfig.resolve.alias.library$ = config.libraryPath;
 
 module.exports = webpackConfig;
