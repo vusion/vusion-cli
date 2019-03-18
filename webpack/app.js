@@ -26,9 +26,9 @@ if (config.entry && config.entry.pages) {
     }
 
     if (config.entry.prepend && config.entry.prepend.length)
-        utils.prependEntry(config.entry.prepend, entry);
+        utils.prependToEntry(config.entry.prepend, entry);
     if (config.entry.append && config.entry.append.length)
-        utils.appendEntry(config.entry.append, entry);
+        utils.appendToEntry(config.entry.append, entry);
 
     webpackConfig.entry = entry;
 
