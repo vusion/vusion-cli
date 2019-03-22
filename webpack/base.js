@@ -140,6 +140,7 @@ const webpackConfig = {
             library$: config.libraryPath, // @deprecated
             '@': config.srcPath,
             '@@': config.libraryPath,
+            '~': process.cwd(),
         },
     },
     resolveLoader: {
