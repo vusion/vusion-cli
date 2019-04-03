@@ -6,7 +6,6 @@ const checker = require('../lib/checker');
  */
 const program = require('commander');
 program
-    .option('-f, --files <files>', 'Vusion test files')
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
     .option('-t, --theme <theme>', 'Choose theme')
@@ -39,5 +38,5 @@ if (program.watch)
 if (program.hasOwnProperty('resolvePriority'))
     config.resolvePriority = program.resolvePriority;
 
-const server = require('../lib/test')(require('../webpack/' + config.type), program.files);
+const server = require('../lib/test')(require('../webpack/' + config.type));
 server.start();

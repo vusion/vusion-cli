@@ -4,6 +4,7 @@ const merge = require('../lib/merge');
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const IconFontPlugin = require('icon-font-loader').Plugin;
 const CSSSpritePlugin = require('css-sprite-loader').Plugin;
+const VueComponentAnalyzerPlugin = require('vue-component-analyzer/src/VueComponentAnalyzerPlugin');
 const postcssImportResolver = require('postcss-import-resolver');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
@@ -112,6 +113,7 @@ const plugins = [
         filename: '[name].[hash:16].[ext]',
         mergeDuplicates: process.env.NODE_ENV === 'production',
     }, config.options.IconFontPlugin)),
+    new VueComponentAnalyzerPlugin(),
 ];
 // Only generate sprites in production mode
 if (process.env.NODE_ENV === 'production') {

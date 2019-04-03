@@ -4,3 +4,4 @@ export default {
     name: 'test',
     extends: Button,
 };
+
