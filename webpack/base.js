@@ -8,7 +8,6 @@ const VueComponentAnalyzerPlugin = require('vue-component-analyzer/src/VueCompon
 const postcssImportResolver = require('postcss-import-resolver');
 
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
-const autoExtendLoaderPath = require.resolve('../lib/loaders/auto-extend-loader');
 const postcssVusionExtendMark = require('../lib/postcss/extend-mark');
 const postcssVusionExtendMerge = require('../lib/postcss/extend-merge');
 
@@ -25,16 +24,24 @@ else
 const postcssImportAlias = Object.assign({}, config.webpack.resolve ? config.webpack.resolve.alias : {});
 delete postcssImportAlias.EXTENDS;
 
+const postcssExtendMark = postcssVusionExtendMark({
+    resolve: postcssImportResolver({
+        extensions: ['.js'],
+        alias: postcssImportAlias,
+        modules: resolveModules,
+    }),
+});
+
 // Postcss plugins
 const postcssPlugins = [
-    postcssVusionExtendMark,
+    postcssExtendMark,
     require('postcss-import')({
         resolve: postcssImportResolver({
             alias: postcssImportAlias,
             modules: resolveModules,
         }),
         skipDuplicates: false,
-        plugins: [postcssVusionExtendMark],
+        plugins: [postcssExtendMark],
     }),
     require('postcss-url')({
         // Rewrite https://github.com/postcss/postcss-url/blob/master/src/type/rebase.js
@@ -80,7 +87,7 @@ const vueOptions = merge({
     cssSourceMap: config.sourceMap,
     extractCSS: process.env.NODE_ENV === 'production' && config.extractCSS,
     preLoaders: {
-        css: [importGlobalLoaderPath, autoExtendLoaderPath].join('!'),
+        css: importGlobalLoaderPath,
     },
     midLoaders: {
         css: process.env.NODE_ENV === 'production' ? ['css-sprite-loader', 'svg-classic-sprite-loader?filter=query', 'icon-font-loader'].join('!') : 'icon-font-loader',
