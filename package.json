@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@vusion/css-loader": "^0.4.0",
-    "@vusion/doc-loader": "^0.9.2",
+    "@vusion/doc-loader": "^0.9.3",
     "@vusion/md-vue-loader": "^1.0.0",
     "@vusion/vue-loader": "~14.2.1",
     "app-module-path": "^2.2.0",
@@ -105,7 +105,7 @@
     "uglifyjs-webpack-plugin": "^1.2.7",
     "update-notifier": "^2.5.0",
     "vue": "^2.5.16",
-    "vue-component-analyzer": "^0.1.1",
+    "vue-component-analyzer": "^0.1.2",
     "vue-hot-reload-api": "^2.3.0",
     "vue-multifile-loader": "~14.2.2",
     "vue-router": "^3.0.1",
