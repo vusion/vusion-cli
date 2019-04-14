@@ -104,13 +104,9 @@
     "tcp-port-used": "^0.1.2",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "update-notifier": "^2.5.0",
-    "vue": "^2.5.16",
     "vue-component-analyzer": "^0.1.2",
     "vue-hot-reload-api": "^2.3.0",
     "vue-multifile-loader": "~14.2.2",
-    "vue-router": "^3.0.1",
-    "vue-template-compiler": "^2.5.16",
-    "vusion-utils": "^0.2.4",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
     "webpack-hot-middleware": "^2.22.3"
@@ -126,6 +122,9 @@
     "mocha": "^3.5.0",
     "npm-run-all": "^4.1.1",
     "nyc": "^11.2.1",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.6.10",
     "vusion-hooks": "^0.2.2"
   }
 }
