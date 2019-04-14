@@ -16,16 +16,11 @@ program
 const projectType = program.args[0];
 const projectName = program.args[1] || 'my-project';
 
-const URL = 'https://github.com/vusion/vusion-templates.git';
-shell.exec(`git clone -b master --depth 1 ${URL}`);
-
-if (!shell.ls('vusion-templates').includes(projectType)) {
-    shell.rm('-rf', 'vusion-templates');
-    console.error('[ERROR] Unknown project type!');
+const URL = `https://github.com/vusion-templates/${projectType}.git`;
+if (shell.exec(`git clone -b master --depth 1 ${URL} ${projectName}`).code) {
+    console.error('[ERROR] Unknown template!');
     process.exit(1);
 }
-
-shell.mv('vusion-templates/' + projectType, './' + projectName);
-shell.rm('-rf', 'vusion-templates');
+shell.rm('-rf', `${projectName}/.git`);
 
 console.info(`[SUCCESS] "${projectName}" has been initialized.`);
