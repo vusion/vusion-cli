@@ -134,7 +134,7 @@ const webpackConfig = {
          */
         modules: resolveModules,
         alias: {
-            vue$: 'vue/dist/vue.esm.js',
+            vue$: path.resolve(process.cwd(), 'node_modules/vue/dist/vue.esm.js'), // Problems will happen if vue in two different places
             globalCSS: config.globalCSSPath,
             baseCSS: config.baseCSSPath,
         },
