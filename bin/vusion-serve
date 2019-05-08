@@ -15,7 +15,7 @@ program
 global.extraArgs = program.args;
 
 process.env.NODE_ENV = 'production';
-const config = global.vusionConfig = require('../config/resolve')(program.configPath);
+const config = global.vusionConfig = require('../config/resolve')(program.configPath, program.theme);
 
 if (!checker.checkNode() || !checker.checkVersion(config.version))
     process.exit(1);

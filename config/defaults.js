@@ -6,6 +6,7 @@ module.exports = {
     libraryPath: '',                       // [Required] Library directory path. To be srcPath by default
     baseCSSPath: '',                       // Path of base CSS. If not set, it will be `library/base/base.css`
     globalCSSPath: '',                     // Path of global CSS. If not set, it will be `library/base/global.css`
+    theme: undefined,                      // Project theme
     testPaths: {                           // Paths for karma test
         src: './src',
         unit: './test/unit',

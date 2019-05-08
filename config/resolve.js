@@ -25,7 +25,7 @@ function getConfig(configPath, packagePath) {
     }
 }
 
-module.exports = function resolve(configPath = 'vusion.config.js') {
+module.exports = function resolve(configPath = 'vusion.config.js', theme) {
     const config = defaults;
 
     const packagePath = config.packagePath = path.resolve(process.cwd(), 'package.json');
@@ -54,17 +54,21 @@ module.exports = function resolve(configPath = 'vusion.config.js') {
     config.srcPath = path.resolve(process.cwd(), config.srcPath);
     config.libraryPath = path.resolve(process.cwd(), config.libraryPath);
 
+    if (theme === 'src' || theme === 'default')
+        theme = undefined;
+    config.theme = theme;
+
     if (!config.globalCSSPath) {
-        config.globalCSSPath = path.resolve(config.libraryPath, './base/global.css');
+        config.globalCSSPath = path.resolve(config.libraryPath, theme ? `../theme-${theme}/base/global.css` : './base/global.css');
         if (!fs.existsSync(config.globalCSSPath))
-            config.globalCSSPath = path.resolve(config.srcPath, './base/global.css');
+            config.globalCSSPath = path.resolve(config.srcPath, theme ? `../theme-${theme}/base/global.css` : './base/global.css');
         if (!fs.existsSync(config.globalCSSPath))
             config.globalCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/global.css');
     }
     if (!config.baseCSSPath) {
         config.baseCSSPath = path.resolve(config.libraryPath, './base/base.css');
         if (!fs.existsSync(config.baseCSSPath))
-            config.baseCSSPath = path.resolve(config.srcPath, './base/global.css');
+            config.baseCSSPath = path.resolve(config.srcPath, './base/base.css');
         if (!fs.existsSync(config.baseCSSPath))
             config.baseCSSPath = path.resolve(require.resolve('@vusion/doc-loader'), '../components/base/base.css');
     }

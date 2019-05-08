@@ -21,7 +21,7 @@ global.extraArgs = program.args;
  */
 require('../lib/register');
 process.env.NODE_ENV = 'test';
-const config = global.vusionConfig = require('../config/resolve')(program.configPath);
+const config = global.vusionConfig = require('../config/resolve')(program.configPath, program.theme);
 
 if (!checker.checkNode() || !checker.checkVersion(config.version))
     process.exit(1);
@@ -29,8 +29,8 @@ checker.checkUpgrade();
 
 if (program.entryPath)
     config.webpack.entry = { bundle: program.entryPath };
-if (program.hasOwnProperty('theme'))
-    config.theme = program.theme;
+// if (program.hasOwnProperty('theme'))
+//     config.theme = program.theme;
 if (program.port)
     config.karma.port = program.port;
 if (program.watch)
