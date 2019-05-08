@@ -162,29 +162,6 @@ const webpackConfig = {
     devtool: '#eval-source-map',
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                exclude: (filepath) => {
-                    const babelIncludes = Array.isArray(config.babelIncludes) ? config.babelIncludes : [config.babelIncludes];
-                    const reincludes = [
-                        /\.(?:vue|vusion)[\\/].*\.js$/,
-                        /\.es6\.js$/,
-                    ].concat(babelIncludes);
-
-                    return filepath.includes('node_modules') && !reincludes.some((reinclude) => {
-                        if (typeof reinclude === 'string')
-                            return filepath.includes(reinclude) || filepath.includes(reinclude.replace(/\//g, '\\'));
-                        else if (reinclude instanceof RegExp)
-                            return reinclude.test(filepath);
-                        else if (typeof reinclude === 'function')
-                            return reinclude(filepath);
-                        else
-                            return false;
-                    });
-                },
-                loader: 'babel-loader',
-                enforce: 'pre',
-            },
             { test: /\.vue$/, loader: '@vusion/vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
@@ -212,6 +189,32 @@ if (config.lint) {
             eslintPath: path.resolve(process.cwd(), 'node_modules/eslint'),
             formatter: require('eslint-friendly-formatter'),
         },
+    });
+}
+
+if (process.env.NODE_ENV === 'production' || config.babel) {
+    webpackConfig.module.rules.unshift({
+        test: /\.js$/,
+        exclude: (filepath) => {
+            const babelIncludes = Array.isArray(config.babelIncludes) ? config.babelIncludes : [config.babelIncludes];
+            const reincludes = [
+                /\.(?:vue|vusion)[\\/].*\.js$/,
+                /\.es6\.js$/,
+            ].concat(babelIncludes);
+
+            return filepath.includes('node_modules') && !reincludes.some((reinclude) => {
+                if (typeof reinclude === 'string')
+                    return filepath.includes(reinclude) || filepath.includes(reinclude.replace(/\//g, '\\'));
+                else if (reinclude instanceof RegExp)
+                    return reinclude.test(filepath);
+                else if (typeof reinclude === 'function')
+                    return reinclude(filepath);
+                else
+                    return false;
+            });
+        },
+        loader: 'babel-loader',
+        enforce: 'pre',
     });
 }
 

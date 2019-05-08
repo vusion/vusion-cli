@@ -33,6 +33,7 @@ module.exports = {
     experimental: false,                   // Enable some experimental loaders or plugins, like ModuleConcatenationPlugin
     resolvePriority: 'current',            // Priority to resolve modules or loaders, "current"(default), "cwd" or "cli"
     browsers: ['> 1%', 'last 2 versions', 'ie >= 9'],    // Browers Compatibility referred in autoprefixer. See browserslist for more details
+    babel: false,                          // Use babel in `dev` mode. Always be true in `build` mode
     babelIncludes: [],                     // Reinclude some files excluded in node_modules
     webpack: {},                           // Extend webpack configuration
     webpackDevServer: {},                  // Extend webpackDevServer configuration
