@@ -51,7 +51,7 @@
     "base-css-image-loader": "^0.2.4",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
-    "commander": "^2.16.0",
+    "commander": "^2.20.0",
     "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^0.28.11",
