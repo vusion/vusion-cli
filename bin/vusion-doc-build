@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+
+const checker = require('../lib/checker');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    .option('-c, --config-path <path>', 'Vusion config path')
+    .option('-e, --entry-path <path>', 'Change default entry path')
+    .option('-t, --theme <theme>', 'Choose theme')
+    .option('-C, --no-clean', 'Not clean output files at start')
+    .option('-l, --library-path <path>', 'Library entry path. To be `./index.js` by default if project type is `library`')
+    .option('-s, --source-map', 'Generate source map in build mode')
+    .option('-v, --verbose', 'Show more information')
+    .option('--extract-css', 'Extract CSS by ExtractTextWebpackPlugin in build mode')
+    .option('--uglify-js', 'Compress and mangle JS by UglifyjsWebpackPlugin in build mode')
+    .option('--minify-js', 'Minify JS only in `build` mode. Set `true` or `babel-minify` to use BabelBabelMinifyWebpackPlugin, set `uglify-js` to use UglifyjsWebpackPlugin as same as `--uglify`')
+    .option('--force-shaking', 'Force to enable tree shaking under this path without care of side effects. It\'s different from default tree shaking of webpack.')
+    .option('--experimental', 'Enable some experimental loaders or plugins')
+    .option('--resolve-priority', 'Priority to resolve modules or loaders, "cwd"(default) or "cli"')
+    .parse(process.argv);
+
+global.extraArgs = program.args;
+/**
+ * Execute Task
+ */
+require('../lib/register');
+process.env.NODE_ENV = 'production';
+const config = global.vusionConfig = require('../config/resolve')(program.configPath);
+
+if (!checker.checkNode() || !checker.checkVersion(config.version))
+    process.exit(1);
+checker.checkUpgrade();
+
+if (program.entryPath)
+    config.webpack.entry = { bundle: program.entryPath };
+if (program.hasOwnProperty('theme'))
+    config.theme = program.theme;
+if (program.hasOwnProperty('clean'))
+    config.clean = program.clean;
+if (program.hasOwnProperty('libraryPath'))
+    config.libraryPath = program.libraryPath;
+if (program.hasOwnProperty('sourceMap'))
+    config.sourceMap = program.sourceMap;
+if (program.hasOwnProperty('verbose'))
+    config.verbose = program.verbose;
+if (program.hasOwnProperty('extractCss'))
+    config.extractCSS = program.extractCss;
+if (program.hasOwnProperty('uglifyJs'))
+    config.uglifyJS = program.uglifyJs;
+if (program.hasOwnProperty('minifyJs'))
+    config.minifyJS = program.minifyJs;
+if (program.hasOwnProperty('forceShaking'))
+    config.forceShaking = program.forceShaking;
+if (program.hasOwnProperty('experimental'))
+    config.experimental = program.experimental;
+if (program.hasOwnProperty('resolvePriority'))
+    config.resolvePriority = program.resolvePriority;
+
+const compiler = require('../lib/build')(require('../webpack/doc'));
+compiler.run();

@@ -116,7 +116,7 @@ else
 
 const plugins = [
     new IconFontPlugin(Object.assign({
-        fontName: 'vusion-icon-font',
+        fontName: config.name + '-icon' || 'vusion-icon-font',
         filename: '[name].[hash:16].[ext]',
         mergeDuplicates: process.env.NODE_ENV === 'production',
     }, config.options.IconFontPlugin)),
@@ -144,7 +144,6 @@ const webpackConfig = {
         modules: resolveModules,
         alias: {
             vue$: path.resolve(process.cwd(), 'node_modules/vue/dist/vue.esm.js'), // Problems will happen if vue in two different places
-            'vue-router$': path.resolve(process.cwd(), 'node_modules/vue-router/dist/vue-router.esm.js'), // Problems will happen if vue in two different places
             globalCSS: config.globalCSSPath,
             baseCSS: config.baseCSSPath,
             library$: config.libraryPath, // @deprecated
