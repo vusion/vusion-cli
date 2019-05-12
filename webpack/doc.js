@@ -55,19 +55,35 @@ webpackConfig.module.rules.push({
     }],
 });
 
-webpackConfig.plugins.push(new HTMLWebpackPlugin({
-    filename: 'index.html',
-    template: path.resolve(require.resolve('@vusion/doc-loader/views/index.js'), '../index.html'),
-    chunks: ['docs'],
-    hash: true,
-}));
-// For history mode 404 on GitHub
-webpackConfig.plugins.push(new HTMLWebpackPlugin({
-    filename: '404.html',
-    template: path.resolve(require.resolve('@vusion/doc-loader/views/index.js'), '../index.html'),
-    chunks: ['docs'],
-    hash: true,
-}));
+if (!config.theme) {
+    webpackConfig.plugins.push(new HTMLWebpackPlugin({
+        filename: 'index.html',
+        template: path.resolve(require.resolve('@vusion/doc-loader/views/index.js'), '../index.html'),
+        chunks: ['docs'],
+        hash: true,
+    }));
+    // For history mode 404 on GitHub
+    webpackConfig.plugins.push(new HTMLWebpackPlugin({
+        filename: '404.html',
+        template: path.resolve(require.resolve('@vusion/doc-loader/views/index.js'), '../index.html'),
+        chunks: ['docs'],
+        hash: true,
+    }));
+} else {
+    webpackConfig.plugins.push(new HTMLWebpackPlugin({
+        filename: 'index.html',
+        template: path.resolve(require.resolve('@vusion/doc-loader/views/index.js'), '../theme.html'),
+        chunks: ['docs'],
+        inject: false,
+    }));
+    // For history mode 404 on GitHub
+    webpackConfig.plugins.push(new HTMLWebpackPlugin({
+        filename: '404.html',
+        template: path.resolve(require.resolve('@vusion/doc-loader/views/index.js'), '../theme.html'),
+        chunks: ['docs'],
+        inject: false,
+    }));
+}
 
 const docsPath = path.resolve(process.cwd(), 'docs');
 const docsComponentsPath = path.resolve(docsPath, 'components');

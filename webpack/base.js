@@ -116,7 +116,7 @@ else
 
 const plugins = [
     new IconFontPlugin(Object.assign({
-        fontName: config.name + '-icon' || 'vusion-icon-font',
+        fontName: config.name ? config.name + '-icon' : 'vusion-icon',
         filename: '[name].[hash:16].[ext]',
         mergeDuplicates: process.env.NODE_ENV === 'production',
     }, config.options.IconFontPlugin)),
