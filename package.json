@@ -1,7 +1,7 @@
 {
   "name": "vusion-cli",
   "description": "CLI for Vusion Projects, including Application and UI Library.",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "author": "Rainfore <rainforest92@126.com>",
   "bin": {
     "vusion": "bin/vusion",
@@ -100,7 +100,7 @@
     "semver": "^5.5.0",
     "shelljs": "^0.8.2",
     "style-loader": "^0.21.0",
-    "svg-classic-sprite-loader": "^0.3.0",
+    "svg-classic-sprite-loader": "^0.2.4",
     "tcp-port-used": "^0.1.2",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "update-notifier": "^2.5.0",
