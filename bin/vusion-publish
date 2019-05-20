@@ -42,6 +42,10 @@ rl.prompt();
 rl.question(`
 The new version is "${version}".
 ----------------------------------------
+Check the following steps:
+    - Review commits and branches
+    - Update tests and docs
+    - Build dist files
 Are you sure to continue? (yes/no) `, (answer) => {
     rl.close();
     answer = answer.toLowerCase();
