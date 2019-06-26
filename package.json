@@ -38,9 +38,13 @@
   "engines": {
     "node": ">=8"
   },
+  "resolutions": {
+    "browserslist": "4.6.2",
+    "caniuse-lite": "1.0.30000974"
+  },
   "dependencies": {
     "@vusion/css-loader": "^0.4.0",
-    "@vusion/doc-loader": "^0.10.1",
+    "@vusion/doc-loader": "^0.10.3",
     "@vusion/md-vue-loader": "^1.0.1",
     "@vusion/vue-loader": "~14.2.1",
     "app-module-path": "^2.2.0",
@@ -105,7 +109,7 @@
     "uglifyjs-webpack-plugin": "^1.2.7",
     "update-notifier": "^2.5.0",
     "vue": "^2.6.10",
-    "vue-component-analyzer": "^0.1.4",
+    "vue-component-analyzer": "^0.1.5",
     "vue-hot-reload-api": "^2.3.0",
     "vue-multifile-loader": "~14.2.2",
     "vue-router": "^3.0.1",
