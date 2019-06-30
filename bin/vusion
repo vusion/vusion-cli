@@ -26,6 +26,7 @@ program
     .command('ghpages', 'Push output directory to gh-pages')
     .command('dep', 'List dependencies of vusion-cli')
     .command('list', 'List views or components')
+    .command('stats', 'Stats components')
     // Component commands
     .command('transform <vue-path>', 'Transform Vue component between singlefile and multifile pattern')
     .parse(process.argv);

@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+const shelljs = require('shelljs');
+
+/**
+ * Parse Commands
+ */
+const program = require('commander');
+program
+    // .option('-c, --config-path <path>', 'Vusion config path')
+    // .option('-d, --directory <directory>', 'Optional to choose directory')
+    .option('-r, --recursive', 'Recursive to resolve directory')
+    .option('-v, --verbose', 'Show full path')
+    .option('-p, --commonpath <path>', 'Show common components path') // 项目中的通用组件根目录
+    .parse(process.argv);
+
+const directory = path.resolve(process.cwd(), program.args[0]);
+const cloudUIDir = path.resolve(process.cwd(), 'node_modules/cloud-ui.vusion/src/components');
+const protoUIDir = path.resolve(process.cwd(), 'node_modules/proto-ui.vusion/src/components');
+
+/*
+* 统计指标：
+*    模板利用率 = 简单的列表页、详情页、用户信息页 / 总模板数
+*    组件利用率 = 库中被使用的组件数 / (库中被使用的组件数 + 项目级别的通用组件数)
+*    根组件利用率 = 库中被使用的根组件数 / (库中被使用的 根组件数 + 项目级别的通用 根组件数)
+*/
+
+function getVueMap(dir) {
+    let files = [];
+    files = files.concat(shelljs.ls('-RA', dir).stdout.split('\n')
+        .filter((file) => file.endsWith('.vue'))
+        .map((filePath) => path.join(dir, filePath)));
+
+    let count = 0;
+    const map = {};
+    files.forEach((file) => {
+        if (file.includes('sample'))
+            return;
+        file = file.replace(/([umif])-[a-z0-9-]+?s\.vue\//g, '$1-');
+        file = file.replace(/\.vue\//g, '-');
+        const vueName = file.slice(file.lastIndexOf('/') + 1);
+        if (vueName.startsWith('f-') || vueName.startsWith('m-') || vueName.startsWith('e-') || vueName.startsWith('u-old-'))
+            return;
+        map[vueName] = true;
+        count++;
+    });
+
+    // console.info(count);
+    return map;
+}
+
+const cloudUI = getVueMap(cloudUIDir);
+const protoUI = getVueMap(protoUIDir);
+Object.assign(protoUI, cloudUI);
+console.info(Object.keys(protoUI).length);
+console.log(protoUI);
+
+console.info('组件利用率 = 库中被使用的组件数 / (库中被使用的组件数 + 项目级别的通用组件数)');
+
+const internalCount = Object.keys(getVueMap(directory)).length;
+const libraryCount = Object.keys(protoUI).length;
+console.info('项目级别的通用组件数：', internalCount);
+console.info('库中被使用的组件数：', libraryCount);
+console.info((libraryCount / (internalCount + libraryCount) * 100).toFixed(3) + '%');
