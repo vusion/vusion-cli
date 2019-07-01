@@ -27,7 +27,7 @@ const protoUIDir = path.resolve(process.cwd(), 'node_modules/proto-ui.vusion/src
 *    根组件利用率 = 库中被使用的根组件数 / (库中被使用的 根组件数 + 项目级别的通用 根组件数)
 */
 
-function getVueMap(dir) {
+function getVueMap(dir, root) {
     let files = [];
     files = files.concat(shelljs.ls('-RA', dir).stdout.split('\n')
         .filter((file) => file.endsWith('.vue'))
@@ -37,6 +37,8 @@ function getVueMap(dir) {
     const map = {};
     files.forEach((file) => {
         if (file.includes('sample'))
+            return;
+        if (root && file.includes('.vue/'))
             return;
         file = file.replace(/([umif])-[a-z0-9-]+?s\.vue\//g, '$1-');
         file = file.replace(/\.vue\//g, '-');
@@ -55,7 +57,11 @@ const cloudUI = getVueMap(cloudUIDir);
 const protoUI = getVueMap(protoUIDir);
 Object.assign(protoUI, cloudUI);
 console.info(Object.keys(protoUI).length);
-console.log(protoUI);
+
+const cloudUIRoot = getVueMap(cloudUIDir, true);
+const protoUIRoot = getVueMap(protoUIDir, true);
+Object.assign(protoUIRoot, cloudUIRoot);
+console.info(Object.keys(protoUIRoot).length);
 
 console.info('组件利用率 = 库中被使用的组件数 / (库中被使用的组件数 + 项目级别的通用组件数)');
 
