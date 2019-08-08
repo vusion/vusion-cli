@@ -3,7 +3,7 @@ const path = require('path');
 const chalk = require('chalk');
 const chokidar = require('chokidar');
 
-const TYPES = ['library', 'app', 'html5', 'fullstack'];
+const TYPES = ['library', 'app', 'html5', 'fullstack', 'ui.library'];
 const defaults = require('./defaults');
 
 function getConfig(configPath, packagePath) {
@@ -25,8 +25,8 @@ function getConfig(configPath, packagePath) {
     }
 }
 
-module.exports = function resolve(configPath = 'vusion.config.js', theme) {
-    const config = defaults;
+module.exports = function resolve(configPath = 'vusion.config.js', theme, externalConfig) {
+    const config = Object.assign(defaults, externalConfig);
 
     const packagePath = config.packagePath = path.resolve(process.cwd(), 'package.json');
     configPath = config.configPath = path.resolve(process.cwd(), configPath);
