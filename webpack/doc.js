@@ -88,10 +88,12 @@ if (!config.theme) {
 const docsPath = path.resolve(process.cwd(), 'docs');
 const docsComponentsPath = path.resolve(docsPath, 'components');
 const docsViewsPath = path.resolve(docsPath, 'views');
+const docsImportsPath = path.resolve(docsPath, 'imports.js');
 webpackConfig.plugins.push(new webpack.DefinePlugin({
     DOCS_PATH: fs.existsSync(docsPath) ? JSON.stringify(docsPath) : undefined,
     DOCS_COMPONENTS_PATH: fs.existsSync(docsComponentsPath) ? JSON.stringify(docsComponentsPath) : undefined,
     DOCS_VIEWS_PATH: fs.existsSync(docsViewsPath) ? JSON.stringify(docsViewsPath) : undefined,
+    DOCS_IMPORTS_PATH: fs.existsSync(docsImportsPath) ? JSON.stringify(docsImportsPath) : undefined,
 }));
 
 module.exports = webpackConfig;
