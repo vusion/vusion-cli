@@ -10,6 +10,7 @@ const postcssImportResolver = require('postcss-import-resolver');
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
 const postcssVusionExtendMark = require('../lib/postcss/extend-mark');
 const postcssVusionExtendMerge = require('../lib/postcss/extend-merge');
+const postcssVariableBinderPath = require.resolve('../lib/postcss/variable-reader');
 
 const config = global.vusionConfig;
 
@@ -105,6 +106,11 @@ let cssRule = [
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
     importGlobalLoaderPath,
 ];
+
+const variablesRules = [
+    postcssVariableBinderPath,
+    { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
+];
 // Only generate sprites in production mode
 if (process.env.NODE_ENV === 'production')
     cssRule.splice(1, 0, 'css-sprite-loader', 'svg-classic-sprite-loader?filter=query');
@@ -164,7 +170,11 @@ const webpackConfig = {
         rules: [
             { test: /\.vue$/, loader: '@vusion/vue-loader', options: vueOptions },
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
-            { test: /\.css$/, use: cssRule },
+            { test: /\.css$/, oneOf: [
+                { resourceQuery: /variables/, use: variablesRules },
+                { test: /\.css$/, use: cssRule },
+            ] },
+
             // svg in `dev.js` and `build.js`
             { test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[hash:16].[ext]' } },
         ],
