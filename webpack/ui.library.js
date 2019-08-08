@@ -121,6 +121,7 @@ const webpackConfig = {
         library: config.CamelName || 'Library',
         libraryTarget: 'umd',
         umdNamedDefine: true,
+        publicPath: './',
     },
     externals: {
         vue: {
