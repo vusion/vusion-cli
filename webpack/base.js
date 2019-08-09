@@ -10,7 +10,7 @@ const postcssImportResolver = require('postcss-import-resolver');
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
 const postcssVusionExtendMark = require('../lib/postcss/extend-mark');
 const postcssVusionExtendMerge = require('../lib/postcss/extend-merge');
-const postcssVariableBinderPath = require.resolve('../lib/postcss/variable-reader');
+const postcssVariablesReaderPath = require.resolve('../lib/postcss/variable-reader');
 
 const config = global.vusionConfig;
 
@@ -108,7 +108,7 @@ let cssRule = [
 ];
 
 const variablesRules = [
-    postcssVariableBinderPath,
+    postcssVariablesReaderPath,
     { loader: 'postcss-loader', options: { plugins: (loader) => postcssPlugins } },
 ];
 // Only generate sprites in production mode
