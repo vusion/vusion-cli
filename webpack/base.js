@@ -10,7 +10,7 @@ const postcssImportResolver = require('postcss-import-resolver');
 const importGlobalLoaderPath = require.resolve('../lib/loaders/import-global-loader');
 const postcssVusionExtendMark = require('../lib/postcss/extend-mark');
 const postcssVusionExtendMerge = require('../lib/postcss/extend-merge');
-const postcssVariablesReaderPath = require.resolve('../lib/postcss/variable-reader');
+const postcssVariablesReaderPath = require.resolve('../lib/postcss/variables-reader');
 
 const config = global.vusionConfig;
 
