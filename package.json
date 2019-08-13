@@ -1,7 +1,7 @@
 {
   "name": "vusion-cli",
   "description": "CLI for Vusion Projects, including Application and UI Library.",
-  "version": "0.8.13",
+  "version": "0.8.14",
   "author": "Rainfore <rainforest92@126.com>",
   "bin": {
     "vusion": "bin/vusion",
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@vusion/css-loader": "^0.4.0",
-    "@vusion/doc-loader": "^0.10.4",
+    "@vusion/doc-loader": "^0.10.5",
     "@vusion/md-vue-loader": "^1.0.1",
     "@vusion/vue-loader": "~14.2.1",
     "app-module-path": "^2.2.0",
