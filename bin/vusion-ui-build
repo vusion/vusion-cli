@@ -9,8 +9,8 @@ const program = require('commander');
 program
     .option('-c, --config-path <path>', 'Vusion config path')
     .option('-e, --entry-path <path>', 'Change default entry path')
-    .option('--css <path>', 'Custom css path')
-    .option('-o, --output <path>', 'ui output')
+    .option('--global-css <path>', 'Custom global CSS path')
+    .option('-o, --output <path>', 'Output files path')
     .option('-t, --theme <theme>', 'Choose theme')
     .option('-C, --no-clean', 'Not clean output files at start')
     .option('-l, --library-path <path>', 'Library entry path. To be `./index.js` by default if project type is `library`')
@@ -27,7 +27,7 @@ global.extraArgs = program.args;
 require('../lib/register');
 process.env.NODE_ENV = 'production';
 const config = global.vusionConfig = require('../config/resolve')(program.configPath, program.theme, {
-    globalCSSPath: program.css,
+    globalCSSPath: program.globalCss,
     outputPath: program.output,
     entry: program.entryPath,
 });
