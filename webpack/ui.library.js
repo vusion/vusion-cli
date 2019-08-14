@@ -165,7 +165,7 @@ const webpackConfig = {
             { test: /\.vue[\\/]index\.js$/, loader: 'vue-multifile-loader', options: vueOptions },
             { test: /\.css$/, use: cssRule },
             // svg in `dev.js` and `build.js`
-            { test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: '[name].[ext]' } },
+            { test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/, loader: 'file-loader', options: { name: 'assets/[name].[contenthash:8].[ext]' } },
         ],
     },
     plugins,
