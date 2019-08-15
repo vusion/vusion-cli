@@ -1,12 +1,13 @@
 {
   "name": "vusion-cli",
   "description": "CLI for Vusion Projects, including Application and UI Library.",
-  "version": "0.7.13",
+  "version": "0.7.14",
   "author": "Rainfore <rainforest92@126.com>",
   "bin": {
     "vusion": "bin/vusion",
     "vusion-dev": "bin/vusion-dev",
     "vusion-build": "bin/vusion-build",
+    "vusion-ui-build": "bin/vusion-ui-build",
     "vusion-serve": "bin/vusion-serve"
   },
   "scripts": {
