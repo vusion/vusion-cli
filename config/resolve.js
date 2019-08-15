@@ -45,8 +45,7 @@ module.exports = function resolve(configPath = 'vusion.config.js') {
                 config.docs = newConfig.docs || {};
             });
         }
-    } else
-        config.libraryPath = config.libraryPath;
+    }
 
     config.srcPath = config.srcPath || './src';
 
