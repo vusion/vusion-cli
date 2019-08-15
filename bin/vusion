@@ -18,6 +18,7 @@ program
     .command('init <project-type> <project-name>', 'Initialize a project')
     .command('dev', 'Run webpack develop server')
     .command('build', 'Build a distribution')
+    .command('ui-build', 'Build a custom ui distribution')
     .command('serve', 'Run a static server')
     .command('doc', 'Run a documents server')
     .command('test', 'test a project')
