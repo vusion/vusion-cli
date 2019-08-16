@@ -30,6 +30,7 @@ const config = global.vusionConfig = require('../config/resolve')(program.config
     globalCSSPath: program.globalCss,
     outputPath: program.output,
     entry: program.entryPath,
+    libraryPath: program.libraryPath,
 });
 
 if (!checker.checkNode() || !checker.checkVersion(config.version))
