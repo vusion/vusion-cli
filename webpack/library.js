@@ -7,7 +7,7 @@ const name = config.name || 'bundle';
 
 const webpackConfig = merge(baseConfig, {
     entry: {
-        index: './index.js',
+        index: [config.baseCSSPath, './index.js'],
     },
     output: {
         path: path.join(process.cwd(), 'dist'),
