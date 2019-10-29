@@ -16,6 +16,8 @@ program
     .version(pkg.version)
     // Project commands
     .command('init <project-type> <project-name>', 'Initialize a project')
+    .command('create <material-type> <material-name>', 'Create a material')
+    .command('add <material-type> <material-name>', 'Add material in libary')
     .command('dev', 'Run webpack develop server')
     .command('build', 'Build a distribution')
     .command('ui-build', 'Build a custom ui distribution')

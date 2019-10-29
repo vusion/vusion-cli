@@ -22,8 +22,10 @@ program
     .option('-n, --npm <npm>', 'Use other npm to publish like cnpm', 'npm')
     .option('--tag <tag>', 'Registers the published package with the given tag')
     .option('--access <public|restricted>', 'Tells the registry whether this package should be published as public or restricted.')
+    .option('--name-version', 'Use name and version in publish info, not only version')
     .parse(process.argv);
 
+const name = pkg.name;
 const version = semver.clean(program.args[0] || pkg.version);
 if (!semver) {
     console.error('[ERROR] invalid version');
@@ -42,10 +44,6 @@ rl.prompt();
 rl.question(`
 The new version is "${version}".
 ----------------------------------------
-Check the following steps:
-    - Review commits and branches
-    - Update tests and docs
-    - Build dist files
 Are you sure to continue? (yes/no) `, (answer) => {
     rl.close();
     answer = answer.toLowerCase();
@@ -61,12 +59,14 @@ Are you sure to continue? (yes/no) `, (answer) => {
     if (program.access)
         npmCmds.push(`--access ${program.access}`);
 
+    const info = name.endsWith('.vue') ? `${name}@${version}` : `v${version}`;
+
     process.exit(shell.exec([
         `git add package.json`,
-        `git commit -m ":bookmark: Publish v${version}"`,
-        npmCmds.join(' '),
+        npmCmds.join(' '), // prepublishOnly
+        `git commit -m ":bookmark: Publish ${info}"`,
         `git push`,
-        `git tag v${version}`,
-        `git push origin v${version}`,
+        `git tag ${info}`,
+        `git push origin ${info}`,
     ].join(' && ')).code);
 });
