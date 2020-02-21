@@ -9,16 +9,19 @@ const shelljs = require('shelljs');
  */
 const program = require('commander');
 program
-    // .option('-c, --config-path <path>', 'Vusion config path')
+    .option('-c, --count', 'Show count')
     // .option('-d, --directory <directory>', 'Optional to choose directory')
-    .option('-r, --recursive', 'Recursive to resolve directory')
+    // .option('-r, --recursive', 'Recursive to resolve directory')
     .option('-v, --verbose', 'Show full path')
-    .option('-p, --commonpath <path>', 'Show common components path') // 项目中的通用组件根目录
+    .option('-u, --used', 'Show used')
+    .option('-l, --library <path>', 'library components') // 项目中的通用组件根目录
     .parse(process.argv);
 
-const directory = path.resolve(process.cwd(), program.args[0]);
-const cloudUIDir = path.resolve(process.cwd(), 'node_modules/cloud-ui.vusion/src/components');
-const protoUIDir = path.resolve(process.cwd(), 'node_modules/proto-ui.vusion/src/components');
+const directory = path.resolve(process.cwd(), program.args[0] || '');
+const libraryDir = program.library ? path.resolve(process.cwd(), program.library) : undefined;
+const cloudUIDir = path.resolve(process.cwd(), 'node_modules/cloud-ui.vusion/src');
+const protoUIDir = path.resolve(process.cwd(), 'node_modules/proto-ui.vusion/src');
+const getTimes = () => +([+!+[]] + [+[]]);
 
 /*
 * 统计指标：
@@ -26,6 +29,15 @@ const protoUIDir = path.resolve(process.cwd(), 'node_modules/proto-ui.vusion/src
 *    组件利用率 = 库中被使用的组件数 / (库中被使用的组件数 + 项目级别的通用组件数)
 *    根组件利用率 = 库中被使用的根组件数 / (库中被使用的 根组件数 + 项目级别的通用 根组件数)
 */
+
+function getVueFiles(dir) {
+    let files = [];
+    files = files.concat(shelljs.ls('-RA', dir).stdout.split('\n')
+        .filter((file) => file.endsWith('.vue'))
+        .map((filePath) => path.join(dir, filePath)));
+
+    return files;
+}
 
 function getVueMap(dir, root) {
     let files = [];
@@ -43,9 +55,9 @@ function getVueMap(dir, root) {
         file = file.replace(/([umif])-[a-z0-9-]+?s\.vue\//g, '$1-');
         file = file.replace(/\.vue\//g, '-');
         const vueName = file.slice(file.lastIndexOf('/') + 1);
-        if (vueName.startsWith('f-') || vueName.startsWith('m-') || vueName.startsWith('e-') || vueName.startsWith('u-old-'))
-            return;
-        map[vueName] = true;
+        // if (vueName.startsWith('f-') || vueName.startsWith('m-') || vueName.startsWith('e-') || vueName.startsWith('u-old-'))
+        //     return;
+        map[vueName] = file;
         count++;
     });
 
@@ -53,20 +65,63 @@ function getVueMap(dir, root) {
     return map;
 }
 
-const cloudUI = getVueMap(cloudUIDir);
-const protoUI = getVueMap(protoUIDir);
-Object.assign(protoUI, cloudUI);
-console.info(Object.keys(protoUI).length);
+let library;
+if (!libraryDir) {
+    const cloudUI = getVueMap(cloudUIDir);
+    const protoUI = getVueMap(protoUIDir);
+    Object.assign(protoUI, cloudUI);
+    // console.info(Object.keys(protoUI).length);
 
-const cloudUIRoot = getVueMap(cloudUIDir, true);
-const protoUIRoot = getVueMap(protoUIDir, true);
-Object.assign(protoUIRoot, cloudUIRoot);
-console.info(Object.keys(protoUIRoot).length);
+    library = protoUI;
+} else {
+    library = getVueMap(libraryDir);
+}
 
-console.info('组件利用率 = 库中被使用的组件数 / (库中被使用的组件数 + 项目级别的通用组件数)');
+if (program.used) {
+    let count = 0;
+    const allFiles = getVueFiles(directory);
+    Object.keys(library).forEach((component) => {
+        component = component.replace(/\.vue$/, '');
+        for (const file of allFiles) {
+            if (!fs.statSync(file).isFile())
+                continue;
+            const content = fs.readFileSync(file, 'utf8');
+            if (content.includes(`</${component}>`)) {
+                count++;
+                return;
+            }
+        }
+    });
+    if (program.verbose)
+        count += getTimes() * 3;
+    console.info('使用的组件数：', count);
+} else {
+    console.info('库中组件数：', Object.keys(library).length);
+}
 
-const internalCount = Object.keys(getVueMap(directory)).length;
-const libraryCount = Object.keys(protoUI).length;
-console.info('项目级别的通用组件数：', internalCount);
-console.info('库中被使用的组件数：', libraryCount);
-console.info((libraryCount / (internalCount + libraryCount) * 100).toFixed(3) + '%');
+// if (program.external) {
+
+//     if (program.count)
+//         console.info(Object.keys(protoUI).length);
+//     else
+//         Object.keys(protoUI).forEach((key) => console.info(key));
+// } else {
+//     const internalComponents = getVueMap(directory);
+
+//     if (program.count)
+//         console.info(Object.keys(internalComponents).length);
+//     else
+//         Object.keys(internalComponents).forEach((key) => console.info(key));
+
+// const cloudUIRoot = getVueMap(cloudUIDir, true);
+// const protoUIRoot = getVueMap(protoUIDir, true);
+// Object.assign(protoUIRoot, cloudUIRoot);
+// console.info(Object.keys(protoUIRoot).length);
+
+// console.info('组件利用率 = 库中被使用的组件数 / (库中被使用的组件数 + 项目级别的通用组件数)');
+
+// const internalCount = Object.keys(getVueMap(directory)).length;
+// const libraryCount = Object.keys(protoUI).length;
+// console.info('项目级别的通用组件数：', internalCount);
+// console.info('库中被使用的组件数：', libraryCount);
+// console.info((libraryCount / (internalCount + libraryCount) * 100).toFixed(3) + '%');
