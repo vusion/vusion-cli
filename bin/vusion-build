@@ -60,4 +60,4 @@ if (program.hasOwnProperty('resolvePriority'))
     config.resolvePriority = program.resolvePriority;
 
 const compiler = require('../lib/build')(require('../webpack/' + config.type));
-compiler.run();
+compiler.run().catch((e) => process.exit(1));
